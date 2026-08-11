@@ -108,3 +108,12 @@ Power PlatformをAI(Claude)と組み合わせて開発する際、主に2つの�
    - 自分がMCPで置いたLabelの内容(Text, Width, Xなど)が正確に反映されていることを確認
    - ただし unpack実行時に **`PA3011: Roundtrip validation on unpack failed`** というエラーに遭遇(`AnalysisOptions.DataflowAnalysisEnabled` 等のプロパティ差分が原因)。ファイル自体は正常に書き出され exit code は 0 だったので実害はなさそうだが、`--processCanvasApps` はドキュメント上も **Preview機能**扱いであり、生成されたYAMLファイルにも「Studio内の変更レビュー・軽微な編集専用、本格編集はmaker portalで」という警告コメントが入っていた
    - → **Solution unpack経由でのCanvas App本格編集は現状まだ実用段階ではなさそう**。Canvas Apps MCP(Studioとの生きたセッション)側の方が正攻法、という当初の仮説を裏付ける結果
+
+### 結論: 両方とも"プレビュー"機能
+
+改めて整理すると、今回検証した2つのアプローチはどちらも **Microsoft公式でもまだ実験的(Preview)扱い**という共通点があった。
+
+- **Canvas Apps MCP**: 前提となるCoauthoring自体がStudioの「今後の機能(Upcoming features)」トグルであり、MCP連携も含めて登場したばかりの実験的機能
+- **Solution unpack `--processCanvasApps`**: コマンドヘルプ上も明記の `(プレビュー)` 機能。ロールバック検証(PA3011)で実際にエラーに遭遇し、生成YAMLにも「本格編集はmaker portalで」という警告コメントが入っていた
+
+つまり「AIでPower Platformを開発する」という試み自体、**現時点ではMicrosoft公式ツールチェーンの中でも最先端・実験段階の機能に頼らざるを得ない**状況にある、というのが今回の研究の一次結論。今後のMicrosoftのアップデートで安定版に昇格するかを継続的にウォッチする価値がある。

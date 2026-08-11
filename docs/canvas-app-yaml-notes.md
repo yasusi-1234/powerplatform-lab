@@ -101,100 +101,127 @@ ThemeColor: ='BadgeCanvas.ThemeColor'.Danger
 再計算する応急処置で対応した。次回、本格的な画面を作る際は上記の`AutoLayout`方式を
 最初から採用する。
 
-## 3.5 `AutoLayout`は「並び方向の高さ/幅」を中身に自動フィットしてくれない
+## 3.5 `AutoLayout`の高さ/幅ルール(何度も実地でハマった末の結論)
 
-実際に`ManualLayout`から`AutoLayout`へ全面書き換えたところ、**横方向(`FillPortions`)は
-狙い通りレスポンシブになった**が、**縦方向は明示的に`Height`を渡さないとコンテナが
-壊れた**(チャートやテーブルが消える、中身がオーバーフローする等)。
+`ManualLayout`から`AutoLayout`へ全面書き換えたところ、**横方向(`FillPortions`)は
+狙い通りレスポンシブになった**が、縦方向(高さ)で何度も同じ種類の不具合(チャートや
+テーブルが消える、中身がオーバーフローする、下部が見切れる)を踏んだ。何度も原因を
+掘り下げた結果、**「起点」を機械的に判定できるレベルまで法則が固まった**ので、
+そのまま手順として書く。
 
-### 症状1: 縦積み(`LayoutDirection.Vertical`)コンテナに`Height`を書かないと中身が消える
+### 核心ルール: `FillPortions: =0` を書いたら、その場で必ず `Height` も書く
 
-`CategoryPanel`(縦積み、`Height`未指定)の中に`PieChart`+凡例を入れたところ、
-パネルだけ異常に高くなり、肝心のチャート・凡例が丸ごと表示されなくなった。
-**CSSのflexboxのような「中身に自動フィット(hug contents)」はしてくれない。**
-縦積みコンテナは`Height`を明示するか、次項の方法で子から計算する。
+**`FillPortions`が0(伸縮しない固定サイズ要素)は、中身に自動フィット(CSSのflexboxで
+言う"hug contents")してくれない。** 対して `FillPortions` が1以上(伸縮する要素。
+KPIカードや`ModernCard`など)は、伸縮計算のロジックの中で高さが正しく自動算出される。
+実際、KPIカード(`FillPortions: =1`)は一度も`Height`を書かずに毎回正しく表示されたが、
+同じ画面内の`FillPortions: =0`の行(タイトル行・チャート行・下段行)はすべて高さが
+壊れた(0になって消える、逆に大きくなりすぎて中身がはみ出す)。
 
-同じ理由で、横積み(`LayoutDirection.Horizontal`)コンテナの中で**さらに縦積みの
-子コンテナが複数並ぶ**構造(例: 凡例の行を`grpLegendRow1`〜`5`として縦に並べた場合)
-でも、**その各行コンテナ自身に`Height`が無いと、1行目しか表示されず残りが消える**。
-「一番外側の縦コンテナだけ気をつければいい」のではなく、**ネストしたすべての縦積み
-コンテナで同じ注意が必要**。
-
-### 症状2: 子に`Height`を明示的に書いても、隠れた`LayoutMinHeight`のデフォルト値でオーバーフローする
-
-ヘッダー行(`Height: =64`固定)の中に`grpHeaderLeft`(ロゴ+タイトルをまとめた横積み
-コンテナ、`Height`を明示的に書かず中身[32px]に任せていた)を置いたところ、
-ヘッダーの高さ64pxを超えてコンテンツが下にはみ出した。
-
-Studioのプロパティパネルで実機確認したところ、**`AutoLayout`コンテナの子には
-`LayoutMinHeight`が既定で`100`(!)入っている**ことが判明した(YAML側で明示的に
-書いていなくても、Studio側でこの既定値が効く)。中身の実際の高さ(32px)より
-このデフォルト最小高さ(100px)の方が大きいため、それが優先されて親をはみ出す。
-
-**対策**: 「親の高さが既に確定しているコンテナの直下の子」については、`Height`を
-決め打ちするのではなく `AlignInContainer: =AlignInContainer.Stretch` を使う。
-これは子の高さを「常に親の高さに追従させる」という宣言になるため、`LayoutMinHeight`
-の既定値と衝突しようがなくなる。
+**やること**: `FillPortions: =0` と書いたら、**同じ`Properties`ブロックの中に必ず
+`Height`(横積みコンテナの内部で伸縮しない子の場合は`Width`も)を明示する。**
+「あとで直す」ではなく、`FillPortions: =0`を書いた瞬間にセットで書く癖をつける。
+ネストの深さは関係なく、**`FillPortions: =0`が現れるたびに毎回**必要(1箇所直しても、
+別の階層の`FillPortions: =0`が同じ理由で壊れる)。
 
 ```yaml
-# ❌ 子にHeightを書かない(または書いても隠れたLayoutMinHeight:100と衝突しうる)
-grpHeaderLeft:
-  Control: GroupContainer
-  Variant: AutoLayout
+# ❌ FillPortions: =0 なのに Height がない → 自動フィットされず壊れる
+grpKpiRow:
   Properties:
     FillPortions: =0
     LayoutDirection: =LayoutDirection.Horizontal
-    LayoutAlignItems: =LayoutAlignItems.Center
 
-# ✅ 親(Height確定済み)に合わせてStretch
+# ✅ FillPortions: =0 とHeightは必ずセットで書く
+grpKpiRow:
+  Properties:
+    FillPortions: =0
+    LayoutDirection: =LayoutDirection.Horizontal
+    Height: =186
+```
+
+### 落とし穴1: `LayoutMinHeight`の隠れたデフォルト値`100`が`Height`より優先される
+
+Studioのプロパティパネルで実機確認したところ、**`AutoLayout`コンテナの子には
+`LayoutMinHeight`が既定で`100`(!)入っている**ことが判明した(YAML側で明示的に
+書いていなくても、Studio側でこの既定値が効く)。**この値は`Height`より優先される
+下限**なので、`Height: =64`のように100より小さい値を書いても、実際には100pxとして
+描画され、親からはみ出す。`AlignInContainer: =AlignInContainer.Stretch`(子の高さを
+親に追従させる)を使っても、**`LayoutMinHeight`が優先されて`Stretch`が効かない
+ことがある**(実機で確認済み)。
+
+**対策**: `FillPortions: =0`の要素には、`Height`と一緒に**必ず`LayoutMinHeight: =0`
+(横方向で問題が出る場合は`LayoutMinWidth: =0`も)を明示して、隠れたデフォルトを
+無効化する。** `Stretch`を使う場合も同様に`LayoutMinHeight: =0`とセットで書く。
+
+```yaml
+# ✅ Height/Stretchだけでなく、LayoutMinHeight: =0も必ずセットで書く
 grpHeaderLeft:
   Control: GroupContainer
   Variant: AutoLayout
   Properties:
     FillPortions: =0
+    LayoutMinHeight: =0
     AlignInContainer: =AlignInContainer.Stretch
     LayoutDirection: =LayoutDirection.Horizontal
     LayoutAlignItems: =LayoutAlignItems.Center
 ```
 
-ただし`Stretch`が使えるのは「親の高さが確定している(≒行の高さが決まっている)」場合限定。
-KPIカード行やチャートパネルのように、**親(行)の高さ自体が中身から逆算されるべき**
-場所では使えない。
+`AlignInContainer.Stretch`が使えるのは「親の高さが確定している(≒行の高さが決まって
+いる)」場合限定。KPIカード行やチャートパネルのように、**親(行)の高さ自体が中身から
+逆算されるべき**場所では使えない(その場合は上の核心ルール通り、行自体に実測ベースの
+`Height`を書く)。
 
-### 症状1・2への根本対策: 子コントロールの`.Height`を式で参照して親の`Height`を計算する
+### 落とし穴2: 子の`.Height`を式で参照する高さ計算は、多段参照や`Max()`と組み合わせると`0`になることがある
 
-縦積みパネルの`Height`をただの数値(`Height: =280`)としてハードコードすると、
-後で中の要素を1つ増減させたときに手計算をやり直すのを忘れて静かにズレる。
-**代わりに子コントロールの`.Height`プロパティを式で参照して合計する**と、中身が
-変わっても自動的に追従するので保守性が上がる(Power Fxはコントロール名を通じて
-他コントロールのプロパティを参照でき、循環参照にならない限り問題ない)。
+縦積みパネルの`Height`を、子コントロールの`.Height`を式で参照して合計する
+(`Height: =40 + grpCatHeader.Height + 16 + grpCatBody.Height`のように書く)と、
+中身を増減させても手計算をやり直さずに済み保守性が上がる **……はずだったが、
+実際には特定の組み合わせで評価が壊れて`0`になり、コンテンツが消えることが実機で
+確認された。**
+
+具体的に壊れたパターン: `grpTitleRow`(横積み)の`Height`を
+`=Max(grpTitleLeft.Height, grpTitleRight.Height)` と書いたところ、Studioの数式バーで
+`Max(grpTitleLeft.Height, grpTitleRight.Height) = 0` と表示され、タイトル行が丸ごと
+消えた。`grpTitleLeft.Height`自身も`=PageTitle.Height + 4 + PageSubtitle.Height`という
+**式**であり、「式で計算された高さを、さらに別の式(しかも`Max()`)から参照する」という
+**多段の参照**になっていた。一方、同じ多段参照でも`CategoryPanel`(縦積み、単純な
+足し算)や`RecentItemsPanel`は問題なく動いた。**`Horizontal`コンテナの高さを複数の
+子から`Max()`で計算するパターンだけ相性が悪い**ようで、条件を厳密に切り分けられて
+いない(=まだ完全には理解できていない)。
+
+**対策(暫定)**: 子の`.Height`参照はできる限り**1段まで**にとどめる(参照先が
+リテラルの`Height`を持つ葉ノードである場合は安全だった)。`Horizontal`コンテナの
+`Height`を`Max()`で複数の子から計算するパターンは避け、**実測した数値をハードコード
+する**方が確実(保守性は落ちるが、動くことを優先する)。
 
 ```yaml
-# ❌ ハードコードした数値。中身を変えると手計算をやり直す必要がある
-CategoryPanel:
+# ❌ 横積みコンテナの高さをMax()+多段の子.Height参照で計算 → 0になって消えることがある
+grpTitleRow:
   Properties:
-    Height: =280
+    Height: =Max(grpTitleLeft.Height, grpTitleRight.Height)
 
-# ✅ 子の.Heightを式で参照する。中身が変わっても自動追従する
-CategoryPanel:
+# ✅ 実測してハードコードする(確実に動く)
+grpTitleRow:
   Properties:
-    # 40 = PaddingTop(20) + PaddingBottom(20)。ここだけは定数でよい
-    Height: =40 + grpCatHeader.Height + 16 + grpCatBody.Height
-grpCatHeader:
-  Properties:
-    Height: =CategoryTitle.Height
-grpCatBody:
-  Properties:
-    Height: =CategoryChart.Height
+    Height: =56
 ```
 
-**まとめ**: `AutoLayout`を使うときの高さの決め方は3パターンに整理できる。
+### 落とし穴3: `ManualLayout`ラッパー内で負の`X`/`Y`を使うと見切れる
 
-| コンテナの種類 | 高さの決め方 |
-|---|---|
-| 親の高さが確定している行の直下の子(ヘッダー内の要素など) | `AlignInContainer.Stretch` |
-| 高さが中身依存の縦積みパネル・カード | 子コントロールの`.Height`を式で参照して合計(ハードコードしない) |
-| 単純な葉ノード(アイコン・ラベル等) | 実測に基づく固定`Height`でよい |
+通知アイコンの右上にバッジを重ねるような「アイコンの角にバッジを重ねる」表現を
+`ManualLayout`のラップコンテナ + 負の`Y`(`Y: =-6`など、親の上端からはみ出す位置)で
+作ったところ、**バッジの一部が見切れて表示された。** `ManualLayout`コンテナは
+自分の範囲外を描画しないため、負の座標は使わない。ラップコンテナ自体を少し大きめに
+確保し、中の要素をすべて`0`以上の座標に収める。
+
+### まとめ: 高さを決めるときのチェックリスト
+
+1. `FillPortions: =0`を書いたら、**同じ場所に`Height`と`LayoutMinHeight: =0`を必ずセットで書く**(横方向で必要なら`LayoutMinWidth: =0`も)
+2. `FillPortions`が1以上の要素は、高さを気にしなくてよい(伸縮計算で自動的に正しくなる)
+3. 親の高さが確定しているコンテナの直下の子は`AlignInContainer.Stretch`(+`LayoutMinHeight: =0`)でもよい
+4. 子の`.Height`を式で参照して親の高さを計算するのは**1段まで**。`Horizontal`コンテナで`Max()`を使う場合は特に注意し、怪しければ実測値をハードコードする
+5. `ManualLayout`ラッパー内で子を重ねるときは、負の座標を使わない
+6. これらを全部満たしても、**必ずPlayモードで実際の見た目を確認する**(コンパイルは通ってしまうため)
 
 ## 4. `DataTable`(Classic)はYAMLの`Items`だけでは表示されないことがある
 

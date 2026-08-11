@@ -270,6 +270,48 @@ KpiCard1:
           Fill: =RGBA(224, 222, 253, 1)
 ```
 
+### 落とし穴6: パディング付きコンテナの直下の子で`Width: =Parent.Width`を使うとパディング分はみ出す
+
+`PaddingLeft`/`PaddingRight`を持つコンテナの**直接の子**が`Width: =Parent.Width`を
+書くと、**パディングが自動で差し引かれず、親のパディング幅ぶん右(または左右)に
+はみ出して隣接要素と重なる/潰れる**という不具合が実機で複数箇所(詳細画面・登録画面の
+値ラベル、コメント入力欄など)で発生した。`AlignInContainer: =AlignInContainer.Stretch`
+で伸縮させる場合は正しくパディング分を差し引いてくれるが、**明示的に`Width: =Parent.Width`
+と書いた場合は差し引かれない。**
+
+**対策**: パディング付きコンテナの直下の子で明示`Width`を書く場合は、
+`Width: =Parent.Width - (PaddingLeft + PaddingRight)`のように**パディング分を手動で
+引く**(例: 左右とも24なら`- 48`)。間に無パディングの中間ラッパーを1枚挟む場合は
+この問題は起きない(伸縮計算が正しく効く)。
+
+```yaml
+# ❌ パディング付きコンテナの直下でParent.Widthそのまま → はみ出す
+InfoCard:
+  Properties:
+    PaddingLeft: =20
+    PaddingRight: =20
+Children:
+  - InfoTitle:
+      Properties:
+        Width: =Parent.Width   # 実際には20+20=40px分はみ出す
+
+# ✅ パディング分を引く
+  - InfoTitle:
+      Properties:
+        Width: =Parent.Width - 40
+```
+
+### 落とし穴7: `Height`固定値は「子の合計 + `LayoutGap`×(子の数-1)」を正確に計算しないとオーバーフローする
+
+縦積み(`Vertical`)コンテナに`Height`を固定値で書くとき、**中身の子の`Height`の合計だけ
+足して`LayoutGap`分を計算し忘れる**とコンテナの下端で数px単位のオーバーフローが起きる
+(実機で発生: 子3つ・高さ合計76px・`LayoutGap: =4`のコンテナに`Height: =80`と書いたが、
+本当は`76 + 4×2 = 84`必要で4pxはみ出していた)。
+
+**対策**: 固定`Height`を書くときは必ず `子のHeightの合計 + LayoutGap × (子の数 - 1)`
+を実際に計算してから書く。子を増減・変更した場合は、それに応じてこの計算をやり直す
+(親コンテナの`Height`だけ直し忘れるとオーバーフローが再発する)。
+
 ### まとめ: `AutoLayout`で画面を組むときのチェックリスト
 
 1. `FillPortions: =0`を書いたら、**同じ場所に`Height`と`LayoutMinHeight: =0`を必ずセットで書く**(横方向で必要なら`LayoutMinWidth: =0`も)
@@ -279,7 +321,9 @@ KpiCard1:
 5. `ManualLayout`ラッパー内で子を重ねるときは、負の座標を使わない
 6. 中央揃えしたい`FillPortions: =0`の子には`AlignInContainer: =AlignInContainer.Center`を親任せにせず明示する
 7. すべての`GroupContainer`に`DropShadow: =DropShadow.None`をデフォルトで書き、影を見せたい一番外側のカード面だけ明示的に上書きする
-8. これらを全部満たしても、**必ずPlayモードで実際の見た目を確認する**(コンパイルは通ってしまうため)
+8. パディング付きコンテナの直下の子が`Width: =Parent.Width`を書く場合は、パディング分を手動で引く(`- (PaddingLeft + PaddingRight)`)
+9. 固定`Height`を書くコンテナは、`子のHeight合計 + LayoutGap×(子の数-1)`を実際に計算してから書く(暗算や見積もりで済ませない)
+10. これらを全部満たしても、**必ずPlayモードで実際の見た目を確認する**(コンパイルは通ってしまうため)
 
 ## 4. `DataTable`(Classic)はYAMLの`Items`だけでは表示されないことがある
 
@@ -301,7 +345,128 @@ Galleryの上に静的に置き、**列位置(X/Width)を見出し行とGallery�
 実行とも問題なし)。ただしフィールド名に `/` のようなPower Fx上の特殊文字を含めると
 問題が起きる可能性があるため避ける(`貸出先/場所` ではなく `貸出先場所` にした)。
 
-## 6. 作業フロー
+## 7. モダン系(React系)コントロールには隠れた既定`Padding`があり、`Label`からの単純移行だと高さ計算が壊れる
+
+`ModernText`/`ModernTextInput`/`ModernDatePicker`/`ModernDropdown`には
+`PaddingTop`/`PaddingBottom`/`PaddingLeft`/`PaddingRight`という、Classic系の
+`Label`には無いプロパティが存在し、**何も指定しないと既定で0でない値が入っている**。
+`Label`で調整済みだった`Height`(20pxや44pxなど)のまま`Control: Label`を
+`Control: ModernText`等に変えると、パディング分だけ中身が箱からあふれ、Play
+モードで**謎の上下スクロール矢印(▲▼)が大量発生する/入力欄の中身が消えたように
+見える**という不具合が実機で発生した(日付選択欄でフォーカス時に中身が消える
+ように見えたのも同じ原因だった可能性が高い)。
+
+**対策**: `Label`から`ModernText`等モダン系コントロールに置き換える(または新規に
+使う)際は、**`PaddingTop`/`PaddingBottom`/`PaddingLeft`/`PaddingRight`を必ず
+明示的に`=0`にする**(意図的に余白を持たせたい場合のみ非ゼロ値を書く)。プロパティ名は
+`Label`と`ModernText`で完全に同じ(`Color`/`Size`/`FontWeight`/`Align`/`Wrap`等)なので、
+`Control: Label` → `Control: ModernText`の一括置換自体は安全にできる。
+
+```yaml
+# ✅ モダン系コントロールは常にPaddingを明示する
+HeaderAppTitle:
+  Control: ModernText
+  Properties:
+    PaddingTop: =0
+    PaddingBottom: =0
+    PaddingLeft: =0
+    PaddingRight: =0
+    Width: =280
+    Height: =28
+    Text: ="アプリ名"
+```
+
+## 8. `FillPortions`が複数(4個以上)混在する横積み行は、実機(Playモード)で不安定になることがある
+
+テーブルのヘッダー行/データ行のように、**`FillPortions`を持つ兄弟要素が4個以上並ぶ
+横積み(`Horizontal`)コンテナ**で、コンパイルも`Width`の数値検証も問題ないのに、
+実機では以下の不具合が確認された:
+
+- 同じ行の中で、無関係な別コントロール(日付ピッカーなど)を操作しただけで、
+  何もしていない`FillPortions`要素(検索入力欄)の幅が縮む
+- ヘッダー行とデータ行(Galleryのテンプレート)を**別々に同じ`FillPortions`比率で
+  計算**しているだけなのに、実機では列の位置が右にズレていき、ズレ幅が列を追う
+  ごとに拡大する
+
+`Gallery`の`Width`/`TemplateWidth`/ヘッダー行の`Width`を全てデバッグ表示させて
+数値を比較したところ、**数値としては完全一致していた**ため、単純な幅の計算ミスでは
+なく、**AutoLayoutエンジンの再計算(reflow)自体が不安定**という可能性が高い
+(原因を完全には特定できていない)。
+
+**対策**:
+1. テーブルの列やフィルタ行のように**個数が多く、かつヘッダーとデータ行のように
+   2箇所で同じ幅を再現する必要がある**場所では、`FillPortions`ではなく**固定`px`の
+   `Width`**を使う(`FillPortions: =0` + `Width: =370`のように)
+2. さらに、**ヘッダー側とデータ行側の2箇所で同じ数値を別々にハードコードしない**。
+   データ行側の`Width`は`=HeaderColTitle.Width`のように**ヘッダー側のコントロールを
+   直接式で参照**し、単一の情報源(ヘッダー)から値を取る構造にする。こうすれば
+   構造的にズレようがなくなる
+
+```yaml
+# ヘッダー側: 固定pxで定義(ここが唯一の情報源)
+HeaderColTitle:
+  Control: ModernText
+  Properties:
+    FillPortions: =0
+    Width: =370
+
+# データ行側(Galleryテンプレート内): ヘッダーを直接参照する。数値を重複させない
+RowTitle:
+  Control: ModernText
+  Properties:
+    FillPortions: =0
+    Width: =HeaderColTitle.Width
+```
+
+`FillPortions`自体が横方向の比率レイアウトとして間違っているわけではないが
+(2〜3個程度・単発の行では問題は再現していない)、**列数が多いテーブル的な
+レイアウトでは信頼しすぎない方がよい**、というのが現時点の結論。
+
+## 9. `ModernDropdown`には`Placeholder`プロパティが存在しない
+
+`ModernTextInput`/`ModernDatePicker`には`Placeholder`プロパティがあるが、
+**`ModernDropdown`には存在しない**(`describe_control`で確認済み)。未選択状態を
+「すべて」のような初期表示にしたい場合は、`Placeholder`ではなく**`Default`
+プロパティにレコードを渡す**。
+
+```yaml
+StatusDropdown:
+  Control: ModernDropdown
+  Properties:
+    Default: |-
+      ={Value: "すべてのステータス"}
+    Items: |-
+      =Table({Value: "すべてのステータス"}, {Value: "承認"})
+    ItemDisplayText: ="Value"
+```
+
+また、`ModernTextInput`の`Type: =TextInputType.Search`(検索アイコン付き)を
+指定すると、実機で`Placeholder`のテキストが表示されない(見た目上、入力欄が
+空に見える)不具合が確認された。プレースホルダーを確実に見せたい場合は
+`Type`を指定しない(既定の`SingleLine`)方が安全。
+
+## 10. インラインのレコード式(`{Key: "value"}`)を1行のプロパティ値に直接書くと`YamlInvalidSyntax`になることがある
+
+```yaml
+# ❌ コロンを含むインラインレコードを1行で書くとパースエラーになることがある
+Default: ={Value: "すべてのステータス"}
+```
+
+上記は`YamlInvalidSyntax`(`found invalid mapping`)でコンパイルエラーになった。
+`{Value: "..."}`の**コロンが原因でYAMLのマッピング記法と誤認**されている可能性が
+高い(文字列の中の`:`は問題なかった実例がある一方、レコード式の`{...}`内の`:`は
+壊れた)。
+
+**対策**: `|-`のブロックスカラー形式に変えると解決する(この方式は複数行の数式で
+既に使っていたが、**1行のレコード式でも安全策として使う価値がある**)。
+
+```yaml
+# ✅ ブロックスカラーにすると通る
+Default: |-
+  ={Value: "すべてのステータス"}
+```
+
+## 11. 作業フロー
 
 1. 新しいコントロールを使う前に `list_controls` → `describe_control` で仕様を確認する
 2. YAMLを書く(推測で書かない)

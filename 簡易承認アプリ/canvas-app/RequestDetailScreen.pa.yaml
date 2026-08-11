@@ -55,6 +55,10 @@ Screens:
                         - HeaderAppTitleDtl:
                             Control: ModernText
                             Properties:
+                              PaddingTop: =0
+                              PaddingBottom: =0
+                              PaddingLeft: =0
+                              PaddingRight: =0
                               FillPortions: =0
                               LayoutMinHeight: =0
                               AlignInContainer: =AlignInContainer.Center
@@ -93,6 +97,10 @@ Screens:
                               - HeaderUserNameDtl:
                                   Control: ModernText
                                   Properties:
+                                    PaddingTop: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
                                     FillPortions: =0
                                     LayoutMinHeight: =0
                                     AlignInContainer: =AlignInContainer.Center
@@ -106,6 +114,10 @@ Screens:
                               - HeaderUserRoleDtl:
                                   Control: ModernText
                                   Properties:
+                                    PaddingTop: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
                                     FillPortions: =0
                                     LayoutMinHeight: =0
                                     AlignInContainer: =AlignInContainer.Center
@@ -188,6 +200,10 @@ Screens:
                         - SeparatorLabel:
                             Control: ModernText
                             Properties:
+                              PaddingTop: =0
+                              PaddingBottom: =0
+                              PaddingLeft: =0
+                              PaddingRight: =0
                               FillPortions: =0
                               LayoutMinHeight: =0
                               Width: =12
@@ -198,6 +214,10 @@ Screens:
                         - DetailTitleLabel:
                             Control: ModernText
                             Properties:
+                              PaddingTop: =0
+                              PaddingBottom: =0
+                              PaddingLeft: =0
+                              PaddingRight: =0
                               FillPortions: =0
                               LayoutMinHeight: =0
                               Width: =120
@@ -260,6 +280,10 @@ Screens:
                                     - RequestIdLabel:
                                         Control: ModernText
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           AlignInContainer: =AlignInContainer.Center
@@ -282,6 +306,10 @@ Screens:
                                     - FieldLabelTitle:
                                         Control: ModernText
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           Width: =Parent.Width
@@ -292,6 +320,10 @@ Screens:
                                     - FieldValueTitle:
                                         Control: ModernText
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           Width: =Parent.Width
@@ -322,6 +354,10 @@ Screens:
                                     - FieldLabelContent:
                                         Control: ModernText
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           Width: =Parent.Width
@@ -332,6 +368,10 @@ Screens:
                                     - FieldValueContent:
                                         Control: ModernText
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           Width: =Parent.Width
@@ -361,6 +401,10 @@ Screens:
                                     - FieldLabelRemarks:
                                         Control: ModernText
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           Width: =Parent.Width
@@ -371,6 +415,10 @@ Screens:
                                     - FieldValueRemarks:
                                         Control: ModernText
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           Width: =Parent.Width
@@ -400,6 +448,10 @@ Screens:
                                     - FieldLabelApplicant:
                                         Control: ModernText
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           Width: =Parent.Width
@@ -410,6 +462,10 @@ Screens:
                                     - FieldValueApplicant:
                                         Control: ModernText
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           Width: =Parent.Width
@@ -439,6 +495,10 @@ Screens:
                                     - FieldLabelRequestDate:
                                         Control: ModernText
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           Width: =Parent.Width
@@ -449,6 +509,10 @@ Screens:
                                     - FieldValueRequestDate:
                                         Control: ModernText
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           Width: =Parent.Width
@@ -478,6 +542,10 @@ Screens:
                                     - FieldLabelUpdateDate:
                                         Control: ModernText
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           Width: =Parent.Width
@@ -488,6 +556,10 @@ Screens:
                                     - FieldValueUpdateDate:
                                         Control: ModernText
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           Width: =Parent.Width
@@ -525,6 +597,10 @@ Screens:
                                     - InfoTitle:
                                         Control: ModernText
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           Width: =Parent.Width - 40
@@ -549,6 +625,10 @@ Screens:
                                           - InfoLabel1:
                                               Control: ModernText
                                               Properties:
+                                                PaddingTop: =0
+                                                PaddingBottom: =0
+                                                PaddingLeft: =0
+                                                PaddingRight: =0
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
                                                 Width: =80
@@ -559,6 +639,10 @@ Screens:
                                           - InfoValue1:
                                               Control: ModernText
                                               Properties:
+                                                PaddingTop: =0
+                                                PaddingBottom: =0
+                                                PaddingLeft: =0
+                                                PaddingRight: =0
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
                                                 Width: =190
@@ -584,6 +668,10 @@ Screens:
                                           - InfoLabel2:
                                               Control: ModernText
                                               Properties:
+                                                PaddingTop: =0
+                                                PaddingBottom: =0
+                                                PaddingLeft: =0
+                                                PaddingRight: =0
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
                                                 Width: =80
@@ -594,6 +682,10 @@ Screens:
                                           - InfoValue2:
                                               Control: ModernText
                                               Properties:
+                                                PaddingTop: =0
+                                                PaddingBottom: =0
+                                                PaddingLeft: =0
+                                                PaddingRight: =0
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
                                                 Width: =190
@@ -619,6 +711,10 @@ Screens:
                                           - InfoLabel3:
                                               Control: ModernText
                                               Properties:
+                                                PaddingTop: =0
+                                                PaddingBottom: =0
+                                                PaddingLeft: =0
+                                                PaddingRight: =0
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
                                                 Width: =80
@@ -629,6 +725,10 @@ Screens:
                                           - InfoValue3:
                                               Control: ModernText
                                               Properties:
+                                                PaddingTop: =0
+                                                PaddingBottom: =0
+                                                PaddingLeft: =0
+                                                PaddingRight: =0
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
                                                 Width: =190
@@ -654,6 +754,10 @@ Screens:
                                           - InfoLabel4:
                                               Control: ModernText
                                               Properties:
+                                                PaddingTop: =0
+                                                PaddingBottom: =0
+                                                PaddingLeft: =0
+                                                PaddingRight: =0
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
                                                 AlignInContainer: =AlignInContainer.Center
@@ -693,6 +797,10 @@ Screens:
                                     - ApprovalTitle:
                                         Control: ModernText
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           Width: =Parent.Width - 40
@@ -704,6 +812,10 @@ Screens:
                                     - CommentLabel:
                                         Control: ModernText
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           Width: =Parent.Width - 40
@@ -714,6 +826,10 @@ Screens:
                                     - CommentInput:
                                         Control: ModernTextInput
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           Width: =Parent.Width - 40
@@ -778,6 +894,10 @@ Screens:
                         - HistoryTitle:
                             Control: ModernText
                             Properties:
+                              PaddingTop: =0
+                              PaddingBottom: =0
+                              PaddingLeft: =0
+                              PaddingRight: =0
                               FillPortions: =0
                               LayoutMinHeight: =0
                               Width: =Parent.Width - 40
@@ -833,6 +953,10 @@ Screens:
                                           - HistoryAction1:
                                               Control: ModernText
                                               Properties:
+                                                PaddingTop: =0
+                                                PaddingBottom: =0
+                                                PaddingLeft: =0
+                                                PaddingRight: =0
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
                                                 Width: =300
@@ -844,6 +968,10 @@ Screens:
                                           - HistoryDate1:
                                               Control: ModernText
                                               Properties:
+                                                PaddingTop: =0
+                                                PaddingBottom: =0
+                                                PaddingLeft: =0
+                                                PaddingRight: =0
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
                                                 Width: =160
@@ -855,6 +983,10 @@ Screens:
                                     - HistoryDesc1:
                                         Control: ModernText
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           Width: =Parent.Width
@@ -909,6 +1041,10 @@ Screens:
                                           - HistoryAction2:
                                               Control: ModernText
                                               Properties:
+                                                PaddingTop: =0
+                                                PaddingBottom: =0
+                                                PaddingLeft: =0
+                                                PaddingRight: =0
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
                                                 Width: =300
@@ -920,6 +1056,10 @@ Screens:
                                           - HistoryDate2:
                                               Control: ModernText
                                               Properties:
+                                                PaddingTop: =0
+                                                PaddingBottom: =0
+                                                PaddingLeft: =0
+                                                PaddingRight: =0
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
                                                 Width: =160
@@ -931,6 +1071,10 @@ Screens:
                                     - HistoryDesc2:
                                         Control: ModernText
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           Width: =Parent.Width
@@ -985,6 +1129,10 @@ Screens:
                                           - HistoryAction3:
                                               Control: ModernText
                                               Properties:
+                                                PaddingTop: =0
+                                                PaddingBottom: =0
+                                                PaddingLeft: =0
+                                                PaddingRight: =0
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
                                                 Width: =300
@@ -996,6 +1144,10 @@ Screens:
                                           - HistoryDate3:
                                               Control: ModernText
                                               Properties:
+                                                PaddingTop: =0
+                                                PaddingBottom: =0
+                                                PaddingLeft: =0
+                                                PaddingRight: =0
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
                                                 Width: =160
@@ -1007,6 +1159,10 @@ Screens:
                                     - HistoryDesc3:
                                         Control: ModernText
                                         Properties:
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
                                           FillPortions: =0
                                           LayoutMinHeight: =0
                                           Width: =Parent.Width
@@ -1031,6 +1187,10 @@ Screens:
                   - CancelNote:
                       Control: ModernText
                       Properties:
+                        PaddingTop: =0
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
                         FillPortions: =0
                         LayoutMinHeight: =0
                         Width: =Parent.Width

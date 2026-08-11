@@ -65,6 +65,10 @@ Screens:
                         - HeaderAppTitle:
                             Control: ModernText
                             Properties:
+                              PaddingTop: =0
+                              PaddingBottom: =0
+                              PaddingLeft: =0
+                              PaddingRight: =0
                               FillPortions: =0
                               LayoutMinHeight: =0
                               AlignInContainer: =AlignInContainer.Center
@@ -103,6 +107,10 @@ Screens:
                               - HeaderUserName:
                                   Control: ModernText
                                   Properties:
+                                    PaddingTop: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
                                     FillPortions: =0
                                     LayoutMinHeight: =0
                                     AlignInContainer: =AlignInContainer.Center
@@ -116,6 +124,10 @@ Screens:
                               - HeaderUserRole:
                                   Control: ModernText
                                   Properties:
+                                    PaddingTop: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
                                     FillPortions: =0
                                     LayoutMinHeight: =0
                                     AlignInContainer: =AlignInContainer.Center
@@ -171,6 +183,10 @@ Screens:
                   - PageTitle:
                       Control: ModernText
                       Properties:
+                        PaddingTop: =0
+                        PaddingBottom: =0
+                        PaddingLeft: =0
+                        PaddingRight: =0
                         FillPortions: =0
                         LayoutMinHeight: =0
                         Width: =400
@@ -207,10 +223,14 @@ Screens:
                               - SearchInput:
                                   Control: ModernTextInput
                                   Properties:
-                                    FillPortions: =2
+                                    PaddingTop: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    FillPortions: =0
                                     LayoutMinHeight: =0
+                                    Width: =406
                                     Height: =44
-                                    Type: =TextInputType.Search
                                     Placeholder: ="タイトルで検索"
                                     Appearance: =Appearance.Outline
                                     Fill: =RGBA(255, 255, 255, 1)
@@ -219,9 +239,16 @@ Screens:
                               - StatusDropdown:
                                   Control: ModernDropdown
                                   Properties:
-                                    FillPortions: =1
+                                    PaddingTop: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    FillPortions: =0
                                     LayoutMinHeight: =0
+                                    Width: =204
                                     Height: =44
+                                    Default: |-
+                                      ={Value: "すべてのステータス"}
                                     Items: |-
                                       =Table(
                                         {Value: "すべてのステータス"},
@@ -238,8 +265,13 @@ Screens:
                               - DateStartPicker:
                                   Control: ModernDatePicker
                                   Properties:
-                                    FillPortions: =1
+                                    PaddingTop: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    FillPortions: =0
                                     LayoutMinHeight: =0
+                                    Width: =204
                                     Height: =44
                                     Placeholder: ="申請日(開始)"
                                     Appearance: =Appearance.Outline
@@ -249,6 +281,10 @@ Screens:
                               - DateRangeSeparator:
                                   Control: ModernText
                                   Properties:
+                                    PaddingTop: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
                                     FillPortions: =0
                                     LayoutMinHeight: =0
                                     AlignInContainer: =AlignInContainer.Center
@@ -261,8 +297,13 @@ Screens:
                               - DateEndPicker:
                                   Control: ModernDatePicker
                                   Properties:
-                                    FillPortions: =1
+                                    PaddingTop: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    FillPortions: =0
                                     LayoutMinHeight: =0
+                                    Width: =204
                                     Height: =44
                                     Placeholder: ="申請日(終了)"
                                     Appearance: =Appearance.Outline
@@ -316,8 +357,13 @@ Screens:
                               - HeaderColTitle:
                                   Control: ModernText
                                   Properties:
-                                    FillPortions: =26
+                                    PaddingTop: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    FillPortions: =0
                                     LayoutMinHeight: =0
+                                    Width: =370
                                     Height: =20
                                     Text: ="タイトル"
                                     Size: =13
@@ -326,8 +372,13 @@ Screens:
                               - HeaderColApplicant:
                                   Control: ModernText
                                   Properties:
-                                    FillPortions: =16
+                                    PaddingTop: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    FillPortions: =0
                                     LayoutMinHeight: =0
+                                    Width: =230
                                     Height: =20
                                     Text: ="申請者"
                                     Size: =13
@@ -336,8 +387,13 @@ Screens:
                               - HeaderColRequestDate:
                                   Control: ModernText
                                   Properties:
-                                    FillPortions: =13
+                                    PaddingTop: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    FillPortions: =0
                                     LayoutMinHeight: =0
+                                    Width: =185
                                     Height: =20
                                     Text: ="申請日"
                                     Size: =13
@@ -346,8 +402,13 @@ Screens:
                               - HeaderColStatus:
                                   Control: ModernText
                                   Properties:
-                                    FillPortions: =13
+                                    PaddingTop: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    FillPortions: =0
                                     LayoutMinHeight: =0
+                                    Width: =185
                                     Height: =20
                                     Text: ="ステータス"
                                     Size: =13
@@ -356,8 +417,13 @@ Screens:
                               - HeaderColUpdateDate:
                                   Control: ModernText
                                   Properties:
-                                    FillPortions: =13
+                                    PaddingTop: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    FillPortions: =0
                                     LayoutMinHeight: =0
+                                    Width: =185
                                     Height: =20
                                     Text: ="更新日"
                                     Size: =13
@@ -366,8 +432,13 @@ Screens:
                               - HeaderColChevron:
                                   Control: ModernText
                                   Properties:
-                                    FillPortions: =4
+                                    PaddingTop: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    FillPortions: =0
                                     LayoutMinHeight: =0
+                                    Width: =59
                                     Height: =20
                                     Text: =""
                         - RequestGallery:
@@ -396,8 +467,13 @@ Screens:
                                     - RowTitle:
                                         Control: ModernText
                                         Properties:
-                                          FillPortions: =26
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
+                                          FillPortions: =0
                                           LayoutMinHeight: =0
+                                          Width: =HeaderColTitle.Width
                                           Height: =24
                                           Text: =ThisItem.Title
                                           Size: =14
@@ -409,11 +485,12 @@ Screens:
                                         Variant: AutoLayout
                                         Properties:
                                           DropShadow: =DropShadow.None
-                                          FillPortions: =16
+                                          FillPortions: =0
                                           LayoutMinHeight: =0
                                           LayoutDirection: =LayoutDirection.Horizontal
                                           LayoutAlignItems: =LayoutAlignItems.Center
                                           LayoutGap: =6
+                                          Width: =HeaderColApplicant.Width
                                           Height: =24
                                         Children:
                                           - RowApplicantIcon:
@@ -429,8 +506,13 @@ Screens:
                                           - RowApplicantName:
                                               Control: ModernText
                                               Properties:
-                                                FillPortions: =1
+                                                PaddingTop: =0
+                                                PaddingBottom: =0
+                                                PaddingLeft: =0
+                                                PaddingRight: =0
+                                                FillPortions: =0
                                                 LayoutMinHeight: =0
+                                                Width: =HeaderColApplicant.Width - 22
                                                 Height: =24
                                                 Text: =ThisItem.Applicant
                                                 Size: =13
@@ -439,8 +521,13 @@ Screens:
                                     - RowRequestDate:
                                         Control: ModernText
                                         Properties:
-                                          FillPortions: =13
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
+                                          FillPortions: =0
                                           LayoutMinHeight: =0
+                                          Width: =HeaderColRequestDate.Width
                                           Height: =24
                                           Text: =ThisItem.RequestDate
                                           Size: =13
@@ -449,8 +536,9 @@ Screens:
                                     - RowStatusBadge:
                                         Control: Badge
                                         Properties:
-                                          FillPortions: =13
+                                          FillPortions: =0
                                           LayoutMinHeight: =0
+                                          Width: =HeaderColStatus.Width
                                           Height: =26
                                           Content: =ThisItem.Status
                                           Appearance: ='BadgeCanvas.Appearance'.Tint
@@ -458,23 +546,40 @@ Screens:
                                     - RowUpdateDate:
                                         Control: ModernText
                                         Properties:
-                                          FillPortions: =13
+                                          PaddingTop: =0
+                                          PaddingBottom: =0
+                                          PaddingLeft: =0
+                                          PaddingRight: =0
+                                          FillPortions: =0
                                           LayoutMinHeight: =0
+                                          Width: =HeaderColUpdateDate.Width
                                           Height: =24
                                           Text: =ThisItem.UpdateDate
                                           Size: =13
                                           Wrap: =false
                                           Color: =RGBA(55, 65, 81, 1)
-                                    - RowChevron:
-                                        Control: ModernIcon
+                                    - grpRowChevronWrap:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
                                         Properties:
-                                          FillPortions: =4
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
                                           LayoutMinHeight: =0
-                                          AlignInContainer: =AlignInContainer.Center
-                                          Width: =18
-                                          Height: =18
-                                          Icon: ="ChevronRight"
-                                          IconColor: =RGBA(156, 163, 175, 1)
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          Width: =HeaderColChevron.Width
+                                          Height: =24
+                                        Children:
+                                          - RowChevron:
+                                              Control: ModernIcon
+                                              Properties:
+                                                FillPortions: =0
+                                                LayoutMinHeight: =0
+                                                AlignInContainer: =AlignInContainer.Center
+                                                Width: =18
+                                                Height: =18
+                                                Icon: ="ChevronRight"
+                                                IconColor: =RGBA(156, 163, 175, 1)
                               - RowClickButton:
                                   Control: Button
                                   Properties:
@@ -501,6 +606,10 @@ Screens:
                               - FooterCountLabel:
                                   Control: ModernText
                                   Properties:
+                                    PaddingTop: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
                                     FillPortions: =0
                                     LayoutMinHeight: =0
                                     Width: =260

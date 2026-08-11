@@ -170,26 +170,21 @@ Screens:
                         LayoutGap: =10
                         Height: =24
                       Children:
-                        - BackIconFrm:
-                            Control: ModernIcon
+                        - BackButtonFrm:
+                            Control: Button
                             Properties:
                               FillPortions: =0
                               LayoutMinHeight: =0
-                              AlignInContainer: =AlignInContainer.Center
-                              Width: =18
-                              Height: =18
-                              Icon: ="ArrowLeft"
-                              IconColor: =RGBA(79, 70, 229, 1)
-                        - BackLabelFrm:
-                            Control: Label
-                            Properties:
-                              FillPortions: =0
-                              LayoutMinHeight: =0
-                              Width: =110
-                              Height: =22
+                              Width: =140
+                              Height: =24
                               Text: ="申請一覧に戻る"
-                              Color: =RGBA(79, 70, 229, 1)
-                              Size: =14
+                              Icon: ="ArrowLeft"
+                              Layout: ='ButtonCanvas.Layout'.IconBefore
+                              Appearance: ='ButtonCanvas.Appearance'.Transparent
+                              FontColor: =RGBA(79, 70, 229, 1)
+                              FontSize: =14
+                              PaddingLeft: =0
+                              OnSelect: =Navigate(RequestListScreen, ScreenTransition.Fade)
                         - SeparatorLabelFrm:
                             Control: Label
                             Properties:
@@ -244,7 +239,7 @@ Screens:
                                   Properties:
                                     FillPortions: =0
                                     LayoutMinHeight: =0
-                                    Width: =Parent.Width
+                                    Width: =Parent.Width - 48
                                     Height: =24
                                     Text: ="申請入力"
                                     Color: =RGBA(79, 70, 229, 1)
@@ -277,7 +272,8 @@ Screens:
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
-                                                Width: =70
+                                                Width: =90
+                                                Wrap: =false
                                                 Height: =20
                                                 Text: ="タイトル"
                                                 Color: =RGBA(55, 65, 81, 1)
@@ -341,7 +337,8 @@ Screens:
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
-                                                Width: =70
+                                                Width: =90
+                                                Wrap: =false
                                                 Height: =20
                                                 Text: ="申請内容"
                                                 Color: =RGBA(55, 65, 81, 1)
@@ -441,9 +438,9 @@ Screens:
                                     FillPortions: =0
                                     LayoutMinHeight: =0
                                     LayoutDirection: =LayoutDirection.Vertical
-                                    LayoutGap: =12
+                                    LayoutGap: =16
                                     Fill: =RGBA(255, 255, 255, 1)
-                                    Height: =220
+                                    Height: =248
                                     PaddingLeft: =20
                                     PaddingRight: =20
                                     PaddingTop: =20
@@ -454,7 +451,7 @@ Screens:
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
-                                          Width: =Parent.Width
+                                          Width: =Parent.Width - 40
                                           Height: =24
                                           Text: ="申請情報(自動入力)"
                                           Color: =RGBA(79, 70, 229, 1)
@@ -470,7 +467,7 @@ Screens:
                                           LayoutDirection: =LayoutDirection.Horizontal
                                           LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
                                           LayoutAlignItems: =LayoutAlignItems.Center
-                                          Width: =Parent.Width
+                                          Width: =Parent.Width - 40
                                           Height: =24
                                         Children:
                                           - AutoInfoLabel1:
@@ -478,7 +475,7 @@ Screens:
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
-                                                Width: =90
+                                                Width: =80
                                                 Height: =20
                                                 Text: ="申請者"
                                                 Color: =RGBA(107, 114, 128, 1)
@@ -488,7 +485,8 @@ Screens:
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
-                                                Width: =140
+                                                Width: =190
+                                                Wrap: =false
                                                 Height: =20
                                                 Text: ="山田 太郎"
                                                 Color: =RGBA(17, 24, 39, 1)
@@ -504,7 +502,7 @@ Screens:
                                           LayoutDirection: =LayoutDirection.Horizontal
                                           LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
                                           LayoutAlignItems: =LayoutAlignItems.Center
-                                          Width: =Parent.Width
+                                          Width: =Parent.Width - 40
                                           Height: =24
                                         Children:
                                           - AutoInfoLabel2:
@@ -512,7 +510,7 @@ Screens:
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
-                                                Width: =90
+                                                Width: =80
                                                 Height: =20
                                                 Text: ="申請日"
                                                 Color: =RGBA(107, 114, 128, 1)
@@ -522,7 +520,8 @@ Screens:
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
-                                                Width: =140
+                                                Width: =190
+                                                Wrap: =false
                                                 Height: =20
                                                 Text: ="2024/06/01 10:30"
                                                 Color: =RGBA(17, 24, 39, 1)
@@ -538,7 +537,7 @@ Screens:
                                           LayoutDirection: =LayoutDirection.Horizontal
                                           LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
                                           LayoutAlignItems: =LayoutAlignItems.Center
-                                          Width: =Parent.Width
+                                          Width: =Parent.Width - 40
                                           Height: =24
                                         Children:
                                           - AutoInfoLabel3:
@@ -546,7 +545,7 @@ Screens:
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
-                                                Width: =90
+                                                Width: =80
                                                 Height: =20
                                                 Text: ="更新日"
                                                 Color: =RGBA(107, 114, 128, 1)
@@ -556,7 +555,8 @@ Screens:
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
-                                                Width: =140
+                                                Width: =190
+                                                Wrap: =false
                                                 Height: =20
                                                 Text: ="2024/06/01 10:30(自動更新)"
                                                 Color: =RGBA(17, 24, 39, 1)
@@ -572,7 +572,7 @@ Screens:
                                           LayoutDirection: =LayoutDirection.Horizontal
                                           LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
                                           LayoutAlignItems: =LayoutAlignItems.Center
-                                          Width: =Parent.Width
+                                          Width: =Parent.Width - 40
                                           Height: =26
                                         Children:
                                           - AutoInfoLabel4:
@@ -581,7 +581,7 @@ Screens:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
                                                 AlignInContainer: =AlignInContainer.Center
-                                                Width: =90
+                                                Width: =80
                                                 Height: =20
                                                 Text: ="ステータス"
                                                 Color: =RGBA(107, 114, 128, 1)
@@ -651,7 +651,7 @@ Screens:
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
-                                          Width: =Parent.Width
+                                          Width: =Parent.Width - 32
                                           Height: =80
                                           Text: ="一時保存すると「未申請」、申請すると「申請中」になります。申請後は承認者の承認をお待ちください。"
                                           Color: =RGBA(107, 114, 128, 1)
@@ -660,14 +660,18 @@ Screens:
                       Control: GroupContainer
                       Variant: AutoLayout
                       Properties:
-                        DropShadow: =DropShadow.None
+                        DropShadow: =DropShadow.Light
                         FillPortions: =0
                         LayoutMinHeight: =0
                         LayoutDirection: =LayoutDirection.Horizontal
                         LayoutJustifyContent: =LayoutJustifyContent.End
+                        LayoutAlignItems: =LayoutAlignItems.Center
                         LayoutGap: =12
                         Width: =Parent.Width
-                        Height: =48
+                        Height: =80
+                        Fill: =RGBA(255, 255, 255, 1)
+                        PaddingLeft: =24
+                        PaddingRight: =24
                       Children:
                         - CancelActionButton:
                             Control: Button
@@ -682,6 +686,7 @@ Screens:
                               BorderColor: =RGBA(229, 231, 235, 1)
                               FontWeight: =FontWeight.Semibold
                               FontSize: =14
+                              OnSelect: =Navigate(RequestListScreen, ScreenTransition.Fade)
                         - SaveDraftButton:
                             Control: Button
                             Properties:

@@ -200,6 +200,10 @@ Screens:
                               Height: =44
                               Type: =TextInputType.Search
                               Placeholder: ="タイトルで検索"
+                              Appearance: =Appearance.Outline
+                              Fill: =RGBA(255, 255, 255, 1)
+                              BorderColor: =RGBA(209, 213, 219, 1)
+                              BorderThickness: =1
                         - StatusDropdown:
                             Control: ModernDropdown
                             Properties:
@@ -215,6 +219,44 @@ Screens:
                                   {Value: "差戻し"}
                                 )
                               ItemDisplayText: ="Value"
+                              Appearance: =Appearance.Outline
+                              Fill: =RGBA(255, 255, 255, 1)
+                              BorderColor: =RGBA(209, 213, 219, 1)
+                              BorderThickness: =1
+                        - DateStartPicker:
+                            Control: ModernDatePicker
+                            Properties:
+                              FillPortions: =1
+                              LayoutMinHeight: =0
+                              Height: =44
+                              Placeholder: ="申請日(開始)"
+                              Appearance: =Appearance.Outline
+                              Fill: =RGBA(255, 255, 255, 1)
+                              BorderColor: =RGBA(209, 213, 219, 1)
+                              BorderThickness: =1
+                        - DateRangeSeparator:
+                            Control: Label
+                            Properties:
+                              FillPortions: =0
+                              LayoutMinHeight: =0
+                              AlignInContainer: =AlignInContainer.Center
+                              Width: =16
+                              Height: =20
+                              Text: ="〜"
+                              Color: =RGBA(107, 114, 128, 1)
+                              Size: =14
+                              Align: =Align.Center
+                        - DateEndPicker:
+                            Control: ModernDatePicker
+                            Properties:
+                              FillPortions: =1
+                              LayoutMinHeight: =0
+                              Height: =44
+                              Placeholder: ="申請日(終了)"
+                              Appearance: =Appearance.Outline
+                              Fill: =RGBA(255, 255, 255, 1)
+                              BorderColor: =RGBA(209, 213, 219, 1)
+                              BorderThickness: =1
                         - NewRequestButton:
                             Control: Button
                             Properties:
@@ -228,19 +270,21 @@ Screens:
                               FontColor: =RGBA(255, 255, 255, 1)
                               FontWeight: =FontWeight.Semibold
                               FontSize: =14
+                              OnSelect: =Navigate(RequestFormScreen, ScreenTransition.Fade)
                               BorderThickness: =0
                   - grpListCard:
                       Control: GroupContainer
                       Variant: AutoLayout
                       Properties:
                         DropShadow: =DropShadow.Semilight
-                        FillPortions: =0
+                        FillPortions: =1
                         LayoutMinHeight: =0
                         LayoutDirection: =LayoutDirection.Vertical
                         LayoutGap: =16
                         Width: =Parent.Width
-                        Height: =464
                         Fill: =RGBA(255, 255, 255, 1)
+                        PaddingLeft: =24
+                        PaddingRight: =24
                         PaddingTop: =24
                         PaddingBottom: =16
                       Children:
@@ -254,10 +298,8 @@ Screens:
                               LayoutDirection: =LayoutDirection.Horizontal
                               LayoutAlignItems: =LayoutAlignItems.Center
                               LayoutGap: =8
-                              Width: =Parent.Width - 48
+                              Width: =Parent.Width
                               Height: =24
-                              PaddingLeft: =24
-                              PaddingRight: =24
                             Children:
                               - HeaderColTitle:
                                   Control: Label
@@ -320,10 +362,9 @@ Screens:
                             Control: Gallery
                             Variant: Vertical
                             Properties:
-                              FillPortions: =0
+                              FillPortions: =1
                               LayoutMinHeight: =0
                               Width: =Parent.Width
-                              Height: =336
                               TemplateSize: =56
                               Items: =colRequests
                             Children:
@@ -335,9 +376,8 @@ Screens:
                                     LayoutDirection: =LayoutDirection.Horizontal
                                     LayoutAlignItems: =LayoutAlignItems.Center
                                     LayoutGap: =8
-                                    Width: =Parent.TemplateWidth - 48
+                                    Width: =Parent.TemplateWidth
                                     Height: =Parent.TemplateHeight
-                                    X: =24
                                   Children:
                                     - RowTitle:
                                         Control: Label
@@ -421,6 +461,16 @@ Screens:
                                           Height: =18
                                           Icon: ="ChevronRight"
                                           IconColor: =RGBA(156, 163, 175, 1)
+                              - RowClickButton:
+                                  Control: Button
+                                  Properties:
+                                    X: =0
+                                    Y: =0
+                                    Width: =Parent.TemplateWidth
+                                    Height: =Parent.TemplateHeight
+                                    Text: =""
+                                    Appearance: ='ButtonCanvas.Appearance'.Transparent
+                                    OnSelect: =Navigate(RequestDetailScreen, ScreenTransition.Fade)
                         - grpFooterRow:
                             Control: GroupContainer
                             Variant: AutoLayout
@@ -431,10 +481,8 @@ Screens:
                               LayoutDirection: =LayoutDirection.Horizontal
                               LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
                               LayoutAlignItems: =LayoutAlignItems.Center
-                              Width: =Parent.Width - 48
+                              Width: =Parent.Width
                               Height: =32
-                              PaddingLeft: =24
-                              PaddingRight: =24
                             Children:
                               - FooterCountLabel:
                                   Control: Label

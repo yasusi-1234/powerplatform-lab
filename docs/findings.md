@@ -117,3 +117,24 @@ Power PlatformをAI(Claude)と組み合わせて開発する際、主に2つの�
 - **Solution unpack `--processCanvasApps`**: コマンドヘルプ上も明記の `(プレビュー)` 機能。ロールバック検証(PA3011)で実際にエラーに遭遇し、生成YAMLにも「本格編集はmaker portalで」という警告コメントが入っていた
 
 つまり「AIでPower Platformを開発する」という試み自体、**現時点ではMicrosoft公式ツールチェーンの中でも最先端・実験段階の機能に頼らざるを得ない**状況にある、というのが今回の研究の一次結論。今後のMicrosoftのアップデートで安定版に昇格するかを継続的にウォッチする価値がある。
+
+### 追加の結論: どちらの経路でも「最終的に評価されるコードは同じ」
+
+実際にTestApp2でダッシュボード画面を作り込んでみて分かった、もう一つの重要な結論。
+
+`Canvas Apps MCP`経由で編集しようが、`Solution unpack`したファイルを直接手で編集して`pack`/`import`しようが、**最終的に評価されるのは同じ `.pa.yaml` / Power Fxのソースコードであり、それを解釈するコンパイラ(Power Apps Language Tooling)も同じ**。そのため、実際に踏んだ以下の罠は、経路に関係なくどちらでも同じように発生する。
+
+- `Button`/`Badge`はFluentV9系で`Fill`/`Color`/`Size`が使えない(`BasePaletteColor`/`FontColor`/`FontSize`を使う)
+- アイコン名は181種類の限定セット外だとエラーにならず丸(circle)表示になる。しかも似た名前の`Icon`コントロール(旧)と`ModernIcon`(新・181種類フル対応)を取り違えると、同じアイコン名でも一方でしか表示されない
+- `ManualLayout`の絶対座標は、想定した画面幅と実際の画面幅がズレるとコンテンツが見切れる
+- `DataTable`はYAMLの`Items`だけではデータが表示されないことがある(`Gallery`で代替する必要がある)
+
+つまり「MCPかSolution unpack/packか」という**経路の選択は、コードの正しさには影響しない**。両者の違いは経路そのものではなく**フィードバックループの速さ**にある。
+
+| | Canvas Apps MCP | Solution unpack/pack |
+|---|---|---|
+| 静的チェック | `compile_canvas`で即座 | 同等(`pac solution unpack`時の検証) |
+| 見た目の確認 | Studioの生きたセッションに即反映、Playモードですぐ確認可能 | unpack→編集→pack→import→Studioで開く、という重い手順が毎回必要 |
+| 経路固有の追加バグ | Coauthoringの同期タイミング依存(Studioを開いていないと反映されない等) | `--processCanvasApps`のロールバック検証エラー(`PA3011`)など |
+
+**結論**: 「どちらのツールを使うか」よりも、「**Power Fx/YAMLをどう正しく書くかのルール集**([docs/canvas-app-yaml-notes.md](canvas-app-yaml-notes.md))を育てて精度を上げる」ことの方が、両方の経路に効いてくる本質的なレバレッジになる。ツール(MCP/unpack-pack)は「どうやってコードを届けるか」の違いでしかなく、「何を届けるか(正しいコード)」の質を上げる投資の方が優先度が高い。

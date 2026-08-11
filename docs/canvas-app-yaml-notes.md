@@ -214,14 +214,72 @@ grpTitleRow:
 自分の範囲外を描画しないため、負の座標は使わない。ラップコンテナ自体を少し大きめに
 確保し、中の要素をすべて`0`以上の座標に収める。
 
-### まとめ: 高さを決めるときのチェックリスト
+### 落とし穴4: `AlignInContainer`未指定だと上寄せ(または開始位置)になり、`LayoutAlignItems.Center`が効かないことがある
+
+親コンテナに`LayoutAlignItems: =LayoutAlignItems.Center`を指定していても、**子側で
+`AlignInContainer`を明示していないと、その子だけ中央揃えされず上端に張り付くことが
+あった**(ヘッダー内のベルアイコン・アバター等)。親の`LayoutAlignItems`は「子が
+`AlignInContainer`を指定しなかった場合の初期値」程度にしか信用できない。
+
+**対策**: `FillPortions: =0`の子で、かつ縦方向(または横方向)の中央揃えを期待する
+場合は、**親に頼らず子ごとに`AlignInContainer: =AlignInContainer.Center`を明示する。**
+
+```yaml
+# ❌ 親のLayoutAlignItems.Centerだけに頼る → 上寄せになることがある
+grpBellWrap:
+  Properties:
+    FillPortions: =0
+    Width: =32
+    Height: =40
+
+# ✅ 子ごとに明示する
+grpBellWrap:
+  Properties:
+    FillPortions: =0
+    AlignInContainer: =AlignInContainer.Center
+    Width: =32
+    Height: =40
+```
+
+### 落とし穴5: `GroupContainer`には既定で影(`DropShadow`)が暗黙に付いており、入れ子にすると二重に見える
+
+`GroupContainer`には`DropShadow`(`None`/`Light`/`Semilight`/`Semibold`/`Regular`/
+`Bold`/`ExtraBold`)というプロパティが実在するが、**YAMLで何も指定しないと既定で
+何らかの影が付く。** カードの外枠(`Fill`付きの`GroupContainer`)の中に、さらに
+`Fill`付きの`GroupContainer`(アイコンの背景色の四角など)をネストすると、**両方に
+既定の影が付いてしまい、カードの中にもう1枚カードがあるような二重の影**になって
+見た目が崩れる。
+
+**対策**: 「本当に影を見せたい一番外側のカード面」だけに`DropShadow`を明示的に
+設定し(例: `=DropShadow.Semilight`)、**それ以外の全ての`GroupContainer`には
+`DropShadow: =DropShadow.None`を明示する。** 「暗黙のデフォルトに任せない」という
+点は本セクションの他の落とし穴と共通の教訓。
+
+```yaml
+# ✅ 外側のカードだけ影を残し、中のネストしたコンテナは明示的にNoneにする
+KpiCard1:
+  Control: GroupContainer
+  Properties:
+    DropShadow: =DropShadow.Semilight   # ここだけ影を見せる
+    Fill: =RGBA(255, 255, 255, 1)
+  Children:
+    - grpKpi1IconWrap:
+        Control: GroupContainer
+        Properties:
+          DropShadow: =DropShadow.None   # ネストした子は必ずNoneにする
+          Fill: =RGBA(224, 222, 253, 1)
+```
+
+### まとめ: `AutoLayout`で画面を組むときのチェックリスト
 
 1. `FillPortions: =0`を書いたら、**同じ場所に`Height`と`LayoutMinHeight: =0`を必ずセットで書く**(横方向で必要なら`LayoutMinWidth: =0`も)
 2. `FillPortions`が1以上の要素は、高さを気にしなくてよい(伸縮計算で自動的に正しくなる)
 3. 親の高さが確定しているコンテナの直下の子は`AlignInContainer.Stretch`(+`LayoutMinHeight: =0`)でもよい
 4. 子の`.Height`を式で参照して親の高さを計算するのは**1段まで**。`Horizontal`コンテナで`Max()`を使う場合は特に注意し、怪しければ実測値をハードコードする
 5. `ManualLayout`ラッパー内で子を重ねるときは、負の座標を使わない
-6. これらを全部満たしても、**必ずPlayモードで実際の見た目を確認する**(コンパイルは通ってしまうため)
+6. 中央揃えしたい`FillPortions: =0`の子には`AlignInContainer: =AlignInContainer.Center`を親任せにせず明示する
+7. すべての`GroupContainer`に`DropShadow: =DropShadow.None`をデフォルトで書き、影を見せたい一番外側のカード面だけ明示的に上書きする
+8. これらを全部満たしても、**必ずPlayモードで実際の見た目を確認する**(コンパイルは通ってしまうため)
 
 ## 4. `DataTable`(Classic)はYAMLの`Items`だけでは表示されないことがある
 

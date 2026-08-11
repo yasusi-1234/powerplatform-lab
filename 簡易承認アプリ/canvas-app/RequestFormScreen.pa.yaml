@@ -1,0 +1,711 @@
+Screens:
+  RequestFormScreen:
+    Properties:
+      Fill: =RGBA(243, 244, 246, 1)
+      LoadingSpinnerColor: =RGBA(79, 70, 229, 1)
+    Children:
+      - grpRootFrm:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            DropShadow: =DropShadow.None
+            LayoutDirection: =LayoutDirection.Vertical
+            Width: =Parent.Width
+            Height: =Parent.Height
+          Children:
+            - grpHeaderFrm:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =0
+                  LayoutMinHeight: =0
+                  LayoutMinWidth: =0
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                  Width: =Parent.Width
+                  Height: =64
+                  Fill: =RGBA(79, 70, 229, 1)
+                  PaddingLeft: =24
+                  PaddingRight: =24
+                Children:
+                  - grpHeaderLeftFrm:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        LayoutMinHeight: =0
+                        AlignInContainer: =AlignInContainer.Stretch
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutGap: =12
+                      Children:
+                        - HeaderLogoIconFrm:
+                            Control: ModernIcon
+                            Properties:
+                              FillPortions: =0
+                              LayoutMinHeight: =0
+                              AlignInContainer: =AlignInContainer.Center
+                              Width: =28
+                              Height: =28
+                              Icon: ="DocumentBulletList"
+                              IconColor: =RGBA(255, 255, 255, 1)
+                        - HeaderAppTitleFrm:
+                            Control: Label
+                            Properties:
+                              FillPortions: =0
+                              LayoutMinHeight: =0
+                              AlignInContainer: =AlignInContainer.Center
+                              Width: =280
+                              Height: =28
+                              Text: ="簡易承認申請アプリ"
+                              Color: =RGBA(255, 255, 255, 1)
+                              Size: =17
+                              FontWeight: =FontWeight.Semibold
+                              VerticalAlign: =VerticalAlign.Middle
+                  - grpHeaderRightFrm:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        LayoutMinHeight: =0
+                        AlignInContainer: =AlignInContainer.Stretch
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutGap: =12
+                      Children:
+                        - grpUserTextFrm:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              LayoutMinHeight: =0
+                              AlignInContainer: =AlignInContainer.Center
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutAlignItems: =LayoutAlignItems.End
+                              Width: =120
+                              Height: =40
+                            Children:
+                              - HeaderUserNameFrm:
+                                  Control: Label
+                                  Properties:
+                                    FillPortions: =0
+                                    LayoutMinHeight: =0
+                                    AlignInContainer: =AlignInContainer.Center
+                                    Width: =120
+                                    Height: =20
+                                    Text: ="山田 太郎"
+                                    Color: =RGBA(255, 255, 255, 1)
+                                    Size: =14
+                                    FontWeight: =FontWeight.Semibold
+                                    Align: =Align.Right
+                              - HeaderUserRoleFrm:
+                                  Control: Label
+                                  Properties:
+                                    FillPortions: =0
+                                    LayoutMinHeight: =0
+                                    AlignInContainer: =AlignInContainer.Center
+                                    Width: =120
+                                    Height: =18
+                                    Text: ="一般ユーザー"
+                                    Color: =RGBA(224, 222, 253, 1)
+                                    Size: =12
+                                    Align: =Align.Right
+                        - grpAvatarWrapFrm:
+                            Control: GroupContainer
+                            Variant: ManualLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =0
+                              LayoutMinHeight: =0
+                              AlignInContainer: =AlignInContainer.Center
+                              Width: =40
+                              Height: =40
+                            Children:
+                              - HeaderAvatarBgFrm:
+                                  Control: Rectangle
+                                  Properties:
+                                    X: =0
+                                    Y: =0
+                                    Width: =40
+                                    Height: =40
+                                    Fill: =RGBA(255, 255, 255, 0.25)
+                                    BorderThickness: =0
+                              - HeaderAvatarIconFrm:
+                                  Control: ModernIcon
+                                  Properties:
+                                    X: =10
+                                    Y: =10
+                                    Width: =20
+                                    Height: =20
+                                    Icon: ="Person"
+                                    IconColor: =RGBA(255, 255, 255, 1)
+            - grpMainFrm:
+                Control: GroupContainer
+                Variant: AutoLayout
+                Properties:
+                  DropShadow: =DropShadow.None
+                  FillPortions: =1
+                  LayoutDirection: =LayoutDirection.Vertical
+                  LayoutGap: =16
+                  LayoutOverflowY: =LayoutOverflow.Scroll
+                  PaddingLeft: =32
+                  PaddingRight: =32
+                  PaddingTop: =24
+                  PaddingBottom: =32
+                Children:
+                  - grpBackRowFrm:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        LayoutMinHeight: =0
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutGap: =10
+                        Height: =24
+                      Children:
+                        - BackIconFrm:
+                            Control: ModernIcon
+                            Properties:
+                              FillPortions: =0
+                              LayoutMinHeight: =0
+                              AlignInContainer: =AlignInContainer.Center
+                              Width: =18
+                              Height: =18
+                              Icon: ="ArrowLeft"
+                              IconColor: =RGBA(79, 70, 229, 1)
+                        - BackLabelFrm:
+                            Control: Label
+                            Properties:
+                              FillPortions: =0
+                              LayoutMinHeight: =0
+                              Width: =110
+                              Height: =22
+                              Text: ="申請一覧に戻る"
+                              Color: =RGBA(79, 70, 229, 1)
+                              Size: =14
+                        - SeparatorLabelFrm:
+                            Control: Label
+                            Properties:
+                              FillPortions: =0
+                              LayoutMinHeight: =0
+                              Width: =12
+                              Height: =22
+                              Text: ="|"
+                              Color: =RGBA(209, 213, 219, 1)
+                              Size: =14
+                        - FormTitleLabelFrm:
+                            Control: Label
+                            Properties:
+                              FillPortions: =0
+                              LayoutMinHeight: =0
+                              Width: =120
+                              Height: =22
+                              Text: ="新規申請"
+                              Color: =RGBA(17, 24, 39, 1)
+                              Size: =16
+                              FontWeight: =FontWeight.Semibold
+                  - grpFormBodyRow:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        LayoutMinHeight: =0
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =24
+                        Width: =Parent.Width
+                        Height: =500
+                      Children:
+                        - FormCard:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.Semilight
+                              FillPortions: =2
+                              LayoutMinHeight: =0
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =20
+                              Fill: =RGBA(255, 255, 255, 1)
+                              Height: =500
+                              PaddingLeft: =24
+                              PaddingRight: =24
+                              PaddingTop: =24
+                              PaddingBottom: =24
+                            Children:
+                              - FormCardTitle:
+                                  Control: Label
+                                  Properties:
+                                    FillPortions: =0
+                                    LayoutMinHeight: =0
+                                    Width: =Parent.Width
+                                    Height: =24
+                                    Text: ="申請入力"
+                                    Color: =RGBA(79, 70, 229, 1)
+                                    Size: =15
+                                    FontWeight: =FontWeight.Semibold
+                              - grpTitleField:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    LayoutMinHeight: =0
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =4
+                                    Height: =80
+                                  Children:
+                                    - grpTitleFieldLabel:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          LayoutMinHeight: =0
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =4
+                                          Height: =20
+                                        Children:
+                                          - TitleFieldLabel:
+                                              Control: Label
+                                              Properties:
+                                                FillPortions: =0
+                                                LayoutMinHeight: =0
+                                                Width: =70
+                                                Height: =20
+                                                Text: ="タイトル"
+                                                Color: =RGBA(55, 65, 81, 1)
+                                                Size: =13
+                                                FontWeight: =FontWeight.Semibold
+                                          - TitleFieldRequired:
+                                              Control: Label
+                                              Properties:
+                                                FillPortions: =0
+                                                LayoutMinHeight: =0
+                                                Width: =14
+                                                Height: =20
+                                                Text: ="*"
+                                                Color: =RGBA(239, 68, 68, 1)
+                                                Size: =13
+                                                FontWeight: =FontWeight.Semibold
+                                    - TitleInput:
+                                        Control: ModernTextInput
+                                        Properties:
+                                          FillPortions: =0
+                                          LayoutMinHeight: =0
+                                          Width: =Parent.Width
+                                          Height: =40
+                                          MaxLength: =100
+                                          Placeholder: ="タイトルを入力してください"
+                                    - TitleCounter:
+                                        Control: Label
+                                        Properties:
+                                          FillPortions: =0
+                                          LayoutMinHeight: =0
+                                          Width: =Parent.Width
+                                          Height: =16
+                                          Text: ="0/100"
+                                          Color: =RGBA(156, 163, 175, 1)
+                                          Size: =11
+                                          Align: =Align.Right
+                              - grpContentField:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    LayoutMinHeight: =0
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =4
+                                    Height: =140
+                                  Children:
+                                    - grpContentFieldLabel:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          LayoutMinHeight: =0
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutGap: =4
+                                          Height: =20
+                                        Children:
+                                          - ContentFieldLabel:
+                                              Control: Label
+                                              Properties:
+                                                FillPortions: =0
+                                                LayoutMinHeight: =0
+                                                Width: =70
+                                                Height: =20
+                                                Text: ="申請内容"
+                                                Color: =RGBA(55, 65, 81, 1)
+                                                Size: =13
+                                                FontWeight: =FontWeight.Semibold
+                                          - ContentFieldRequired:
+                                              Control: Label
+                                              Properties:
+                                                FillPortions: =0
+                                                LayoutMinHeight: =0
+                                                Width: =14
+                                                Height: =20
+                                                Text: ="*"
+                                                Color: =RGBA(239, 68, 68, 1)
+                                                Size: =13
+                                                FontWeight: =FontWeight.Semibold
+                                    - ContentInput:
+                                        Control: ModernTextInput
+                                        Properties:
+                                          FillPortions: =0
+                                          LayoutMinHeight: =0
+                                          Width: =Parent.Width
+                                          Height: =100
+                                          Type: =TextInputType.Multiline
+                                          MaxLength: =1000
+                                          Placeholder: ="申請内容を入力してください"
+                                    - ContentCounter:
+                                        Control: Label
+                                        Properties:
+                                          FillPortions: =0
+                                          LayoutMinHeight: =0
+                                          Width: =Parent.Width
+                                          Height: =16
+                                          Text: ="0/1000"
+                                          Color: =RGBA(156, 163, 175, 1)
+                                          Size: =11
+                                          Align: =Align.Right
+                              - grpRemarksField:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    LayoutMinHeight: =0
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =4
+                                    Height: =140
+                                  Children:
+                                    - RemarksFieldLabel:
+                                        Control: Label
+                                        Properties:
+                                          FillPortions: =0
+                                          LayoutMinHeight: =0
+                                          Width: =Parent.Width
+                                          Height: =20
+                                          Text: ="備考"
+                                          Color: =RGBA(55, 65, 81, 1)
+                                          Size: =13
+                                          FontWeight: =FontWeight.Semibold
+                                    - RemarksInput:
+                                        Control: ModernTextInput
+                                        Properties:
+                                          FillPortions: =0
+                                          LayoutMinHeight: =0
+                                          Width: =Parent.Width
+                                          Height: =100
+                                          Type: =TextInputType.Multiline
+                                          MaxLength: =500
+                                          Placeholder: ="備考があれば入力してください(任意)"
+                                    - RemarksCounter:
+                                        Control: Label
+                                        Properties:
+                                          FillPortions: =0
+                                          LayoutMinHeight: =0
+                                          Width: =Parent.Width
+                                          Height: =16
+                                          Text: ="0/500"
+                                          Color: =RGBA(156, 163, 175, 1)
+                                          Size: =11
+                                          Align: =Align.Right
+                        - grpInfoPanelCol:
+                            Control: GroupContainer
+                            Variant: AutoLayout
+                            Properties:
+                              DropShadow: =DropShadow.None
+                              FillPortions: =1
+                              LayoutMinHeight: =0
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutGap: =24
+                              Height: =500
+                            Children:
+                              - AutoInfoCard:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.Semilight
+                                    FillPortions: =0
+                                    LayoutMinHeight: =0
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =12
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    Height: =220
+                                    PaddingLeft: =20
+                                    PaddingRight: =20
+                                    PaddingTop: =20
+                                    PaddingBottom: =20
+                                  Children:
+                                    - AutoInfoTitle:
+                                        Control: Label
+                                        Properties:
+                                          FillPortions: =0
+                                          LayoutMinHeight: =0
+                                          Width: =Parent.Width
+                                          Height: =24
+                                          Text: ="申請情報(自動入力)"
+                                          Color: =RGBA(79, 70, 229, 1)
+                                          Size: =14
+                                          FontWeight: =FontWeight.Semibold
+                                    - grpAutoInfoRow1:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          LayoutMinHeight: =0
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          Width: =Parent.Width
+                                          Height: =24
+                                        Children:
+                                          - AutoInfoLabel1:
+                                              Control: Label
+                                              Properties:
+                                                FillPortions: =0
+                                                LayoutMinHeight: =0
+                                                Width: =90
+                                                Height: =20
+                                                Text: ="申請者"
+                                                Color: =RGBA(107, 114, 128, 1)
+                                                Size: =13
+                                          - AutoInfoValue1:
+                                              Control: Label
+                                              Properties:
+                                                FillPortions: =0
+                                                LayoutMinHeight: =0
+                                                Width: =140
+                                                Height: =20
+                                                Text: ="山田 太郎"
+                                                Color: =RGBA(17, 24, 39, 1)
+                                                Size: =13
+                                                Align: =Align.Right
+                                    - grpAutoInfoRow2:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          LayoutMinHeight: =0
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          Width: =Parent.Width
+                                          Height: =24
+                                        Children:
+                                          - AutoInfoLabel2:
+                                              Control: Label
+                                              Properties:
+                                                FillPortions: =0
+                                                LayoutMinHeight: =0
+                                                Width: =90
+                                                Height: =20
+                                                Text: ="申請日"
+                                                Color: =RGBA(107, 114, 128, 1)
+                                                Size: =13
+                                          - AutoInfoValue2:
+                                              Control: Label
+                                              Properties:
+                                                FillPortions: =0
+                                                LayoutMinHeight: =0
+                                                Width: =140
+                                                Height: =20
+                                                Text: ="2024/06/01 10:30"
+                                                Color: =RGBA(17, 24, 39, 1)
+                                                Size: =13
+                                                Align: =Align.Right
+                                    - grpAutoInfoRow3:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          LayoutMinHeight: =0
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          Width: =Parent.Width
+                                          Height: =24
+                                        Children:
+                                          - AutoInfoLabel3:
+                                              Control: Label
+                                              Properties:
+                                                FillPortions: =0
+                                                LayoutMinHeight: =0
+                                                Width: =90
+                                                Height: =20
+                                                Text: ="更新日"
+                                                Color: =RGBA(107, 114, 128, 1)
+                                                Size: =13
+                                          - AutoInfoValue3:
+                                              Control: Label
+                                              Properties:
+                                                FillPortions: =0
+                                                LayoutMinHeight: =0
+                                                Width: =140
+                                                Height: =20
+                                                Text: ="2024/06/01 10:30(自動更新)"
+                                                Color: =RGBA(17, 24, 39, 1)
+                                                Size: =12
+                                                Align: =Align.Right
+                                    - grpAutoInfoRow4:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          LayoutMinHeight: =0
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          Width: =Parent.Width
+                                          Height: =26
+                                        Children:
+                                          - AutoInfoLabel4:
+                                              Control: Label
+                                              Properties:
+                                                FillPortions: =0
+                                                LayoutMinHeight: =0
+                                                AlignInContainer: =AlignInContainer.Center
+                                                Width: =90
+                                                Height: =20
+                                                Text: ="ステータス"
+                                                Color: =RGBA(107, 114, 128, 1)
+                                                Size: =13
+                                          - AutoInfoStatusBadge:
+                                              Control: Badge
+                                              Properties:
+                                                FillPortions: =0
+                                                LayoutMinHeight: =0
+                                                AlignInContainer: =AlignInContainer.Center
+                                                Width: =70
+                                                Height: =26
+                                                Content: ="未申請"
+                                                Appearance: ='BadgeCanvas.Appearance'.Tint
+                                                ThemeColor: ='BadgeCanvas.ThemeColor'.Subtle
+                              - NoticeBox:
+                                  Control: GroupContainer
+                                  Variant: AutoLayout
+                                  Properties:
+                                    DropShadow: =DropShadow.None
+                                    FillPortions: =0
+                                    LayoutMinHeight: =0
+                                    LayoutDirection: =LayoutDirection.Vertical
+                                    LayoutGap: =8
+                                    Fill: =RGBA(238, 238, 253, 1)
+                                    Height: =140
+                                    PaddingLeft: =16
+                                    PaddingRight: =16
+                                    PaddingTop: =16
+                                    PaddingBottom: =16
+                                  Children:
+                                    - grpNoticeHeader:
+                                        Control: GroupContainer
+                                        Variant: AutoLayout
+                                        Properties:
+                                          DropShadow: =DropShadow.None
+                                          FillPortions: =0
+                                          LayoutMinHeight: =0
+                                          LayoutDirection: =LayoutDirection.Horizontal
+                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutGap: =8
+                                          Height: =20
+                                        Children:
+                                          - NoticeIcon:
+                                              Control: ModernIcon
+                                              Properties:
+                                                FillPortions: =0
+                                                LayoutMinHeight: =0
+                                                AlignInContainer: =AlignInContainer.Center
+                                                Width: =16
+                                                Height: =16
+                                                Icon: ="Info"
+                                                IconColor: =RGBA(79, 70, 229, 1)
+                                          - NoticeTitle:
+                                              Control: Label
+                                              Properties:
+                                                FillPortions: =0
+                                                LayoutMinHeight: =0
+                                                Width: =200
+                                                Height: =20
+                                                Text: ="ステータスについて"
+                                                Color: =RGBA(79, 70, 229, 1)
+                                                Size: =13
+                                                FontWeight: =FontWeight.Semibold
+                                    - NoticeBody:
+                                        Control: Label
+                                        Properties:
+                                          FillPortions: =0
+                                          LayoutMinHeight: =0
+                                          Width: =Parent.Width
+                                          Height: =80
+                                          Text: ="一時保存すると「未申請」、申請すると「申請中」になります。申請後は承認者の承認をお待ちください。"
+                                          Color: =RGBA(107, 114, 128, 1)
+                                          Size: =12
+                  - grpActionBar:
+                      Control: GroupContainer
+                      Variant: AutoLayout
+                      Properties:
+                        DropShadow: =DropShadow.None
+                        FillPortions: =0
+                        LayoutMinHeight: =0
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutJustifyContent: =LayoutJustifyContent.End
+                        LayoutGap: =12
+                        Width: =Parent.Width
+                        Height: =48
+                      Children:
+                        - CancelActionButton:
+                            Control: Button
+                            Properties:
+                              FillPortions: =0
+                              LayoutMinHeight: =0
+                              Width: =120
+                              Height: =48
+                              Text: ="キャンセル"
+                              Appearance: ='ButtonCanvas.Appearance'.Outline
+                              FontColor: =RGBA(55, 65, 81, 1)
+                              BorderColor: =RGBA(229, 231, 235, 1)
+                              FontWeight: =FontWeight.Semibold
+                              FontSize: =14
+                        - SaveDraftButton:
+                            Control: Button
+                            Properties:
+                              FillPortions: =0
+                              LayoutMinHeight: =0
+                              Width: =120
+                              Height: =48
+                              Text: ="一時保存"
+                              Appearance: ='ButtonCanvas.Appearance'.Outline
+                              FontColor: =RGBA(79, 70, 229, 1)
+                              BorderColor: =RGBA(79, 70, 229, 1)
+                              FontWeight: =FontWeight.Semibold
+                              FontSize: =14
+                        - SubmitButton:
+                            Control: Button
+                            Properties:
+                              FillPortions: =0
+                              LayoutMinHeight: =0
+                              Width: =140
+                              Height: =48
+                              Text: ="申請する"
+                              Appearance: ='ButtonCanvas.Appearance'.Primary
+                              BasePaletteColor: =RGBA(79, 70, 229, 1)
+                              FontColor: =RGBA(255, 255, 255, 1)
+                              FontWeight: =FontWeight.Semibold
+                              FontSize: =14
+                              BorderThickness: =0

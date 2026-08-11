@@ -53,7 +53,7 @@ Screens:
                               Icon: ="DocumentBulletList"
                               IconColor: =RGBA(255, 255, 255, 1)
                         - HeaderAppTitleFrm:
-                            Control: Label
+                            Control: ModernText
                             Properties:
                               FillPortions: =0
                               LayoutMinHeight: =0
@@ -91,7 +91,7 @@ Screens:
                               Height: =40
                             Children:
                               - HeaderUserNameFrm:
-                                  Control: Label
+                                  Control: ModernText
                                   Properties:
                                     FillPortions: =0
                                     LayoutMinHeight: =0
@@ -104,7 +104,7 @@ Screens:
                                     FontWeight: =FontWeight.Semibold
                                     Align: =Align.Right
                               - HeaderUserRoleFrm:
-                                  Control: Label
+                                  Control: ModernText
                                   Properties:
                                     FillPortions: =0
                                     LayoutMinHeight: =0
@@ -186,7 +186,7 @@ Screens:
                               PaddingLeft: =0
                               OnSelect: =Navigate(RequestListScreen, ScreenTransition.Fade)
                         - SeparatorLabelFrm:
-                            Control: Label
+                            Control: ModernText
                             Properties:
                               FillPortions: =0
                               LayoutMinHeight: =0
@@ -196,7 +196,7 @@ Screens:
                               Color: =RGBA(209, 213, 219, 1)
                               Size: =14
                         - FormTitleLabelFrm:
-                            Control: Label
+                            Control: ModernText
                             Properties:
                               FillPortions: =0
                               LayoutMinHeight: =0
@@ -216,7 +216,7 @@ Screens:
                         LayoutDirection: =LayoutDirection.Horizontal
                         LayoutGap: =24
                         Width: =Parent.Width
-                        Height: =500
+                        Height: =504
                       Children:
                         - FormCard:
                             Control: GroupContainer
@@ -228,14 +228,14 @@ Screens:
                               LayoutDirection: =LayoutDirection.Vertical
                               LayoutGap: =20
                               Fill: =RGBA(255, 255, 255, 1)
-                              Height: =500
+                              Height: =504
                               PaddingLeft: =24
                               PaddingRight: =24
                               PaddingTop: =24
                               PaddingBottom: =24
                             Children:
                               - FormCardTitle:
-                                  Control: Label
+                                  Control: ModernText
                                   Properties:
                                     FillPortions: =0
                                     LayoutMinHeight: =0
@@ -254,7 +254,7 @@ Screens:
                                     LayoutMinHeight: =0
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =4
-                                    Height: =80
+                                    Height: =84
                                   Children:
                                     - grpTitleFieldLabel:
                                         Control: GroupContainer
@@ -268,7 +268,7 @@ Screens:
                                           Height: =20
                                         Children:
                                           - TitleFieldLabel:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -280,7 +280,7 @@ Screens:
                                                 Size: =13
                                                 FontWeight: =FontWeight.Semibold
                                           - TitleFieldRequired:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -300,7 +300,7 @@ Screens:
                                           MaxLength: =100
                                           Placeholder: ="タイトルを入力してください"
                                     - TitleCounter:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -319,7 +319,7 @@ Screens:
                                     LayoutMinHeight: =0
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =4
-                                    Height: =140
+                                    Height: =144
                                   Children:
                                     - grpContentFieldLabel:
                                         Control: GroupContainer
@@ -333,7 +333,7 @@ Screens:
                                           Height: =20
                                         Children:
                                           - ContentFieldLabel:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -345,7 +345,7 @@ Screens:
                                                 Size: =13
                                                 FontWeight: =FontWeight.Semibold
                                           - ContentFieldRequired:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -366,7 +366,7 @@ Screens:
                                           MaxLength: =1000
                                           Placeholder: ="申請内容を入力してください"
                                     - ContentCounter:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -385,10 +385,10 @@ Screens:
                                     LayoutMinHeight: =0
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =4
-                                    Height: =140
+                                    Height: =144
                                   Children:
                                     - RemarksFieldLabel:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -409,7 +409,7 @@ Screens:
                                           MaxLength: =500
                                           Placeholder: ="備考があれば入力してください(任意)"
                                     - RemarksCounter:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -447,7 +447,7 @@ Screens:
                                     PaddingBottom: =20
                                   Children:
                                     - AutoInfoTitle:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -471,7 +471,7 @@ Screens:
                                           Height: =24
                                         Children:
                                           - AutoInfoLabel1:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -481,7 +481,7 @@ Screens:
                                                 Color: =RGBA(107, 114, 128, 1)
                                                 Size: =13
                                           - AutoInfoValue1:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -506,7 +506,7 @@ Screens:
                                           Height: =24
                                         Children:
                                           - AutoInfoLabel2:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -516,7 +516,7 @@ Screens:
                                                 Color: =RGBA(107, 114, 128, 1)
                                                 Size: =13
                                           - AutoInfoValue2:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -541,7 +541,7 @@ Screens:
                                           Height: =24
                                         Children:
                                           - AutoInfoLabel3:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -551,7 +551,7 @@ Screens:
                                                 Color: =RGBA(107, 114, 128, 1)
                                                 Size: =13
                                           - AutoInfoValue3:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -576,12 +576,13 @@ Screens:
                                           Height: =26
                                         Children:
                                           - AutoInfoLabel4:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
                                                 AlignInContainer: =AlignInContainer.Center
-                                                Width: =80
+                                                Width: =120
+                                                Wrap: =false
                                                 Height: =20
                                                 Text: ="ステータス"
                                                 Color: =RGBA(107, 114, 128, 1)
@@ -636,7 +637,7 @@ Screens:
                                                 Icon: ="Info"
                                                 IconColor: =RGBA(79, 70, 229, 1)
                                           - NoticeTitle:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -647,7 +648,7 @@ Screens:
                                                 Size: =13
                                                 FontWeight: =FontWeight.Semibold
                                     - NoticeBody:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0

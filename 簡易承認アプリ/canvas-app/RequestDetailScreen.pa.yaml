@@ -53,7 +53,7 @@ Screens:
                               Icon: ="DocumentBulletList"
                               IconColor: =RGBA(255, 255, 255, 1)
                         - HeaderAppTitleDtl:
-                            Control: Label
+                            Control: ModernText
                             Properties:
                               FillPortions: =0
                               LayoutMinHeight: =0
@@ -91,7 +91,7 @@ Screens:
                               Height: =40
                             Children:
                               - HeaderUserNameDtl:
-                                  Control: Label
+                                  Control: ModernText
                                   Properties:
                                     FillPortions: =0
                                     LayoutMinHeight: =0
@@ -104,7 +104,7 @@ Screens:
                                     FontWeight: =FontWeight.Semibold
                                     Align: =Align.Right
                               - HeaderUserRoleDtl:
-                                  Control: Label
+                                  Control: ModernText
                                   Properties:
                                     FillPortions: =0
                                     LayoutMinHeight: =0
@@ -186,7 +186,7 @@ Screens:
                               PaddingLeft: =0
                               OnSelect: =Navigate(RequestListScreen, ScreenTransition.Fade)
                         - SeparatorLabel:
-                            Control: Label
+                            Control: ModernText
                             Properties:
                               FillPortions: =0
                               LayoutMinHeight: =0
@@ -196,7 +196,7 @@ Screens:
                               Color: =RGBA(209, 213, 219, 1)
                               Size: =14
                         - DetailTitleLabel:
-                            Control: Label
+                            Control: ModernText
                             Properties:
                               FillPortions: =0
                               LayoutMinHeight: =0
@@ -258,7 +258,7 @@ Screens:
                                           Appearance: ='BadgeCanvas.Appearance'.Tint
                                           ThemeColor: ='BadgeCanvas.ThemeColor'.Warning
                                     - RequestIdLabel:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -280,7 +280,7 @@ Screens:
                                     Height: =44
                                   Children:
                                     - FieldLabelTitle:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -290,7 +290,7 @@ Screens:
                                           Color: =RGBA(107, 114, 128, 1)
                                           Size: =12
                                     - FieldValueTitle:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -320,7 +320,7 @@ Screens:
                                     Height: =90
                                   Children:
                                     - FieldLabelContent:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -330,7 +330,7 @@ Screens:
                                           Color: =RGBA(107, 114, 128, 1)
                                           Size: =12
                                     - FieldValueContent:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -359,7 +359,7 @@ Screens:
                                     Height: =70
                                   Children:
                                     - FieldLabelRemarks:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -369,7 +369,7 @@ Screens:
                                           Color: =RGBA(107, 114, 128, 1)
                                           Size: =12
                                     - FieldValueRemarks:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -398,7 +398,7 @@ Screens:
                                     Height: =44
                                   Children:
                                     - FieldLabelApplicant:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -408,7 +408,7 @@ Screens:
                                           Color: =RGBA(107, 114, 128, 1)
                                           Size: =12
                                     - FieldValueApplicant:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -437,7 +437,7 @@ Screens:
                                     Height: =44
                                   Children:
                                     - FieldLabelRequestDate:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -447,7 +447,7 @@ Screens:
                                           Color: =RGBA(107, 114, 128, 1)
                                           Size: =12
                                     - FieldValueRequestDate:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -476,7 +476,7 @@ Screens:
                                     Height: =44
                                   Children:
                                     - FieldLabelUpdateDate:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -486,7 +486,7 @@ Screens:
                                           Color: =RGBA(107, 114, 128, 1)
                                           Size: =12
                                     - FieldValueUpdateDate:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -523,7 +523,7 @@ Screens:
                                     PaddingBottom: =20
                                   Children:
                                     - InfoTitle:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -547,7 +547,7 @@ Screens:
                                           Height: =24
                                         Children:
                                           - InfoLabel1:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -557,7 +557,7 @@ Screens:
                                                 Color: =RGBA(107, 114, 128, 1)
                                                 Size: =13
                                           - InfoValue1:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -582,7 +582,7 @@ Screens:
                                           Height: =24
                                         Children:
                                           - InfoLabel2:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -592,7 +592,7 @@ Screens:
                                                 Color: =RGBA(107, 114, 128, 1)
                                                 Size: =13
                                           - InfoValue2:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -617,7 +617,7 @@ Screens:
                                           Height: =24
                                         Children:
                                           - InfoLabel3:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -627,7 +627,7 @@ Screens:
                                                 Color: =RGBA(107, 114, 128, 1)
                                                 Size: =13
                                           - InfoValue3:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -652,12 +652,13 @@ Screens:
                                           Height: =26
                                         Children:
                                           - InfoLabel4:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
                                                 AlignInContainer: =AlignInContainer.Center
-                                                Width: =80
+                                                Width: =120
+                                                Wrap: =false
                                                 Height: =20
                                                 Text: ="ステータス"
                                                 Color: =RGBA(107, 114, 128, 1)
@@ -690,7 +691,7 @@ Screens:
                                     PaddingBottom: =20
                                   Children:
                                     - ApprovalTitle:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -701,7 +702,7 @@ Screens:
                                           Size: =14
                                           FontWeight: =FontWeight.Semibold
                                     - CommentLabel:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -775,7 +776,7 @@ Screens:
                         PaddingBottom: =20
                       Children:
                         - HistoryTitle:
-                            Control: Label
+                            Control: ModernText
                             Properties:
                               FillPortions: =0
                               LayoutMinHeight: =0
@@ -830,7 +831,7 @@ Screens:
                                           Height: =20
                                         Children:
                                           - HistoryAction1:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -841,7 +842,7 @@ Screens:
                                                 Size: =13
                                                 FontWeight: =FontWeight.Semibold
                                           - HistoryDate1:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -852,7 +853,7 @@ Screens:
                                                 Size: =12
                                                 Align: =Align.Right
                                     - HistoryDesc1:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -906,7 +907,7 @@ Screens:
                                           Height: =20
                                         Children:
                                           - HistoryAction2:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -917,7 +918,7 @@ Screens:
                                                 Size: =13
                                                 FontWeight: =FontWeight.Semibold
                                           - HistoryDate2:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -928,7 +929,7 @@ Screens:
                                                 Size: =12
                                                 Align: =Align.Right
                                     - HistoryDesc2:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -982,7 +983,7 @@ Screens:
                                           Height: =20
                                         Children:
                                           - HistoryAction3:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -993,7 +994,7 @@ Screens:
                                                 Size: =13
                                                 FontWeight: =FontWeight.Semibold
                                           - HistoryDate3:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =0
                                                 LayoutMinHeight: =0
@@ -1004,7 +1005,7 @@ Screens:
                                                 Size: =12
                                                 Align: =Align.Right
                                     - HistoryDesc3:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =0
                                           LayoutMinHeight: =0
@@ -1028,7 +1029,7 @@ Screens:
                         FontSize: =14
                         OnSelect: =Navigate(RequestListScreen, ScreenTransition.Fade)
                   - CancelNote:
-                      Control: Label
+                      Control: ModernText
                       Properties:
                         FillPortions: =0
                         LayoutMinHeight: =0

@@ -63,7 +63,7 @@ Screens:
                               Icon: ="DocumentBulletList"
                               IconColor: =RGBA(255, 255, 255, 1)
                         - HeaderAppTitle:
-                            Control: Label
+                            Control: ModernText
                             Properties:
                               FillPortions: =0
                               LayoutMinHeight: =0
@@ -101,7 +101,7 @@ Screens:
                               Height: =40
                             Children:
                               - HeaderUserName:
-                                  Control: Label
+                                  Control: ModernText
                                   Properties:
                                     FillPortions: =0
                                     LayoutMinHeight: =0
@@ -114,7 +114,7 @@ Screens:
                                     FontWeight: =FontWeight.Semibold
                                     Align: =Align.Right
                               - HeaderUserRole:
-                                  Control: Label
+                                  Control: ModernText
                                   Properties:
                                     FillPortions: =0
                                     LayoutMinHeight: =0
@@ -169,7 +169,7 @@ Screens:
                   PaddingBottom: =32
                 Children:
                   - PageTitle:
-                      Control: Label
+                      Control: ModernText
                       Properties:
                         FillPortions: =0
                         LayoutMinHeight: =0
@@ -192,71 +192,83 @@ Screens:
                         Width: =Parent.Width
                         Height: =44
                       Children:
-                        - SearchInput:
-                            Control: ModernTextInput
+                        - grpFilterInputs:
+                            Control: GroupContainer
+                            Variant: AutoLayout
                             Properties:
-                              FillPortions: =2
-                              LayoutMinHeight: =0
-                              Height: =44
-                              Type: =TextInputType.Search
-                              Placeholder: ="タイトルで検索"
-                              Appearance: =Appearance.Outline
-                              Fill: =RGBA(255, 255, 255, 1)
-                              BorderColor: =RGBA(209, 213, 219, 1)
-                              BorderThickness: =1
-                        - StatusDropdown:
-                            Control: ModernDropdown
-                            Properties:
+                              DropShadow: =DropShadow.None
                               FillPortions: =1
                               LayoutMinHeight: =0
+                              LayoutDirection: =LayoutDirection.Horizontal
+                              LayoutAlignItems: =LayoutAlignItems.Center
+                              LayoutGap: =12
                               Height: =44
-                              Items: |-
-                                =Table(
-                                  {Value: "すべてのステータス"},
-                                  {Value: "未申請"},
-                                  {Value: "申請中"},
-                                  {Value: "承認"},
-                                  {Value: "差戻し"}
-                                )
-                              ItemDisplayText: ="Value"
-                              Appearance: =Appearance.Outline
-                              Fill: =RGBA(255, 255, 255, 1)
-                              BorderColor: =RGBA(209, 213, 219, 1)
-                              BorderThickness: =1
-                        - DateStartPicker:
-                            Control: ModernDatePicker
-                            Properties:
-                              FillPortions: =1
-                              LayoutMinHeight: =0
-                              Height: =44
-                              Placeholder: ="申請日(開始)"
-                              Appearance: =Appearance.Outline
-                              Fill: =RGBA(255, 255, 255, 1)
-                              BorderColor: =RGBA(209, 213, 219, 1)
-                              BorderThickness: =1
-                        - DateRangeSeparator:
-                            Control: Label
-                            Properties:
-                              FillPortions: =0
-                              LayoutMinHeight: =0
-                              AlignInContainer: =AlignInContainer.Center
-                              Width: =16
-                              Height: =20
-                              Text: ="〜"
-                              Color: =RGBA(107, 114, 128, 1)
-                              Size: =14
-                              Align: =Align.Center
-                        - DateEndPicker:
-                            Control: ModernDatePicker
-                            Properties:
-                              FillPortions: =1
-                              LayoutMinHeight: =0
-                              Height: =44
-                              Placeholder: ="申請日(終了)"
-                              Appearance: =Appearance.Outline
-                              Fill: =RGBA(255, 255, 255, 1)
-                              BorderColor: =RGBA(209, 213, 219, 1)
-                              BorderThickness: =1
+                            Children:
+                              - SearchInput:
+                                  Control: ModernTextInput
+                                  Properties:
+                                    FillPortions: =2
+                                    LayoutMinHeight: =0
+                                    Height: =44
+                                    Type: =TextInputType.Search
+                                    Placeholder: ="タイトルで検索"
+                                    Appearance: =Appearance.Outline
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    BorderColor: =RGBA(209, 213, 219, 1)
+                                    BorderThickness: =1
+                              - StatusDropdown:
+                                  Control: ModernDropdown
+                                  Properties:
+                                    FillPortions: =1
+                                    LayoutMinHeight: =0
+                                    Height: =44
+                                    Items: |-
+                                      =Table(
+                                        {Value: "すべてのステータス"},
+                                        {Value: "未申請"},
+                                        {Value: "申請中"},
+                                        {Value: "承認"},
+                                        {Value: "差戻し"}
+                                      )
+                                    ItemDisplayText: ="Value"
+                                    Appearance: =Appearance.Outline
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    BorderColor: =RGBA(209, 213, 219, 1)
+                                    BorderThickness: =1
+                              - DateStartPicker:
+                                  Control: ModernDatePicker
+                                  Properties:
+                                    FillPortions: =1
+                                    LayoutMinHeight: =0
+                                    Height: =44
+                                    Placeholder: ="申請日(開始)"
+                                    Appearance: =Appearance.Outline
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    BorderColor: =RGBA(209, 213, 219, 1)
+                                    BorderThickness: =1
+                              - DateRangeSeparator:
+                                  Control: ModernText
+                                  Properties:
+                                    FillPortions: =0
+                                    LayoutMinHeight: =0
+                                    AlignInContainer: =AlignInContainer.Center
+                                    Width: =16
+                                    Height: =20
+                                    Text: ="〜"
+                                    Color: =RGBA(107, 114, 128, 1)
+                                    Size: =14
+                                    Align: =Align.Center
+                              - DateEndPicker:
+                                  Control: ModernDatePicker
+                                  Properties:
+                                    FillPortions: =1
+                                    LayoutMinHeight: =0
+                                    Height: =44
+                                    Placeholder: ="申請日(終了)"
+                                    Appearance: =Appearance.Outline
+                                    Fill: =RGBA(255, 255, 255, 1)
+                                    BorderColor: =RGBA(209, 213, 219, 1)
+                                    BorderThickness: =1
                         - NewRequestButton:
                             Control: Button
                             Properties:
@@ -302,7 +314,7 @@ Screens:
                               Height: =24
                             Children:
                               - HeaderColTitle:
-                                  Control: Label
+                                  Control: ModernText
                                   Properties:
                                     FillPortions: =26
                                     LayoutMinHeight: =0
@@ -312,7 +324,7 @@ Screens:
                                     FontWeight: =FontWeight.Semibold
                                     Color: =RGBA(107, 114, 128, 1)
                               - HeaderColApplicant:
-                                  Control: Label
+                                  Control: ModernText
                                   Properties:
                                     FillPortions: =16
                                     LayoutMinHeight: =0
@@ -322,7 +334,7 @@ Screens:
                                     FontWeight: =FontWeight.Semibold
                                     Color: =RGBA(107, 114, 128, 1)
                               - HeaderColRequestDate:
-                                  Control: Label
+                                  Control: ModernText
                                   Properties:
                                     FillPortions: =13
                                     LayoutMinHeight: =0
@@ -332,7 +344,7 @@ Screens:
                                     FontWeight: =FontWeight.Semibold
                                     Color: =RGBA(107, 114, 128, 1)
                               - HeaderColStatus:
-                                  Control: Label
+                                  Control: ModernText
                                   Properties:
                                     FillPortions: =13
                                     LayoutMinHeight: =0
@@ -342,7 +354,7 @@ Screens:
                                     FontWeight: =FontWeight.Semibold
                                     Color: =RGBA(107, 114, 128, 1)
                               - HeaderColUpdateDate:
-                                  Control: Label
+                                  Control: ModernText
                                   Properties:
                                     FillPortions: =13
                                     LayoutMinHeight: =0
@@ -352,7 +364,7 @@ Screens:
                                     FontWeight: =FontWeight.Semibold
                                     Color: =RGBA(107, 114, 128, 1)
                               - HeaderColChevron:
-                                  Control: Label
+                                  Control: ModernText
                                   Properties:
                                     FillPortions: =4
                                     LayoutMinHeight: =0
@@ -366,6 +378,8 @@ Screens:
                               LayoutMinHeight: =0
                               Width: =Parent.Width
                               TemplateSize: =56
+                              TemplatePadding: =0
+                              ShowScrollbar: =false
                               Items: =colRequests
                             Children:
                               - grpRow:
@@ -380,7 +394,7 @@ Screens:
                                     Height: =Parent.TemplateHeight
                                   Children:
                                     - RowTitle:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =26
                                           LayoutMinHeight: =0
@@ -413,7 +427,7 @@ Screens:
                                                 Icon: ="Person"
                                                 IconColor: =RGBA(107, 114, 128, 1)
                                           - RowApplicantName:
-                                              Control: Label
+                                              Control: ModernText
                                               Properties:
                                                 FillPortions: =1
                                                 LayoutMinHeight: =0
@@ -423,7 +437,7 @@ Screens:
                                                 Wrap: =false
                                                 Color: =RGBA(55, 65, 81, 1)
                                     - RowRequestDate:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =13
                                           LayoutMinHeight: =0
@@ -442,7 +456,7 @@ Screens:
                                           Appearance: ='BadgeCanvas.Appearance'.Tint
                                           ThemeColor: =Switch(ThisItem.Status, "承認", 'BadgeCanvas.ThemeColor'.Success, "差戻し", 'BadgeCanvas.ThemeColor'.Danger, "申請中", 'BadgeCanvas.ThemeColor'.Warning, 'BadgeCanvas.ThemeColor'.Subtle)
                                     - RowUpdateDate:
-                                        Control: Label
+                                        Control: ModernText
                                         Properties:
                                           FillPortions: =13
                                           LayoutMinHeight: =0
@@ -485,7 +499,7 @@ Screens:
                               Height: =32
                             Children:
                               - FooterCountLabel:
-                                  Control: Label
+                                  Control: ModernText
                                   Properties:
                                     FillPortions: =0
                                     LayoutMinHeight: =0

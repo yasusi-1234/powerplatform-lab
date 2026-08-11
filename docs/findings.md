@@ -78,8 +78,33 @@ Power PlatformをAI(Claude)と組み合わせて開発する際、主に2つの�
 
 ## 次のアクション
 
-- [ ] `pac auth create` で検証用環境に接続
-- [ ] サンプルSolutionを作成 → export → unpack → 中身確認
+- [x] `pac auth create` で検証用環境に接続
+- [x] サンプルSolutionを作成 → export → unpack → 中身確認
 - [ ] 小さい編集 → pack → import を試し、成功/失敗パターンを実地検証
 - [ ] Canvas Apps MCPとSolution unpack/packの生成速度・編集しやすさを定量的に比較
 - [ ] PCF(標準コントロールでは足りない場合の独自コントロール開発)は別テーマとして扱う
+
+---
+
+## 実地検証ログ (2026-08-11)
+
+### 環境接続
+
+- `pac auth create` の既定(embedded browser)は社内テナントのAAD側で「サポートされていないブラウザ」と判定され認証キャンセルになった → `pac auth create --deviceCode` に切り替えて成功
+- テナントには複数環境が存在(`yasushi.takeda (default)` と `開発者環境`)。`pac org list` で一覧確認 → `pac org select --environment <URL>` で対象環境に切り替える必要があった(既定環境のままだと目的のSolutionが見えない)
+
+### TestSolution(空)のexport/unpack
+
+- 空のSolutionでも `pac solution export` → `pac solution unpack` は問題なく成功
+- 出力は `Other/Solution.xml`(メタ情報)と `Other/Customizations.xml`(中身は空タグのみ)の2ファイルだけ
+
+### Canvas App(MCP経由で作成)を追加してexport/unpack
+
+1. Canvas Apps MCPの `connect` は **Coauthoring(共同編集)を有効化していないアプリには接続できない**(Studioのアプリ設定 → 今後の機能 → Coauthoring)
+2. `connect` 成功後も `compile_canvas` が「アクティブなcoauthoringセッションが検出できない」という警告を出し続けた → **Studio側で実際にアプリを開いている状態**にしたら警告が消え、正常に反映された。つまりMCP経由の編集は「ローカルのYAML変更をStudioの生きたセッションに同期する」仕組みで、Studioを開いていないと反映されない
+3. **Studioで編集中でもSolutionのexportは問題なく成功する**(クライアント編集セッションとexport APIは独立)
+4. Canvas Appを含むSolutionを `pac solution unpack --processCanvasApps` すると:
+   - `.msapp` がさらに分解され、`.pa.yaml`(MCPと同じ形式)が生成される
+   - 自分がMCPで置いたLabelの内容(Text, Width, Xなど)が正確に反映されていることを確認
+   - ただし unpack実行時に **`PA3011: Roundtrip validation on unpack failed`** というエラーに遭遇(`AnalysisOptions.DataflowAnalysisEnabled` 等のプロパティ差分が原因)。ファイル自体は正常に書き出され exit code は 0 だったので実害はなさそうだが、`--processCanvasApps` はドキュメント上も **Preview機能**扱いであり、生成されたYAMLファイルにも「Studio内の変更レビュー・軽微な編集専用、本格編集はmaker portalで」という警告コメントが入っていた
+   - → **Solution unpack経由でのCanvas App本格編集は現状まだ実用段階ではなさそう**。Canvas Apps MCP(Studioとの生きたセッション)側の方が正攻法、という当初の仮説を裏付ける結果

@@ -101,6 +101,101 @@ ThemeColor: ='BadgeCanvas.ThemeColor'.Danger
 再計算する応急処置で対応した。次回、本格的な画面を作る際は上記の`AutoLayout`方式を
 最初から採用する。
 
+## 3.5 `AutoLayout`は「並び方向の高さ/幅」を中身に自動フィットしてくれない
+
+実際に`ManualLayout`から`AutoLayout`へ全面書き換えたところ、**横方向(`FillPortions`)は
+狙い通りレスポンシブになった**が、**縦方向は明示的に`Height`を渡さないとコンテナが
+壊れた**(チャートやテーブルが消える、中身がオーバーフローする等)。
+
+### 症状1: 縦積み(`LayoutDirection.Vertical`)コンテナに`Height`を書かないと中身が消える
+
+`CategoryPanel`(縦積み、`Height`未指定)の中に`PieChart`+凡例を入れたところ、
+パネルだけ異常に高くなり、肝心のチャート・凡例が丸ごと表示されなくなった。
+**CSSのflexboxのような「中身に自動フィット(hug contents)」はしてくれない。**
+縦積みコンテナは`Height`を明示するか、次項の方法で子から計算する。
+
+同じ理由で、横積み(`LayoutDirection.Horizontal`)コンテナの中で**さらに縦積みの
+子コンテナが複数並ぶ**構造(例: 凡例の行を`grpLegendRow1`〜`5`として縦に並べた場合)
+でも、**その各行コンテナ自身に`Height`が無いと、1行目しか表示されず残りが消える**。
+「一番外側の縦コンテナだけ気をつければいい」のではなく、**ネストしたすべての縦積み
+コンテナで同じ注意が必要**。
+
+### 症状2: 子に`Height`を明示的に書いても、隠れた`LayoutMinHeight`のデフォルト値でオーバーフローする
+
+ヘッダー行(`Height: =64`固定)の中に`grpHeaderLeft`(ロゴ+タイトルをまとめた横積み
+コンテナ、`Height`を明示的に書かず中身[32px]に任せていた)を置いたところ、
+ヘッダーの高さ64pxを超えてコンテンツが下にはみ出した。
+
+Studioのプロパティパネルで実機確認したところ、**`AutoLayout`コンテナの子には
+`LayoutMinHeight`が既定で`100`(!)入っている**ことが判明した(YAML側で明示的に
+書いていなくても、Studio側でこの既定値が効く)。中身の実際の高さ(32px)より
+このデフォルト最小高さ(100px)の方が大きいため、それが優先されて親をはみ出す。
+
+**対策**: 「親の高さが既に確定しているコンテナの直下の子」については、`Height`を
+決め打ちするのではなく `AlignInContainer: =AlignInContainer.Stretch` を使う。
+これは子の高さを「常に親の高さに追従させる」という宣言になるため、`LayoutMinHeight`
+の既定値と衝突しようがなくなる。
+
+```yaml
+# ❌ 子にHeightを書かない(または書いても隠れたLayoutMinHeight:100と衝突しうる)
+grpHeaderLeft:
+  Control: GroupContainer
+  Variant: AutoLayout
+  Properties:
+    FillPortions: =0
+    LayoutDirection: =LayoutDirection.Horizontal
+    LayoutAlignItems: =LayoutAlignItems.Center
+
+# ✅ 親(Height確定済み)に合わせてStretch
+grpHeaderLeft:
+  Control: GroupContainer
+  Variant: AutoLayout
+  Properties:
+    FillPortions: =0
+    AlignInContainer: =AlignInContainer.Stretch
+    LayoutDirection: =LayoutDirection.Horizontal
+    LayoutAlignItems: =LayoutAlignItems.Center
+```
+
+ただし`Stretch`が使えるのは「親の高さが確定している(≒行の高さが決まっている)」場合限定。
+KPIカード行やチャートパネルのように、**親(行)の高さ自体が中身から逆算されるべき**
+場所では使えない。
+
+### 症状1・2への根本対策: 子コントロールの`.Height`を式で参照して親の`Height`を計算する
+
+縦積みパネルの`Height`をただの数値(`Height: =280`)としてハードコードすると、
+後で中の要素を1つ増減させたときに手計算をやり直すのを忘れて静かにズレる。
+**代わりに子コントロールの`.Height`プロパティを式で参照して合計する**と、中身が
+変わっても自動的に追従するので保守性が上がる(Power Fxはコントロール名を通じて
+他コントロールのプロパティを参照でき、循環参照にならない限り問題ない)。
+
+```yaml
+# ❌ ハードコードした数値。中身を変えると手計算をやり直す必要がある
+CategoryPanel:
+  Properties:
+    Height: =280
+
+# ✅ 子の.Heightを式で参照する。中身が変わっても自動追従する
+CategoryPanel:
+  Properties:
+    # 40 = PaddingTop(20) + PaddingBottom(20)。ここだけは定数でよい
+    Height: =40 + grpCatHeader.Height + 16 + grpCatBody.Height
+grpCatHeader:
+  Properties:
+    Height: =CategoryTitle.Height
+grpCatBody:
+  Properties:
+    Height: =CategoryChart.Height
+```
+
+**まとめ**: `AutoLayout`を使うときの高さの決め方は3パターンに整理できる。
+
+| コンテナの種類 | 高さの決め方 |
+|---|---|
+| 親の高さが確定している行の直下の子(ヘッダー内の要素など) | `AlignInContainer.Stretch` |
+| 高さが中身依存の縦積みパネル・カード | 子コントロールの`.Height`を式で参照して合計(ハードコードしない) |
+| 単純な葉ノード(アイコン・ラベル等) | 実測に基づく固定`Height`でよい |
+
 ## 4. `DataTable`(Classic)はYAMLの`Items`だけでは表示されないことがある
 
 `DataTable`コントロールに`Items`だけを設定してPlayモードで確認したところ、

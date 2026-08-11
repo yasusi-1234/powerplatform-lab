@@ -26,26 +26,16 @@ Power PlatformをAI(Claude)で開発する研究用リポジトリ。詳しい�
 - Studio編集中でも `pac solution export` は問題なく実行できる(export APIとクライアント
   編集セッションは独立)。
 
-## Canvas App YAML(.pa.yaml)のプロパティ名の罠
+## Canvas App YAML(.pa.yaml)を書くとき
 
-コントロールごとにプロパティ体系が違う(Classic系 / FluentV9系 / React系)。
-**プロパティ名を推測せず、必ず `describe_control` で確認してから書く。** 特に踏みやすい罠:
-
-- `Button`・`Badge` は **FluentV9系**で、Classicコントロールの `Fill` / `Color` / `Size` は使えない。
-  代わりに `BasePaletteColor`(背景色) / `FontColor`(文字色) / `FontSize`(文字サイズ) を使う。
-  見た目のバリエーションは `Appearance`(`Primary` / `Outline` / `Subtle` / `Transparent` 等)で制御する。
-- `Label` は Classic系なので `Fill` / `Color` / `Size` がそのまま使える(Buttonと混同しない)。
-- **enum名にドット(`.`)が含まれるもの**(例: `ButtonCanvas.Appearance`, `BadgeCanvas.ThemeColor`,
-  `BadgeCanvas.Shape`)は、YAML/PowerFxパーサーがそのままだと解釈できないため、
-  enum名部分を単一引用符で囲む必要がある:
-  ```yaml
-  # NG
-  Appearance: =ButtonCanvas.Appearance.Primary
-  # OK
-  Appearance: ='ButtonCanvas.Appearance'.Primary
-  ```
-- `compile_canvas` はエラー行番号を出してくれるので、エラーが出たら必ず該当プロパティを
-  `describe_control` で再確認してから直す(推測で直さない)。
+プロパティ名・アイコン名・レイアウトで実際に踏んだ罠は
+[docs/canvas-app-yaml-notes.md](docs/canvas-app-yaml-notes.md) にまとめてある。
+`.pa.yaml` を書く/直す前に必ず目を通すこと(要点: プロパティ名は`describe_control`で
+必ず確認する、アイコン名は181種類の限定セット外だと丸表示になりエラーにならない、
+`ManualLayout`の絶対座標は画面幅とズレるとはみ出す、`DataTable`よりGalleryを使う)。
+より体系的なルール集(配色・命名規則・AutoLayout設計)は同ファイル内で
+[kaizen-irai-kanri-app](https://github.com/yasusi-1234/kaizen-irai-kanri-app)の
+`SCREEN_RENDERING_RULES_GENERIC.md` にリンクしている。
 
 ## Solution unpack の既知の問題
 

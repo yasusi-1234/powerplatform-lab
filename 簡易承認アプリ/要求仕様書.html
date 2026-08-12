@@ -1,0 +1,677 @@
+<title>簡易承認申請アプリ 要求仕様書</title>
+<style>
+  :root {
+    --bg: #f5f5fb;
+    --surface: #ffffff;
+    --surface-2: #f0f0f8;
+    --ink: #1b1c28;
+    --muted: #6b6c82;
+    --faint: #9797ab;
+    --border: #e1e1ec;
+    --accent: #4f46e5;
+    --accent-ink: #ffffff;
+    --accent-soft: #eeeefd;
+    --accent-soft-border: #d6d4fa;
+    --status-draft: #6b7280;
+    --status-draft-bg: #eef0f3;
+    --status-pending: #b45309;
+    --status-pending-bg: #fdf3e0;
+    --status-approved: #15803d;
+    --status-approved-bg: #e7f6ec;
+    --status-rejected: #b91c1c;
+    --status-rejected-bg: #fbe9e9;
+    --shadow: 0 1px 2px rgba(27,28,40,.04), 0 8px 24px -12px rgba(27,28,40,.12);
+    color-scheme: light;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #131319;
+      --surface: #1a1a24;
+      --surface-2: #20202c;
+      --ink: #ecebf5;
+      --muted: #a3a2ba;
+      --faint: #6f6e85;
+      --border: #2c2c3a;
+      --accent: #8b85ff;
+      --accent-ink: #14121f;
+      --accent-soft: #221f3a;
+      --accent-soft-border: #3a3560;
+      --status-draft: #a1a8b5;
+      --status-draft-bg: #23252c;
+      --status-pending: #e3a748;
+      --status-pending-bg: #322a17;
+      --status-approved: #5fcf85;
+      --status-approved-bg: #17281c;
+      --status-rejected: #ec6a6a;
+      --status-rejected-bg: #331a1a;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px -12px rgba(0,0,0,.5);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #131319; --surface: #1a1a24; --surface-2: #20202c; --ink: #ecebf5;
+    --muted: #a3a2ba; --faint: #6f6e85; --border: #2c2c3a; --accent: #8b85ff;
+    --accent-ink: #14121f; --accent-soft: #221f3a; --accent-soft-border: #3a3560;
+    --status-draft: #a1a8b5; --status-draft-bg: #23252c;
+    --status-pending: #e3a748; --status-pending-bg: #322a17;
+    --status-approved: #5fcf85; --status-approved-bg: #17281c;
+    --status-rejected: #ec6a6a; --status-rejected-bg: #331a1a;
+    color-scheme: dark;
+  }
+  :root[data-theme="light"] {
+    --bg: #f5f5fb; --surface: #ffffff; --surface-2: #f0f0f8; --ink: #1b1c28;
+    --muted: #6b6c82; --faint: #9797ab; --border: #e1e1ec; --accent: #4f46e5;
+    --accent-ink: #ffffff; --accent-soft: #eeeefd; --accent-soft-border: #d6d4fa;
+    --status-draft: #6b7280; --status-draft-bg: #eef0f3;
+    --status-pending: #b45309; --status-pending-bg: #fdf3e0;
+    --status-approved: #15803d; --status-approved-bg: #e7f6ec;
+    --status-rejected: #b91c1c; --status-rejected-bg: #fbe9e9;
+    color-scheme: light;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Hiragino Sans", "Yu Gothic UI", "Noto Sans JP", "Meiryo", -apple-system, sans-serif;
+    font-size: 15.5px;
+    line-height: 1.85;
+    -webkit-font-smoothing: antialiased;
+  }
+  .mono {
+    font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  a { color: var(--accent); }
+  a:focus-visible, button:focus-visible, summary:focus-visible {
+    outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px;
+  }
+
+  .shell {
+    display: grid;
+    grid-template-columns: 232px minmax(0, 780px);
+    justify-content: center;
+    gap: 56px;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 48px 24px 96px;
+  }
+  @media (max-width: 900px) {
+    .shell { grid-template-columns: minmax(0, 1fr); padding: 32px 18px 72px; }
+    .toc { display: none; }
+  }
+
+  /* ---------- Sidebar TOC ---------- */
+  .toc { position: sticky; top: 32px; align-self: start; height: fit-content; }
+  .toc-label {
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    font-size: 11px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--faint); margin: 0 0 14px;
+  }
+  .toc ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--border); }
+  .toc li { margin: 0; }
+  .toc a {
+    display: block; text-decoration: none; color: var(--muted);
+    font-size: 13.5px; padding: 6px 0 6px 16px; margin-left: -1px;
+    border-left: 2px solid transparent;
+  }
+  .toc a:hover { color: var(--ink); border-left-color: var(--faint); }
+  .toc .num { font-family: ui-monospace, "SF Mono", Consolas, monospace; color: var(--faint); margin-right: 8px; }
+
+  /* ---------- Header ---------- */
+  header.doc-head { grid-column: 2; }
+  @media (max-width: 900px) { header.doc-head { grid-column: 1; } }
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 10px; display: flex; align-items: center; gap: 8px;
+  }
+  .eyebrow::before { content: ""; width: 18px; height: 1px; background: var(--accent); display: inline-block; }
+  h1 {
+    font-size: clamp(26px, 4vw, 34px); line-height: 1.35; margin: 0 0 14px;
+    letter-spacing: -.01em; text-wrap: balance; font-weight: 700;
+  }
+  .lede { color: var(--muted); font-size: 16px; line-height: 1.9; max-width: 62ch; margin: 0 0 22px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .chip {
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    font-size: 12px; padding: 5px 10px; border-radius: 5px;
+    background: var(--surface-2); border: 1px solid var(--border); color: var(--muted);
+  }
+  header.doc-head hr { border: none; border-top: 1px solid var(--border); margin: 32px 0 0; }
+
+  /* ---------- Main content ---------- */
+  main { grid-column: 2; min-width: 0; }
+  @media (max-width: 900px) { main { grid-column: 1; } }
+
+  section { margin-top: 56px; scroll-margin-top: 24px; }
+  section > h2 {
+    display: flex; align-items: baseline; gap: 12px;
+    font-size: 21px; font-weight: 700; margin: 0 0 6px; letter-spacing: -.005em;
+  }
+  section > h2 .num {
+    font-family: ui-monospace, "SF Mono", Consolas, monospace;
+    color: var(--accent); font-size: 15px; font-weight: 600;
+  }
+  section > .section-note { color: var(--muted); font-size: 14px; margin: 0 0 22px; }
+  h3 {
+    font-size: 15.5px; font-weight: 700; margin: 28px 0 12px;
+    color: var(--ink);
+  }
+  h3 .num { color: var(--faint); font-family: ui-monospace, "SF Mono", Consolas, monospace; font-weight: 600; margin-right: 6px; font-size: 13px; }
+  p { margin: 0 0 14px; }
+  ul.plain { margin: 0 0 14px; padding-left: 1.3em; }
+  ul.plain li { margin-bottom: 4px; }
+
+  /* ---------- Tables ---------- */
+  .table-wrap { overflow-x: auto; margin: 0 0 20px; }
+  table {
+    width: 100%; border-collapse: collapse; font-size: 14px;
+    background: var(--surface); border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+  }
+  caption { caption-side: top; text-align: left; font-size: 12px; color: var(--faint); margin-bottom: 8px; font-family: ui-monospace, "SF Mono", Consolas, monospace; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  thead th {
+    background: var(--surface-2); font-size: 12px; letter-spacing: .04em;
+    color: var(--muted); font-weight: 600; text-transform: uppercase;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td code, .field-name { font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: 13px; color: var(--ink); background: var(--surface-2); padding: 1px 6px; border-radius: 4px; }
+  .req-yes { color: var(--accent); font-weight: 700; }
+
+  /* ---------- Callouts ---------- */
+  .decision {
+    background: var(--accent-soft); border: 1px solid var(--accent-soft-border);
+    border-radius: 8px; padding: 14px 18px; margin: 0 0 20px;
+  }
+  .decision .tag {
+    font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: 11px;
+    letter-spacing: .08em; text-transform: uppercase; color: var(--accent);
+    display: block; margin-bottom: 6px; font-weight: 700;
+  }
+  .decision p:last-child { margin-bottom: 0; }
+  .decision p { color: var(--ink); font-size: 14px; }
+
+  /* ---------- Role cards ---------- */
+  .role-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 0 0 20px; }
+  @media (max-width: 620px) { .role-grid { grid-template-columns: 1fr; } }
+  .role-card { border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; background: var(--surface); }
+  .role-card h4 { margin: 0 0 12px; font-size: 14.5px; display: flex; align-items: center; gap: 8px; }
+  .role-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+  .role-dot.user { background: var(--accent); }
+  .role-dot.approver { background: var(--status-approved); }
+  .role-card ul { margin: 0; padding-left: 1.2em; font-size: 14px; color: var(--muted); }
+  .role-card li { margin-bottom: 5px; }
+
+  /* ---------- Status pill ---------- */
+  .pill { display: inline-flex; align-items: center; font-size: 12.5px; font-weight: 600; padding: 3px 10px; border-radius: 99px; }
+  .pill.draft { color: var(--status-draft); background: var(--status-draft-bg); }
+  .pill.pending { color: var(--status-pending); background: var(--status-pending-bg); }
+  .pill.approved { color: var(--status-approved); background: var(--status-approved-bg); }
+  .pill.rejected { color: var(--status-rejected); background: var(--status-rejected-bg); }
+
+  /* ---------- Figures / diagrams ---------- */
+  figure { margin: 24px 0 28px; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+  figure svg { width: 100%; height: auto; display: block; }
+  figcaption { font-size: 12.5px; color: var(--faint); margin-top: 12px; text-align: center; }
+  .diagram-text { fill: currentColor; font-family: "Hiragino Sans", "Yu Gothic UI", "Noto Sans JP", sans-serif; }
+  .diagram-label { fill: currentColor; font-family: ui-monospace, "SF Mono", Consolas, monospace; }
+
+  /* ---------- Formula block ---------- */
+  .formula {
+    font-family: ui-monospace, "SF Mono", Consolas, monospace; font-size: 13px;
+    background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px;
+    padding: 14px 16px; overflow-x: auto; color: var(--ink); margin: 0 0 18px;
+    white-space: pre;
+  }
+
+  footer { grid-column: 2; margin-top: 72px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--faint); font-size: 12.5px; }
+  @media (max-width: 900px) { footer { grid-column: 1; } }
+</style>
+
+<div class="shell">
+  <nav class="toc" aria-label="目次">
+    <p class="toc-label">目次</p>
+    <ol>
+      <li><a href="#s1"><span class="num">01</span>概要</a></li>
+      <li><a href="#s2"><span class="num">02</span>システム構成</a></li>
+      <li><a href="#s3"><span class="num">03</span>アクター</a></li>
+      <li><a href="#s4"><span class="num">04</span>画面一覧</a></li>
+      <li><a href="#s5"><span class="num">05</span>画面仕様</a></li>
+      <li><a href="#s6"><span class="num">06</span>ステータス</a></li>
+      <li><a href="#s7"><span class="num">07</span>データ設計</a></li>
+      <li><a href="#s8"><span class="num">08</span>権限制御</a></li>
+      <li><a href="#s9"><span class="num">09</span>承認履歴</a></li>
+      <li><a href="#s10"><span class="num">10</span>Power Automate</a></li>
+      <li><a href="#s11"><span class="num">11</span>UI要件</a></li>
+      <li><a href="#s12"><span class="num">12</span>非機能要件</a></li>
+    </ol>
+  </nav>
+
+  <header class="doc-head">
+    <p class="eyebrow">要求仕様書 &middot; v1.1</p>
+    <h1>簡易承認申請アプリ</h1>
+    <p class="lede">
+      ユーザーが申請を登録し、承認者が承認・差戻しを行うシンプルな承認アプリケーション。
+      Power Apps Canvas Appを対象としたサンプルアプリとして作成し、Power Platform開発
+      およびAI開発(Canvas Apps MCP、Solutionソース編集)の検証用途とする。
+    </p>
+    <div class="chips">
+      <span class="chip">Power Apps Canvas App</span>
+      <span class="chip">SharePoint Lists</span>
+      <span class="chip">Power Automate (任意)</span>
+    </div>
+    <hr>
+  </header>
+
+  <main>
+
+    <section id="s1">
+      <h2><span class="num">01</span>概要</h2>
+      <p>
+        本アプリは、ユーザーが申請を登録し、承認者が承認・差戻しを行うシンプルな承認アプリケーションである。
+        Power Apps Canvas Appを対象としたサンプルアプリとして作成し、Power Platform開発およびAI開発
+        (Canvas Apps MCP、Solutionソース編集)の検証用途とする。
+      </p>
+    </section>
+
+    <section id="s2">
+      <h2><span class="num">02</span>システム構成</h2>
+      <ul class="plain">
+        <li>Power Apps Canvas App</li>
+        <li>SharePoint Lists(データ保存先)</li>
+        <li>Power Automate(通知処理:任意)</li>
+      </ul>
+    </section>
+
+    <section id="s3">
+      <h2><span class="num">03</span>アクター</h2>
+      <div class="role-grid">
+        <div class="role-card">
+          <h4><span class="role-dot user"></span>3.1&nbsp;一般ユーザー</h4>
+          <ul>
+            <li>一覧参照</li>
+            <li>詳細参照</li>
+            <li>新規申請</li>
+            <li>一時保存</li>
+            <li>申請</li>
+            <li>申請取消(申請中のみ)</li>
+          </ul>
+        </div>
+        <div class="role-card">
+          <h4><span class="role-dot approver"></span>3.2&nbsp;承認者</h4>
+          <ul>
+            <li>一覧参照</li>
+            <li>詳細参照</li>
+            <li>承認</li>
+            <li>差戻し</li>
+            <li>コメント入力</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="s4">
+      <h2><span class="num">04</span>画面一覧</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:60px">No</th><th>画面名</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">1</td><td>申請一覧画面</td></tr>
+            <tr><td class="mono">2</td><td>申請登録画面</td></tr>
+            <tr><td class="mono">3</td><td>申請詳細画面</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure>
+        <svg viewBox="0 0 720 220" role="img" aria-label="申請一覧画面を中心に、新規申請で登録画面へ、行クリックで詳細画面へ遷移し、それぞれキャンセルまたは戻る操作で一覧画面へ戻る画面遷移図">
+          <defs>
+            <marker id="arrow1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+          <!-- List screen (hub) -->
+          <rect x="300" y="82" width="120" height="56" rx="6" fill="none" stroke="var(--accent)" stroke-width="1.6"/>
+          <text x="360" y="106" text-anchor="middle" class="diagram-text" font-size="13" font-weight="700">申請一覧</text>
+          <text x="360" y="123" text-anchor="middle" class="diagram-text" font-size="11" opacity=".65">画面</text>
+
+          <!-- Register screen -->
+          <rect x="40" y="20" width="120" height="56" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+          <text x="100" y="44" text-anchor="middle" class="diagram-text" font-size="13" font-weight="700">申請登録</text>
+          <text x="100" y="61" text-anchor="middle" class="diagram-text" font-size="11" opacity=".65">画面</text>
+
+          <!-- Detail screen -->
+          <rect x="560" y="20" width="120" height="56" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+          <text x="620" y="44" text-anchor="middle" class="diagram-text" font-size="13" font-weight="700">申請詳細</text>
+          <text x="620" y="61" text-anchor="middle" class="diagram-text" font-size="11" opacity=".65">画面</text>
+
+          <!-- List -> Register -->
+          <line x1="300" y1="95" x2="162" y2="58" stroke="currentColor" stroke-width="1.2" marker-end="url(#arrow1)"/>
+          <text x="215" y="68" text-anchor="middle" class="diagram-label" font-size="10.5">新規申請</text>
+          <!-- Register -> List -->
+          <line x1="152" y1="76" x2="305" y2="122" stroke="currentColor" stroke-width="1.2" marker-end="url(#arrow1)"/>
+          <text x="215" y="118" text-anchor="middle" class="diagram-label" font-size="10.5">申請 / 一時保存 / キャンセル</text>
+
+          <!-- List -> Detail -->
+          <line x1="420" y1="95" x2="558" y2="58" stroke="currentColor" stroke-width="1.2" marker-end="url(#arrow1)"/>
+          <text x="505" y="68" text-anchor="middle" class="diagram-label" font-size="10.5">行クリック</text>
+          <!-- Detail -> List -->
+          <line x1="568" y1="76" x2="425" y2="122" stroke="currentColor" stroke-width="1.2" marker-end="url(#arrow1)"/>
+          <text x="505" y="118" text-anchor="middle" class="diagram-label" font-size="10.5">戻る / 承認 / 差戻し / 取消</text>
+
+          <text x="360" y="190" text-anchor="middle" class="diagram-text" font-size="11" opacity=".6">申請一覧画面がハブとなり、登録・詳細の各画面と行き来する</text>
+        </svg>
+        <figcaption>画面遷移: 申請一覧画面を中心に、登録・詳細画面へ分岐して戻る</figcaption>
+      </figure>
+    </section>
+
+    <section id="s5">
+      <h2><span class="num">05</span>画面仕様</h2>
+
+      <h3><span class="num">5.1</span>申請一覧画面</h3>
+      <p style="margin-bottom:6px; font-size:13px; color:var(--muted);">表示項目</p>
+      <div class="chips" style="margin-bottom:16px;">
+        <span class="chip">タイトル</span><span class="chip">申請者</span><span class="chip">申請日</span>
+        <span class="chip">更新日</span><span class="chip">ステータス</span>
+      </div>
+      <ul class="plain">
+        <li>一覧表示</li>
+        <li>タイトル検索</li>
+        <li>ステータス絞り込み</li>
+        <li>詳細画面遷移</li>
+        <li>新規登録画面遷移</li>
+      </ul>
+
+      <h3><span class="num">5.2</span>申請登録画面</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>入力項目</th><th style="width:80px">必須</th></tr></thead>
+          <tbody>
+            <tr><td>タイトル</td><td class="req-yes">〇</td></tr>
+            <tr><td>申請内容</td><td class="req-yes">〇</td></tr>
+            <tr><td>備考</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-bottom:6px; font-size:13px; color:var(--muted);">ボタン</p>
+      <div class="chips" style="margin-bottom:16px;">
+        <span class="chip">一時保存</span><span class="chip">申請</span><span class="chip">キャンセル</span>
+      </div>
+      <p style="margin-bottom:6px; font-size:13px; color:var(--muted);">入力チェック</p>
+      <ul class="plain">
+        <li>タイトル必須</li>
+        <li>申請内容必須</li>
+      </ul>
+
+      <h3><span class="num">5.3</span>申請詳細画面</h3>
+      <p style="margin-bottom:6px; font-size:13px; color:var(--muted);">表示項目</p>
+      <div class="chips" style="margin-bottom:18px;">
+        <span class="chip">タイトル</span><span class="chip">申請内容</span><span class="chip">備考</span>
+        <span class="chip">申請者</span><span class="chip">申請日</span><span class="chip">更新日</span>
+        <span class="chip">ステータス</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:140px">アクター</th><th>表示条件</th><th>利用可能機能</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>一般ユーザー</td>
+              <td>自分の申請のみ</td>
+              <td>申請取消(申請中のみ)</td>
+            </tr>
+            <tr>
+              <td>承認者</td>
+              <td>全件</td>
+              <td>承認 / 差戻し / コメント入力</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="s6">
+      <h2><span class="num">06</span>ステータス</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:140px">ステータス</th><th>説明</th></tr></thead>
+          <tbody>
+            <tr><td><span class="pill draft">未申請</span></td><td>一時保存状態</td></tr>
+            <tr><td><span class="pill pending">申請中</span></td><td>承認待ち</td></tr>
+            <tr><td><span class="pill approved">承認</span></td><td>承認完了</td></tr>
+            <tr><td><span class="pill rejected">差戻し</span></td><td>差戻し済み</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <figure>
+        <svg viewBox="0 0 720 260" role="img" aria-label="未申請から申請操作で申請中に移り、承認すれば承認、差戻せば差戻しに遷移し、差戻し後は編集して再申請すると未申請を経由せず直接申請中に戻る状態遷移図">
+          <defs>
+            <marker id="arrow2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+
+          <!-- 未申請 -->
+          <rect x="16" y="102" width="118" height="52" rx="6" fill="var(--status-draft-bg)" stroke="var(--status-draft)" stroke-width="1.4"/>
+          <text x="75" y="133" text-anchor="middle" class="diagram-text" font-size="13" font-weight="700" fill="var(--status-draft)">未申請</text>
+
+          <!-- 申請中 -->
+          <rect x="256" y="102" width="118" height="52" rx="6" fill="var(--status-pending-bg)" stroke="var(--status-pending)" stroke-width="1.4"/>
+          <text x="315" y="133" text-anchor="middle" class="diagram-text" font-size="13" font-weight="700" fill="var(--status-pending)">申請中</text>
+
+          <!-- 承認 -->
+          <rect x="560" y="24" width="118" height="52" rx="6" fill="var(--status-approved-bg)" stroke="var(--status-approved)" stroke-width="1.4"/>
+          <text x="619" y="55" text-anchor="middle" class="diagram-text" font-size="13" font-weight="700" fill="var(--status-approved)">承認</text>
+
+          <!-- 差戻し -->
+          <rect x="560" y="180" width="118" height="52" rx="6" fill="var(--status-rejected-bg)" stroke="var(--status-rejected)" stroke-width="1.4"/>
+          <text x="619" y="211" text-anchor="middle" class="diagram-text" font-size="13" font-weight="700" fill="var(--status-rejected)">差戻し</text>
+
+          <!-- 未申請 -> 申請中 -->
+          <line x1="134" y1="128" x2="254" y2="128" stroke="currentColor" stroke-width="1.3" marker-end="url(#arrow2)"/>
+          <text x="194" y="119" text-anchor="middle" class="diagram-label" font-size="11">申請</text>
+
+          <!-- 申請中 -> 承認 -->
+          <line x1="374" y1="110" x2="558" y2="58" stroke="currentColor" stroke-width="1.3" marker-end="url(#arrow2)"/>
+          <text x="466" y="75" text-anchor="middle" class="diagram-label" font-size="11">承認</text>
+
+          <!-- 申請中 -> 差戻し -->
+          <line x1="374" y1="146" x2="558" y2="198" stroke="currentColor" stroke-width="1.3" marker-end="url(#arrow2)"/>
+          <text x="466" y="188" text-anchor="middle" class="diagram-label" font-size="11">差戻し</text>
+
+          <!-- 差戻し -> 申請中 (loop back, curved) -->
+          <path d="M 560 218 C 420 250, 380 190, 340 156" fill="none" stroke="currentColor" stroke-width="1.3" marker-end="url(#arrow2)"/>
+          <text x="450" y="243" text-anchor="middle" class="diagram-label" font-size="11">編集して再申請</text>
+
+          <text x="16" y="248" class="diagram-text" font-size="10.5" opacity=".6">※ 再申請時は「未申請」を経由せず直接「申請中」に戻る(RequestDateは初回申請時のみセット)</text>
+        </svg>
+        <figcaption>ステータス遷移図</figcaption>
+      </figure>
+
+      <div class="decision">
+        <span class="tag">決定事項</span>
+        <p>
+          差戻し後、一般ユーザーが編集して再申請すると、「未申請」を経由せず直接「申請中」に戻る
+          (モックの履歴表示の動きに合わせる)。<code>RequestDate</code>(申請日)は初回の「申請」操作時のみセットし、
+          再申請時は更新しない(履歴上の初回申請日を保持する)。<code>UpdateDate</code>は操作の都度更新する。
+        </p>
+      </div>
+    </section>
+
+    <section id="s7">
+      <h2><span class="num">07</span>データ設計</h2>
+
+      <figure>
+        <svg viewBox="0 0 720 280" role="img" aria-label="T_Requestを中心に、T_RequestHistoryがRequestID列でT_RequestのIDを参照し、M_ApproversはCanvas App側の承認者判定にEmail照合で使われるデータモデル関連図">
+          <defs>
+            <marker id="arrow3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+            </marker>
+          </defs>
+
+          <!-- T_Request (center, primary) -->
+          <rect x="290" y="104" width="140" height="64" rx="6" fill="var(--accent-soft)" stroke="var(--accent)" stroke-width="1.6"/>
+          <text x="360" y="130" text-anchor="middle" class="diagram-label" font-size="13" font-weight="700" fill="var(--accent)">T_Request</text>
+          <text x="360" y="148" text-anchor="middle" class="diagram-text" font-size="10.5" opacity=".7">申請本体</text>
+
+          <!-- T_RequestHistory (below) -->
+          <rect x="270" y="222" width="180" height="52" rx="6" fill="none" stroke="currentColor" stroke-width="1.2"/>
+          <text x="360" y="245" text-anchor="middle" class="diagram-label" font-size="12.5" font-weight="700">T_RequestHistory</text>
+          <text x="360" y="262" text-anchor="middle" class="diagram-text" font-size="10.5" opacity=".7">承認履歴</text>
+
+          <!-- History -> Request -->
+          <line x1="360" y1="220" x2="360" y2="170" stroke="currentColor" stroke-width="1.3" marker-end="url(#arrow3)"/>
+          <text x="374" y="200" class="diagram-label" font-size="10.5">RequestID = T_Request.ID</text>
+
+          <!-- M_Approvers (top-left) -->
+          <rect x="40" y="20" width="160" height="52" rx="6" fill="none" stroke="currentColor" stroke-width="1.2" stroke-dasharray="4 3"/>
+          <text x="120" y="43" text-anchor="middle" class="diagram-label" font-size="12.5" font-weight="700">M_Approvers</text>
+          <text x="120" y="60" text-anchor="middle" class="diagram-text" font-size="10.5" opacity=".7">承認者マスター</text>
+
+          <!-- Approvers -> Request (dashed, role check) -->
+          <path d="M 200 58 C 260 80, 270 90, 292 118" fill="none" stroke="currentColor" stroke-width="1.1" stroke-dasharray="4 3" marker-end="url(#arrow3)"/>
+          <text x="185" y="95" class="diagram-label" font-size="10.5">承認者判定 (Email照合)</text>
+
+          <text x="360" y="26" text-anchor="middle" class="diagram-text" font-size="10.5" opacity=".55">Canvas App 側のロール判定</text>
+        </svg>
+        <figcaption>データモデル関連図: T_RequestHistoryはRequestIDでT_Requestを参照し、M_Approversはアプリ側の承認者判定にのみ使う</figcaption>
+      </figure>
+
+      <h3><span class="num">7.1</span>リスト名: T_Request</h3>
+      <p class="section-note">申請本体を保持するメインリスト。</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:150px">列名</th><th style="width:130px">型</th><th>備考</th></tr></thead>
+          <tbody>
+            <tr><td class="field-name">ID</td><td>自動採番</td><td>SharePointリスト標準の<code>ID</code>列をそのまま使う(カスタム列は不要)</td></tr>
+            <tr><td class="field-name">Title</td><td>1行テキスト</td><td>SharePointリスト標準の<code>Title</code>列を流用(表示名を「タイトル」に変更)</td></tr>
+            <tr><td class="field-name">RequestBody</td><td>複数行テキスト</td><td>申請内容</td></tr>
+            <tr><td class="field-name">Remarks</td><td>複数行テキスト</td><td>備考(任意項目)</td></tr>
+            <tr><td class="field-name">Status</td><td>選択肢(Choice)</td><td>未申請 / 申請中 / 承認 / 差戻し。既定値は「未申請」</td></tr>
+            <tr><td class="field-name">Applicant</td><td>Person</td><td>申請者。新規作成時に<code>User()</code>から自動セット</td></tr>
+            <tr><td class="field-name">RequestDate</td><td>日付と時刻</td><td>初回「申請」操作時のみセット(6章参照)。一時保存中は空</td></tr>
+            <tr><td class="field-name">UpdateDate</td><td>日付と時刻</td><td><code>Patch</code>のたびに<code>Now()</code>で更新</td></tr>
+            <tr><td class="field-name">ApprovalComment</td><td>複数行テキスト</td><td>承認者が入力するコメント</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3><span class="num">7.2</span>リスト名: M_Approvers <span style="font-weight:400; color:var(--muted); font-size:13px;">(新規・承認者マスター)</span></h3>
+      <div class="decision">
+        <span class="tag">決定事項</span>
+        <p>「承認者」ロールをアプリ側で判定するための専用マスターリストとして、マスターリスト方式を採用する。</p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:150px">列名</th><th style="width:130px">型</th><th>備考</th></tr></thead>
+          <tbody>
+            <tr><td class="field-name">ID</td><td>自動採番</td><td></td></tr>
+            <tr><td class="field-name">ApproverUser</td><td>Person</td><td>承認者本人</td></tr>
+            <tr><td class="field-name">IsActive</td><td>Yes/No</td><td>既定Yes。異動などで無効化する場合に使う(行を削除せず「No」にする)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-bottom:0; font-size:14px; color:var(--muted);">承認者判定は、Canvas App側で以下のような式で行う:</p>
+      <div class="formula">!IsBlank(LookUp(M_Approvers, ApproverUser.Email = User().Email && IsActive = true))</div>
+    </section>
+
+    <section id="s8">
+      <h2><span class="num">08</span>権限制御</h2>
+      <div class="decision">
+        <span class="tag">決定事項</span>
+        <p>
+          SharePoint側のアイテムレベル権限分割は行わず、アプリ側(Power Fx)のみで制御する。
+          SharePointリスト自体は関係者全員がフルアクセス可能な状態のままとし、Canvas App側の
+          フィルタ条件・DisplayMode・ボタンのVisible制御で権限を実現する。
+          デモ/検証用途のスコープであり、SharePointへの直接アクセスに対する厳密なセキュリティ
+          境界は設けない(本番運用に昇格する際は要再検討)。
+        </p>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:150px"></th><th>一般ユーザー</th><th>承認者</th></tr></thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:600;">参照範囲</td>
+              <td>自分の申請 + 他人の申請(参照のみ)</td>
+              <td>全件参照可能</td>
+            </tr>
+            <tr>
+              <td style="font-weight:600;">編集可否</td>
+              <td>自分の申請のみ編集可能(<code>Applicant.Email = User().Email</code>)。承認済は編集不可</td>
+              <td>承認 / 差戻しが可能(<code>M_Approvers</code>登録済 かつ <code>IsActive = true</code>のみ)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="s9">
+      <h2><span class="num">09</span>承認履歴</h2>
+      <div class="decision">
+        <span class="tag">決定事項</span>
+        <p>実装スコープに含める(仕様書初版の「オプション」扱いを解除)。</p>
+      </div>
+      <h3>リスト名: T_RequestHistory</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:150px">列名</th><th style="width:150px">型</th><th>備考</th></tr></thead>
+          <tbody>
+            <tr><td class="field-name">ID</td><td>自動採番</td><td></td></tr>
+            <tr><td class="field-name">RequestID</td><td>数値(Number)</td><td>T_RequestのIDを直接格納する。仕様書初版ではLookup型としていたが、Canvas Appsとの相性(委任・パフォーマンス)を考慮し数値型に変更</td></tr>
+            <tr><td class="field-name">ActionUser</td><td>Person</td><td>操作者</td></tr>
+            <tr><td class="field-name">ActionType</td><td>選択肢(Choice)</td><td>一時保存 / 申請 / 承認 / 差戻し / 取消</td></tr>
+            <tr><td class="field-name">Comment</td><td>複数行テキスト</td><td></td></tr>
+            <tr><td class="field-name">ActionDate</td><td>日付と時刻</td><td></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="margin-bottom:0; font-size:14px; color:var(--muted);">詳細画面の履歴セクションは、以下をActionDate昇順で表示する想定:</p>
+      <div class="formula">Filter(T_RequestHistory, RequestID = ThisRequestID)</div>
+    </section>
+
+    <section id="s10">
+      <h2><span class="num">10</span>Power Automate <span style="font-weight:400; color:var(--muted); font-size:14px;">(オプション)</span></h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th style="width:160px">トリガー</th><th>通知内容</th></tr></thead>
+          <tbody>
+            <tr><td>申請時</td><td>承認者へTeams通知またはメール通知を送信する</td></tr>
+            <tr><td>承認時</td><td>申請者へ承認通知を送信する</td></tr>
+            <tr><td>差戻し時</td><td>申請者へ差戻し通知を送信する</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="s11">
+      <h2><span class="num">11</span>UI要件</h2>
+      <ul class="plain">
+        <li>モダンコントロールを利用する</li>
+        <li>レスポンシブレイアウトを採用する</li>
+        <li>画面全体はContainerを利用して構築する</li>
+        <li>一覧画面はGalleryを利用する</li>
+        <li>ステータスはBadge表示とする</li>
+        <li>必須項目は視覚的に判別できるようにする</li>
+        <li>ボタン配置は画面右下へ統一する</li>
+      </ul>
+    </section>
+
+    <section id="s12">
+      <h2><span class="num">12</span>非機能要件</h2>
+      <ul class="plain">
+        <li>可読性を重視したPower Fxを実装する</li>
+        <li>命名規則を統一する</li>
+        <li>将来的な機能追加を考慮した構成とする</li>
+        <li>AIによる保守・リファクタリングが容易な構造とする</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer>簡易承認申請アプリ 要求仕様書 &middot; powerplatform-lab</footer>
+</div>

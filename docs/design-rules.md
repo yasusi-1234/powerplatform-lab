@@ -76,12 +76,12 @@ let approve = (request) => { patchList(request); console.log("approved"); }
 
 ```powerfx
 # ❌ 波カッコが無いとエラーになる(Studioで実機確認済み)
-ApproveRequest(request: Record): Void =
-    Patch(T_Request, request, {Status: "承認"});
+ApproveRequest(requestID: Number): Void =
+    Patch(T_Request, LookUp(T_Request, ID = requestID), {Status: "承認"});
 
 # ✅ 波カッコで囲むと通る
-ApproveRequest(request: Record): Void = {
-    Patch(T_Request, request, {Status: "承認"});
+ApproveRequest(requestID: Number): Void = {
+    Patch(T_Request, LookUp(T_Request, ID = requestID), {Status: "承認"});
 };
 ```
 
@@ -121,18 +121,80 @@ Func3({b: ""})  // → aを渡していないが型エラーにならず、"空�
 (新規作成直後で`ApprovalComment`が空、等)をそのまま関数に渡しても、型不一致で
 落ちる心配はない。`IsBlank()`で安全に判定できる。
 
+**実機で確認済み(重要): Record型引数は、宣言した列と`完全一致`が必要。
+列が多い分にも寛容ではない。** `T_Request`(9列)のような実データソースの
+レコードを、一部の列だけ定義した型(例: `{Title: Text}`)の引数にそのまま
+渡すと、「引数の型が無効です。入力Record値には、予期しない追加フィールド
+'○○'が含まれています」というエラーになる。つまり**「関数が使う列だけ
+定義すれば、渡す側は気にしなくていい」というのは成立しない。** 実データ
+ソースのレコードを渡す関数を作る場合、以下のいずれかで対応する:
+
+```powerfx
+# 方法A: 呼び出し側でShowColumnsを使い、型に合わせて列を絞ってから渡す
+# (既にレコードを持っている場合。Galleryの ThisItem など)
+ApproveRequest(ShowColumns(First(T_Request), Title));
+
+# 方法B: レコードそのものではなく ID(数値)を渡し、関数内で LookUp し直す
+# (常に最新のレコードを関数内で取得できる。呼び出し側はIDだけ知っていればよい)
+ApproveRequest(request: Number): Void = {
+    Patch(T_Request, LookUp(T_Request, ID = request), {Status: "承認", UpdateDate: Now()});
+};
+ApproveRequest(ThisItem.ID);
+```
+
+方法Aは呼び出し側が既にレコードを持っていて追加の読み込みを避けたい場合、
+方法Bは常に最新の状態を関数内で保証したい場合に向いている。状況に応じて
+使い分ける。
+
+**設計メモ: 監査ログは「値の差分」ではなく「一言コメント」を記録する。**
+検討の過程で「更新前/更新後の値を比較してコメントを自動生成する」という
+案も出たが、それだとフィールドが増減するたびに関数の型定義まで直す必要が
+出てきて、関数化する意味が薄れてしまう。モック(詳細画面の履歴セクション)
+で実際に表示していたのも「申請 山田太郎 - 申請を行いました」のような
+**アクションごとの一言コメント**であり、フィールド単位の差分ではない。
+この方針であればRecord型を一切使わず、スカラー値(`Number`/`Text`)だけで
+済むため、フィールドの増減に影響されない安定した関数になる。
+
+```powerfx
+// 監査ログはrequestID・種別・一言コメントの3つだけ。Record型は登場しない
+LogRequestAction(requestID: Number, actionType: Text, comment: Text): Void = {
+    Patch(T_RequestHistory, Defaults(T_RequestHistory), {
+        RequestID: requestID,
+        ActionUser: User().FullName,
+        ActionType: actionType,
+        Comment: comment,
+        ActionDate: Now()
+    });
+};
+
+ApproveRequest(requestID: Number, comment: Text): Void = {
+    Patch(T_Request, LookUp(T_Request, ID = requestID), {Status: "承認", UpdateDate: Now()});
+    LogRequestAction(requestID, "承認", comment);
+};
+
+RejectRequest(requestID: Number, comment: Text): Void = {
+    Patch(T_Request, LookUp(T_Request, ID = requestID), {Status: "差戻し", UpdateDate: Now()});
+    LogRequestAction(requestID, "差戻し", comment);
+};
+```
+
 ### 2.3 現状の仕様から拾った具体的な候補
 
 | 関数名(案) | 種別 | 用途 | 現状の記述(重複予定箇所) |
 |---|---|---|---|
 | `IsApprover(email: Text): Boolean` | 数式関数 | ログインユーザーが承認者かどうか判定 | `!IsBlank(LookUp(M_Approvers, ApproverUser.Email = email && IsActive = true))`(要求仕様書7.2に既出) |
-| `IsOwnRequest(request: Record): Boolean` | 数式関数 | 自分の申請かどうか判定 | `request.Applicant.Email = User().Email` |
-| `CanEditRequest(request: Record): Boolean` | 数式関数 | 編集可能かどうか(自分の申請 かつ 承認済でない) | `IsOwnRequest(request) && request.Status <> "承認"` |
+| `IsOwnRequest(applicantEmail: Text): Boolean` | 数式関数 | 自分の申請かどうか判定 | `applicantEmail = User().Email` |
+| `CanEditRequest(applicantEmail: Text, status: Text): Boolean` | 数式関数 | 編集可能かどうか(自分の申請 かつ 承認済でない) | `IsOwnRequest(applicantEmail) && status <> "承認"` |
 | `StatusColor(status: Text): Color` | 数式関数 | ステータス文字列 → Badgeの`ThemeColor`変換 | 一覧/詳細/登録画面で4回重複している`Switch(Status, "承認", ..., "差戻し", ...)` |
 | `FormatRequestDate(dateValue: DateTime): Text` | 数式関数 | 日時表示フォーマットの統一 | 各画面でバラバラに書きそうな日付整形 |
-| `ApproveRequest(request: Record)` | ビヘイビア関数 | 承認処理(`T_Request`更新 + `T_RequestHistory`追記) | `ApproveButton.OnSelect` |
-| `RejectRequest(request: Record, comment: Text)` | ビヘイビア関数 | 差戻し処理(同上) | `RejectButton.OnSelect` |
-| `SubmitRequest(request: Record, isDraft: Boolean)` | ビヘイビア関数 | 一時保存/申請処理(`RequestDate`の初回のみセットするロジックを含む) | `SaveDraftButton`/`SubmitButton`の`OnSelect` |
+| `LogRequestAction(requestID: Number, actionType: Text, comment: Text)` | ビヘイビア関数 | `T_RequestHistory`への履歴追記(全アクション共通) | `ApproveButton`/`RejectButton`/`SubmitButton`等から共通で呼ぶ |
+| `ApproveRequest(requestID: Number, comment: Text)` | ビヘイビア関数 | 承認処理(`T_Request`更新 + `LogRequestAction`呼び出し) | `ApproveButton.OnSelect` |
+| `RejectRequest(requestID: Number, comment: Text)` | ビヘイビア関数 | 差戻し処理(同上) | `RejectButton.OnSelect` |
+| `SubmitRequest(requestID: Number, isDraft: Boolean)` | ビヘイビア関数 | 一時保存/申請処理(`RequestDate`の初回のみセットするロジックを含む) | `SaveDraftButton`/`SubmitButton`の`OnSelect` |
+
+数式関数はレコードをまるごと受け取らず、必要な値(`Text`/`Number`等の
+スカラー)だけを引数にする方針にする(2.2の「Record型引数は完全一致必須」
+の制約を踏まえた実践的な結論)。
 
 命名はPower Fx組み込み関数に合わせてPascalCase、真偽値を返す数式関数は
 `Is`/`Can`から始める。ビヘイビア関数は動詞から始める(`Approve`/`Reject`/`Submit`)。

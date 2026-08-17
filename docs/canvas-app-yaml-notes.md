@@ -422,14 +422,22 @@ RowTitle:
 (2〜3個程度・単発の行では問題は再現していない)、**列数が多いテーブル的な
 レイアウトでは信頼しすぎない方がよい**、というのが現時点の結論。
 
-## 9. `ModernDropdown`には`Placeholder`プロパティが存在しない
+## 9. `ModernDropdown`には`Placeholder`プロパティが存在しない/`ItemDisplayText`は使うな
 
 `ModernTextInput`/`ModernDatePicker`には`Placeholder`プロパティがあるが、
 **`ModernDropdown`には存在しない**(`describe_control`で確認済み)。未選択状態を
 「すべて」のような初期表示にしたい場合は、`Placeholder`ではなく**`Default`
 プロパティにレコードを渡す**。
 
+**⚠️ 過去にここに載っていた以下の例は誤り。実機でハマったので訂正する
+(2026-08-16、簡易承認アプリのループエンジニアリングで発覚)。**
+
 ```yaml
+# ❌ これは compile_canvas は通るが、実機(Playモード)では全選択肢が
+# 「Value」という文字列(=ItemDisplayTextの値そのもの)で表示され、
+# 選択している値によらず同じ文字が並ぶ。ダブルクォートで囲むと
+# Power Fxの文字列リテラルになってしまい、フィールド名の「参照」には
+# ならないため。
 StatusDropdown:
   Control: ModernDropdown
   Properties:
@@ -439,6 +447,46 @@ StatusDropdown:
       =Table({Value: "すべてのステータス"}, {Value: "承認"})
     ItemDisplayText: ="Value"
 ```
+
+クォートを外して`ItemDisplayText: =Value`(参照)にすると、今度は
+`compile_canvas`が`名前が無効です。'Value' は認識されません。`でエラーになる。
+`ItemDisplayText`はアイテムごとのスコープを持たず、単一の固定Text値しか
+受け付けないプロパティらしく、**「選択中の行によって表示テキストを変える」
+という目的には使えない**(用途不明。使わないのが無難)。
+
+**⚠️ さらに訂正(同日中に発覚): `Dropdown`(クラシック相当)への回避策も不採用に。**
+`Dropdown`は内部的に素の`<select>`としてレンダリングされるため、`Items`の`Value`列は
+正しく表示されるが、**ブラウザのネイティブUIになるため、同じ画面内の`ModernTextInput`/
+`ModernDatePicker`(Fluentのカスタム描画)と見た目(角丸・境界線・フォント・高さの
+詰まり方)が明確にズレる**。加えて、ユーザー環境のPlayモードで**この`Dropdown`だけが
+描画されない**という再現も報告された(ネイティブ`<select>`とPower Appsのカスタム
+レイアウトエンジンの相性問題とみられる。原因は未特定)。
+
+**最終的な回避策: `ComboBox`(FluentV9系)を使う。** こちらも`Dropdown`と同じく
+`Items`の`Value`列を自動的に表示テキストに使う規約を持ちながら、`ModernTextInput`等と
+同じFluentカスタム描画のため見た目が統一され、実機でも問題なく表示されることを確認済み
+(2026-08-16、簡易承認アプリ)。
+
+```yaml
+# ✅ 実機で正しく表示され、周囲のFluent系インプットと見た目も統一されることを確認済み
+StatusDropdown:
+  Control: ComboBox
+  Properties:
+    Appearance: ='ComboboxCanvas.Appearance'.Outline
+    IsSearchable: =false
+    DefaultSelectedItems: |-
+      =Table({Value: "すべてのステータス"})
+    Items: |-
+      =Table(
+        {Value: "すべてのステータス"},
+        {Value: "承認"}
+      )
+```
+
+**教訓**: 選択肢系コントロール(Dropdown/ComboBox/ModernDropdown)で悩んだら、まず
+`ComboBox`(`IsSearchable: =false`で検索バー無し)を第一候補にする。ネイティブHTML
+要素にフォールバックする`Dropdown`は、機能的には動いても**見た目とレンダリング安定性の
+リスクがある**ため避ける。
 
 また、`ModernTextInput`の`Type: =TextInputType.Search`(検索アイコン付き)を
 指定すると、実機で`Placeholder`のテキストが表示されない(見た目上、入力欄が

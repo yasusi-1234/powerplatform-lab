@@ -1,4 +1,4 @@
 App:
   Properties:
-    Theme: =PowerAppsTheme
     StartScreen: =RequestListScreen
+    Theme: =PowerAppsTheme

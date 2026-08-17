@@ -9,26 +9,26 @@ Screens:
           Variant: AutoLayout
           Properties:
             DropShadow: =DropShadow.None
+            Height: =Parent.Height
             LayoutDirection: =LayoutDirection.Vertical
             Width: =Parent.Width
-            Height: =Parent.Height
           Children:
             - grpHeaderDtl:
                 Control: GroupContainer
                 Variant: AutoLayout
                 Properties:
                   DropShadow: =DropShadow.None
+                  Fill: =RGBA(79, 70, 229, 1)
                   FillPortions: =0
+                  Height: =64
+                  LayoutAlignItems: =LayoutAlignItems.Center
+                  LayoutDirection: =LayoutDirection.Horizontal
+                  LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
                   LayoutMinHeight: =0
                   LayoutMinWidth: =0
-                  LayoutDirection: =LayoutDirection.Horizontal
-                  LayoutAlignItems: =LayoutAlignItems.Center
-                  LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
-                  Width: =Parent.Width
-                  Height: =64
-                  Fill: =RGBA(79, 70, 229, 1)
                   PaddingLeft: =24
                   PaddingRight: =24
+                  Width: =Parent.Width
                 Children:
                   - grpHeaderLeftDtl:
                       Control: GroupContainer
@@ -36,139 +36,128 @@ Screens:
                       Properties:
                         DropShadow: =DropShadow.None
                         FillPortions: =0
-                        LayoutMinHeight: =0
-                        AlignInContainer: =AlignInContainer.Stretch
-                        LayoutDirection: =LayoutDirection.Horizontal
                         LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
                         LayoutGap: =12
+                        LayoutMinHeight: =0
                       Children:
                         - HeaderLogoIconDtl:
                             Control: ModernIcon
                             Properties:
-                              FillPortions: =0
-                              LayoutMinHeight: =0
                               AlignInContainer: =AlignInContainer.Center
-                              Width: =28
                               Height: =28
                               Icon: ="DocumentBulletList"
                               IconColor: =RGBA(255, 255, 255, 1)
+                              LayoutMinHeight: =0
+                              Width: =28
                         - HeaderAppTitleDtl:
                             Control: ModernText
                             Properties:
-                              PaddingTop: =0
+                              AlignInContainer: =AlignInContainer.Center
+                              Color: =RGBA(255, 255, 255, 1)
+                              FontWeight: =FontWeight.Semibold
+                              Height: =28
+                              LayoutMinHeight: =0
                               PaddingBottom: =0
                               PaddingLeft: =0
                               PaddingRight: =0
-                              FillPortions: =0
-                              LayoutMinHeight: =0
-                              AlignInContainer: =AlignInContainer.Center
-                              Width: =280
-                              Height: =28
-                              Text: ="簡易承認申請アプリ"
-                              Color: =RGBA(255, 255, 255, 1)
+                              PaddingTop: =0
                               Size: =17
-                              FontWeight: =FontWeight.Semibold
-                              VerticalAlign: =VerticalAlign.Middle
+                              Text: ="簡易承認申請アプリ"
+                              Width: =280
                   - grpHeaderRightDtl:
                       Control: GroupContainer
                       Variant: AutoLayout
                       Properties:
                         DropShadow: =DropShadow.None
                         FillPortions: =0
-                        LayoutMinHeight: =0
-                        AlignInContainer: =AlignInContainer.Stretch
-                        LayoutDirection: =LayoutDirection.Horizontal
                         LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
                         LayoutGap: =12
+                        LayoutMinHeight: =0
                       Children:
                         - grpUserTextDtl:
                             Control: GroupContainer
                             Variant: AutoLayout
                             Properties:
+                              AlignInContainer: =AlignInContainer.Center
                               DropShadow: =DropShadow.None
                               FillPortions: =0
-                              LayoutMinHeight: =0
-                              AlignInContainer: =AlignInContainer.Center
-                              LayoutDirection: =LayoutDirection.Vertical
-                              LayoutAlignItems: =LayoutAlignItems.End
-                              Width: =120
                               Height: =40
+                              LayoutAlignItems: =LayoutAlignItems.End
+                              LayoutDirection: =LayoutDirection.Vertical
+                              LayoutMinHeight: =0
+                              Width: =120
                             Children:
                               - HeaderUserNameDtl:
                                   Control: ModernText
                                   Properties:
-                                    PaddingTop: =0
+                                    Align: =Align.Right
+                                    AlignInContainer: =AlignInContainer.Center
+                                    Color: =RGBA(255, 255, 255, 1)
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =20
+                                    LayoutMinHeight: =0
                                     PaddingBottom: =0
                                     PaddingLeft: =0
                                     PaddingRight: =0
-                                    FillPortions: =0
-                                    LayoutMinHeight: =0
-                                    AlignInContainer: =AlignInContainer.Center
-                                    Width: =120
-                                    Height: =20
-                                    Text: ="山田 太郎"
-                                    Color: =RGBA(255, 255, 255, 1)
+                                    PaddingTop: =0
                                     Size: =14
-                                    FontWeight: =FontWeight.Semibold
-                                    Align: =Align.Right
+                                    Text: ="山田 太郎"
+                                    Width: =120
                               - HeaderUserRoleDtl:
                                   Control: ModernText
                                   Properties:
-                                    PaddingTop: =0
+                                    Align: =Align.Right
+                                    AlignInContainer: =AlignInContainer.Center
+                                    Color: =RGBA(224, 222, 253, 1)
+                                    Height: =18
+                                    LayoutMinHeight: =0
                                     PaddingBottom: =0
                                     PaddingLeft: =0
                                     PaddingRight: =0
-                                    FillPortions: =0
-                                    LayoutMinHeight: =0
-                                    AlignInContainer: =AlignInContainer.Center
-                                    Width: =120
-                                    Height: =18
-                                    Text: ="一般ユーザー"
-                                    Color: =RGBA(224, 222, 253, 1)
+                                    PaddingTop: =0
                                     Size: =12
-                                    Align: =Align.Right
+                                    Text: ="一般ユーザー"
+                                    Width: =120
                         - grpAvatarWrapDtl:
                             Control: GroupContainer
                             Variant: ManualLayout
                             Properties:
+                              AlignInContainer: =AlignInContainer.Center
                               DropShadow: =DropShadow.None
                               FillPortions: =0
-                              LayoutMinHeight: =0
-                              AlignInContainer: =AlignInContainer.Center
-                              Width: =40
                               Height: =40
+                              LayoutMinHeight: =0
+                              Width: =40
                             Children:
                               - HeaderAvatarBgDtl:
                                   Control: Rectangle
                                   Properties:
-                                    X: =0
-                                    Y: =0
-                                    Width: =40
-                                    Height: =40
                                     Fill: =RGBA(255, 255, 255, 0.25)
-                                    BorderThickness: =0
+                                    Height: =40
+                                    Width: =40
                               - HeaderAvatarIconDtl:
                                   Control: ModernIcon
                                   Properties:
-                                    X: =10
-                                    Y: =10
-                                    Width: =20
                                     Height: =20
                                     Icon: ="Person"
                                     IconColor: =RGBA(255, 255, 255, 1)
+                                    Width: =20
+                                    X: =10
+                                    Y: =10
             - grpMainDtl:
                 Control: GroupContainer
                 Variant: AutoLayout
                 Properties:
                   DropShadow: =DropShadow.None
-                  FillPortions: =1
                   LayoutDirection: =LayoutDirection.Vertical
                   LayoutGap: =16
                   LayoutOverflowY: =LayoutOverflow.Scroll
+                  PaddingBottom: =32
                   PaddingLeft: =32
                   PaddingRight: =32
                   PaddingTop: =24
-                  PaddingBottom: =32
                 Children:
                   - grpBackRow:
                       Control: GroupContainer
@@ -176,83 +165,80 @@ Screens:
                       Properties:
                         DropShadow: =DropShadow.None
                         FillPortions: =0
-                        LayoutMinHeight: =0
-                        LayoutDirection: =LayoutDirection.Horizontal
-                        LayoutAlignItems: =LayoutAlignItems.Center
-                        LayoutGap: =10
                         Height: =24
+                        LayoutAlignItems: =LayoutAlignItems.Center
+                        LayoutDirection: =LayoutDirection.Horizontal
+                        LayoutGap: =10
+                        LayoutMinHeight: =0
                       Children:
                         - BackButton:
                             Control: Button
                             Properties:
-                              FillPortions: =0
-                              LayoutMinHeight: =0
-                              Width: =140
-                              Height: =24
-                              Text: ="申請一覧に戻る"
-                              Icon: ="ArrowLeft"
-                              Layout: ='ButtonCanvas.Layout'.IconBefore
                               Appearance: ='ButtonCanvas.Appearance'.Transparent
                               FontColor: =RGBA(79, 70, 229, 1)
                               FontSize: =14
-                              PaddingLeft: =0
+                              Height: =24
+                              Icon: ="ArrowLeft"
+                              Layout: ='ButtonCanvas.Layout'.IconBefore
+                              LayoutMinHeight: =0
                               OnSelect: =Navigate(RequestListScreen, ScreenTransition.Fade)
+                              PaddingLeft: =0
+                              Text: ="申請一覧に戻る"
+                              Width: =140
                         - SeparatorLabel:
                             Control: ModernText
                             Properties:
-                              PaddingTop: =0
+                              Color: =RGBA(209, 213, 219, 1)
+                              Height: =22
+                              LayoutMinHeight: =0
                               PaddingBottom: =0
                               PaddingLeft: =0
                               PaddingRight: =0
-                              FillPortions: =0
-                              LayoutMinHeight: =0
-                              Width: =12
-                              Height: =22
-                              Text: ="|"
-                              Color: =RGBA(209, 213, 219, 1)
+                              PaddingTop: =0
                               Size: =14
+                              Text: ="|"
+                              Width: =12
                         - DetailTitleLabel:
                             Control: ModernText
                             Properties:
-                              PaddingTop: =0
+                              Color: =RGBA(17, 24, 39, 1)
+                              FontWeight: =FontWeight.Semibold
+                              Height: =22
+                              LayoutMinHeight: =0
                               PaddingBottom: =0
                               PaddingLeft: =0
                               PaddingRight: =0
-                              FillPortions: =0
-                              LayoutMinHeight: =0
-                              Width: =120
-                              Height: =22
-                              Text: ="申請詳細"
-                              Color: =RGBA(17, 24, 39, 1)
+                              PaddingTop: =0
                               Size: =16
-                              FontWeight: =FontWeight.Semibold
+                              Text: ="申請詳細"
+                              Width: =120
                   - grpBodyRow:
                       Control: GroupContainer
                       Variant: AutoLayout
                       Properties:
                         DropShadow: =DropShadow.None
                         FillPortions: =0
-                        LayoutMinHeight: =0
+                        Height: =637
                         LayoutDirection: =LayoutDirection.Horizontal
                         LayoutGap: =24
+                        LayoutMinHeight: =0
                         Width: =Parent.Width
-                        Height: =637
                       Children:
                         - DetailCard:
                             Control: GroupContainer
                             Variant: AutoLayout
                             Properties:
                               DropShadow: =DropShadow.Semilight
+                              Fill: =RGBA(255, 255, 255, 1)
                               FillPortions: =2
-                              LayoutMinHeight: =0
+                              Height: =637
                               LayoutDirection: =LayoutDirection.Vertical
                               LayoutGap: =20
-                              Fill: =RGBA(255, 255, 255, 1)
-                              Height: =637
+                              LayoutMinHeight: =0
+                              PaddingBottom: =24
                               PaddingLeft: =24
                               PaddingRight: =24
                               PaddingTop: =24
-                              PaddingBottom: =24
                             Children:
                               - grpStatusRow:
                                   Control: GroupContainer
@@ -260,683 +246,645 @@ Screens:
                                   Properties:
                                     DropShadow: =DropShadow.None
                                     FillPortions: =0
-                                    LayoutMinHeight: =0
-                                    LayoutDirection: =LayoutDirection.Horizontal
-                                    LayoutAlignItems: =LayoutAlignItems.Center
-                                    LayoutGap: =12
                                     Height: =28
+                                    LayoutAlignItems: =LayoutAlignItems.Center
+                                    LayoutDirection: =LayoutDirection.Horizontal
+                                    LayoutGap: =12
+                                    LayoutMinHeight: =0
                                   Children:
                                     - DetailStatusBadge:
                                         Control: Badge
                                         Properties:
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
                                           AlignInContainer: =AlignInContainer.Center
-                                          Width: =70
-                                          Height: =26
-                                          Content: ="申請中"
                                           Appearance: ='BadgeCanvas.Appearance'.Tint
+                                          Content: ="申請中"
+                                          Height: =26
+                                          LayoutMinHeight: =0
                                           ThemeColor: ='BadgeCanvas.ThemeColor'.Warning
+                                          Width: =70
                                     - RequestIdLabel:
                                         Control: ModernText
                                         Properties:
-                                          PaddingTop: =0
+                                          AlignInContainer: =AlignInContainer.Center
+                                          Color: =RGBA(107, 114, 128, 1)
+                                          Height: =24
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          AlignInContainer: =AlignInContainer.Center
-                                          Width: =140
-                                          Height: =24
-                                          Text: ="申請ID:25"
-                                          Color: =RGBA(107, 114, 128, 1)
+                                          PaddingTop: =0
                                           Size: =13
+                                          Text: ="申請ID:25"
+                                          Width: =140
                               - grpFieldTitle:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
                                     DropShadow: =DropShadow.None
                                     FillPortions: =0
-                                    LayoutMinHeight: =0
+                                    Height: =44
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =4
-                                    Height: =44
+                                    LayoutMinHeight: =0
                                   Children:
                                     - FieldLabelTitle:
                                         Control: ModernText
                                         Properties:
-                                          PaddingTop: =0
+                                          Color: =RGBA(107, 114, 128, 1)
+                                          Height: =18
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width
-                                          Height: =18
-                                          Text: ="タイトル"
-                                          Color: =RGBA(107, 114, 128, 1)
+                                          PaddingTop: =0
                                           Size: =12
+                                          Text: ="タイトル"
+                                          Width: =Parent.Width
                                     - FieldValueTitle:
                                         Control: ModernText
                                         Properties:
-                                          PaddingTop: =0
+                                          Color: =RGBA(17, 24, 39, 1)
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =22
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width
-                                          Height: =22
+                                          PaddingTop: =0
                                           Text: ="出張申請(大阪営業所)"
-                                          Color: =RGBA(17, 24, 39, 1)
-                                          Size: =15
-                                          FontWeight: =FontWeight.Semibold
+                                          Width: =Parent.Width
                               - DividerAfterTitle:
                                   Control: Rectangle
                                   Properties:
-                                    FillPortions: =0
+                                    Fill: =RGBA(229, 231, 235, 1)
+                                    Height: =1
                                     LayoutMinHeight: =0
                                     Width: =Parent.Width - 48
-                                    Height: =1
-                                    Fill: =RGBA(229, 231, 235, 1)
                               - grpFieldContent:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
                                     DropShadow: =DropShadow.None
                                     FillPortions: =0
-                                    LayoutMinHeight: =0
+                                    Height: =90
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =4
-                                    Height: =90
+                                    LayoutMinHeight: =0
                                   Children:
                                     - FieldLabelContent:
                                         Control: ModernText
                                         Properties:
-                                          PaddingTop: =0
+                                          Color: =RGBA(107, 114, 128, 1)
+                                          Height: =18
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width
-                                          Height: =18
-                                          Text: ="申請内容"
-                                          Color: =RGBA(107, 114, 128, 1)
+                                          PaddingTop: =0
                                           Size: =12
+                                          Text: ="申請内容"
+                                          Width: =Parent.Width
                                     - FieldValueContent:
                                         Control: ModernText
                                         Properties:
-                                          PaddingTop: =0
+                                          Color: =RGBA(55, 65, 81, 1)
+                                          Height: =66
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width
-                                          Height: =66
-                                          Text: ="大阪営業所にて顧客との打ち合わせを実施するため、出張申請を行います。期間は2日間を予定しています。"
-                                          Color: =RGBA(55, 65, 81, 1)
+                                          PaddingTop: =0
                                           Size: =14
+                                          Text: ="大阪営業所にて顧客との打ち合わせを実施するため、出張申請を行います。期間は2日間を予定しています。"
+                                          Width: =Parent.Width
                               - DividerAfterContent:
                                   Control: Rectangle
                                   Properties:
-                                    FillPortions: =0
+                                    Fill: =RGBA(229, 231, 235, 1)
+                                    Height: =1
                                     LayoutMinHeight: =0
                                     Width: =Parent.Width - 48
-                                    Height: =1
-                                    Fill: =RGBA(229, 231, 235, 1)
                               - grpFieldRemarks:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
                                     DropShadow: =DropShadow.None
                                     FillPortions: =0
-                                    LayoutMinHeight: =0
+                                    Height: =70
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =4
-                                    Height: =70
+                                    LayoutMinHeight: =0
                                   Children:
                                     - FieldLabelRemarks:
                                         Control: ModernText
                                         Properties:
-                                          PaddingTop: =0
+                                          Color: =RGBA(107, 114, 128, 1)
+                                          Height: =18
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width
-                                          Height: =18
-                                          Text: ="備考"
-                                          Color: =RGBA(107, 114, 128, 1)
+                                          PaddingTop: =0
                                           Size: =12
+                                          Text: ="備考"
+                                          Width: =Parent.Width
                                     - FieldValueRemarks:
                                         Control: ModernText
                                         Properties:
-                                          PaddingTop: =0
+                                          Color: =RGBA(55, 65, 81, 1)
+                                          Height: =46
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width
-                                          Height: =46
-                                          Text: ="交通手段:新幹線 / 宿泊先:○○ホテル"
-                                          Color: =RGBA(55, 65, 81, 1)
+                                          PaddingTop: =0
                                           Size: =14
+                                          Text: ="交通手段:新幹線 / 宿泊先:○○ホテル"
+                                          Width: =Parent.Width
                               - DividerAfterRemarks:
                                   Control: Rectangle
                                   Properties:
-                                    FillPortions: =0
+                                    Fill: =RGBA(229, 231, 235, 1)
+                                    Height: =1
                                     LayoutMinHeight: =0
                                     Width: =Parent.Width - 48
-                                    Height: =1
-                                    Fill: =RGBA(229, 231, 235, 1)
                               - grpFieldApplicant:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
                                     DropShadow: =DropShadow.None
                                     FillPortions: =0
-                                    LayoutMinHeight: =0
+                                    Height: =44
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =4
-                                    Height: =44
+                                    LayoutMinHeight: =0
                                   Children:
                                     - FieldLabelApplicant:
                                         Control: ModernText
                                         Properties:
-                                          PaddingTop: =0
+                                          Color: =RGBA(107, 114, 128, 1)
+                                          Height: =18
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width
-                                          Height: =18
-                                          Text: ="申請者"
-                                          Color: =RGBA(107, 114, 128, 1)
+                                          PaddingTop: =0
                                           Size: =12
+                                          Text: ="申請者"
+                                          Width: =Parent.Width
                                     - FieldValueApplicant:
                                         Control: ModernText
                                         Properties:
-                                          PaddingTop: =0
+                                          Color: =RGBA(17, 24, 39, 1)
+                                          Height: =22
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width
-                                          Height: =22
-                                          Text: ="山田 太郎"
-                                          Color: =RGBA(17, 24, 39, 1)
+                                          PaddingTop: =0
                                           Size: =14
+                                          Text: ="山田 太郎"
+                                          Width: =Parent.Width
                               - DividerAfterApplicant:
                                   Control: Rectangle
                                   Properties:
-                                    FillPortions: =0
+                                    Fill: =RGBA(229, 231, 235, 1)
+                                    Height: =1
                                     LayoutMinHeight: =0
                                     Width: =Parent.Width - 48
-                                    Height: =1
-                                    Fill: =RGBA(229, 231, 235, 1)
                               - grpFieldRequestDate:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
                                     DropShadow: =DropShadow.None
                                     FillPortions: =0
-                                    LayoutMinHeight: =0
+                                    Height: =44
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =4
-                                    Height: =44
+                                    LayoutMinHeight: =0
                                   Children:
                                     - FieldLabelRequestDate:
                                         Control: ModernText
                                         Properties:
-                                          PaddingTop: =0
+                                          Color: =RGBA(107, 114, 128, 1)
+                                          Height: =18
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width
-                                          Height: =18
-                                          Text: ="申請日"
-                                          Color: =RGBA(107, 114, 128, 1)
+                                          PaddingTop: =0
                                           Size: =12
+                                          Text: ="申請日"
+                                          Width: =Parent.Width
                                     - FieldValueRequestDate:
                                         Control: ModernText
                                         Properties:
-                                          PaddingTop: =0
+                                          Color: =RGBA(17, 24, 39, 1)
+                                          Height: =22
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width
-                                          Height: =22
-                                          Text: ="2024/06/01 10:30"
-                                          Color: =RGBA(17, 24, 39, 1)
+                                          PaddingTop: =0
                                           Size: =14
+                                          Text: ="2024/06/01 10:30"
+                                          Width: =Parent.Width
                               - DividerAfterRequestDate:
                                   Control: Rectangle
                                   Properties:
-                                    FillPortions: =0
+                                    Fill: =RGBA(229, 231, 235, 1)
+                                    Height: =1
                                     LayoutMinHeight: =0
                                     Width: =Parent.Width - 48
-                                    Height: =1
-                                    Fill: =RGBA(229, 231, 235, 1)
                               - grpFieldUpdateDate:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
                                     DropShadow: =DropShadow.None
                                     FillPortions: =0
-                                    LayoutMinHeight: =0
+                                    Height: =44
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =4
-                                    Height: =44
+                                    LayoutMinHeight: =0
                                   Children:
                                     - FieldLabelUpdateDate:
                                         Control: ModernText
                                         Properties:
-                                          PaddingTop: =0
+                                          Color: =RGBA(107, 114, 128, 1)
+                                          Height: =18
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width
-                                          Height: =18
-                                          Text: ="更新日"
-                                          Color: =RGBA(107, 114, 128, 1)
+                                          PaddingTop: =0
                                           Size: =12
+                                          Text: ="更新日"
+                                          Width: =Parent.Width
                                     - FieldValueUpdateDate:
                                         Control: ModernText
                                         Properties:
-                                          PaddingTop: =0
+                                          Color: =RGBA(17, 24, 39, 1)
+                                          Height: =22
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width
-                                          Height: =22
-                                          Text: ="2024/06/01 11:20"
-                                          Color: =RGBA(17, 24, 39, 1)
+                                          PaddingTop: =0
                                           Size: =14
+                                          Text: ="2024/06/01 11:20"
+                                          Width: =Parent.Width
                         - grpRightCol:
                             Control: GroupContainer
                             Variant: AutoLayout
                             Properties:
                               DropShadow: =DropShadow.None
-                              FillPortions: =1
-                              LayoutMinHeight: =0
+                              Height: =532
                               LayoutDirection: =LayoutDirection.Vertical
                               LayoutGap: =24
-                              Height: =532
+                              LayoutMinHeight: =0
                             Children:
                               - InfoCard:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
                                     DropShadow: =DropShadow.Semilight
+                                    Fill: =RGBA(255, 255, 255, 1)
                                     FillPortions: =0
-                                    LayoutMinHeight: =0
+                                    Height: =248
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =16
-                                    Fill: =RGBA(255, 255, 255, 1)
-                                    Height: =248
+                                    LayoutMinHeight: =0
+                                    PaddingBottom: =20
                                     PaddingLeft: =20
                                     PaddingRight: =20
                                     PaddingTop: =20
-                                    PaddingBottom: =20
                                   Children:
                                     - InfoTitle:
                                         Control: ModernText
                                         Properties:
-                                          PaddingTop: =0
+                                          Color: =RGBA(79, 70, 229, 1)
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =24
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width - 40
-                                          Height: =24
+                                          PaddingTop: =0
                                           Text: ="申請情報"
-                                          Color: =RGBA(79, 70, 229, 1)
-                                          Size: =15
-                                          FontWeight: =FontWeight.Semibold
+                                          Width: =Parent.Width - 40
                                     - grpInfoRow1:
                                         Control: GroupContainer
                                         Variant: AutoLayout
                                         Properties:
                                           DropShadow: =DropShadow.None
                                           FillPortions: =0
-                                          LayoutMinHeight: =0
+                                          Height: =24
+                                          LayoutAlignItems: =LayoutAlignItems.Center
                                           LayoutDirection: =LayoutDirection.Horizontal
                                           LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
-                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutMinHeight: =0
                                           Width: =Parent.Width - 40
-                                          Height: =24
                                         Children:
                                           - InfoLabel1:
                                               Control: ModernText
                                               Properties:
-                                                PaddingTop: =0
+                                                Color: =RGBA(107, 114, 128, 1)
+                                                Height: =20
+                                                LayoutMinHeight: =0
                                                 PaddingBottom: =0
                                                 PaddingLeft: =0
                                                 PaddingRight: =0
-                                                FillPortions: =0
-                                                LayoutMinHeight: =0
-                                                Width: =80
-                                                Height: =20
-                                                Text: ="申請者"
-                                                Color: =RGBA(107, 114, 128, 1)
+                                                PaddingTop: =0
                                                 Size: =13
+                                                Text: ="申請者"
+                                                Width: =80
                                           - InfoValue1:
                                               Control: ModernText
                                               Properties:
-                                                PaddingTop: =0
+                                                Align: =Align.Right
+                                                Color: =RGBA(17, 24, 39, 1)
+                                                Height: =20
+                                                LayoutMinHeight: =0
                                                 PaddingBottom: =0
                                                 PaddingLeft: =0
                                                 PaddingRight: =0
-                                                FillPortions: =0
-                                                LayoutMinHeight: =0
+                                                PaddingTop: =0
+                                                Size: =13
+                                                Text: ="山田 太郎"
                                                 Width: =190
                                                 Wrap: =false
-                                                Height: =20
-                                                Text: ="山田 太郎"
-                                                Color: =RGBA(17, 24, 39, 1)
-                                                Size: =13
-                                                Align: =Align.Right
                                     - grpInfoRow2:
                                         Control: GroupContainer
                                         Variant: AutoLayout
                                         Properties:
                                           DropShadow: =DropShadow.None
                                           FillPortions: =0
-                                          LayoutMinHeight: =0
+                                          Height: =24
+                                          LayoutAlignItems: =LayoutAlignItems.Center
                                           LayoutDirection: =LayoutDirection.Horizontal
                                           LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
-                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutMinHeight: =0
                                           Width: =Parent.Width - 40
-                                          Height: =24
                                         Children:
                                           - InfoLabel2:
                                               Control: ModernText
                                               Properties:
-                                                PaddingTop: =0
+                                                Color: =RGBA(107, 114, 128, 1)
+                                                Height: =20
+                                                LayoutMinHeight: =0
                                                 PaddingBottom: =0
                                                 PaddingLeft: =0
                                                 PaddingRight: =0
-                                                FillPortions: =0
-                                                LayoutMinHeight: =0
-                                                Width: =80
-                                                Height: =20
-                                                Text: ="申請日"
-                                                Color: =RGBA(107, 114, 128, 1)
+                                                PaddingTop: =0
                                                 Size: =13
+                                                Text: ="申請日"
+                                                Width: =80
                                           - InfoValue2:
                                               Control: ModernText
                                               Properties:
-                                                PaddingTop: =0
+                                                Align: =Align.Right
+                                                Color: =RGBA(17, 24, 39, 1)
+                                                Height: =20
+                                                LayoutMinHeight: =0
                                                 PaddingBottom: =0
                                                 PaddingLeft: =0
                                                 PaddingRight: =0
-                                                FillPortions: =0
-                                                LayoutMinHeight: =0
+                                                PaddingTop: =0
+                                                Size: =13
+                                                Text: ="2024/06/01 10:30"
                                                 Width: =190
                                                 Wrap: =false
-                                                Height: =20
-                                                Text: ="2024/06/01 10:30"
-                                                Color: =RGBA(17, 24, 39, 1)
-                                                Size: =13
-                                                Align: =Align.Right
                                     - grpInfoRow3:
                                         Control: GroupContainer
                                         Variant: AutoLayout
                                         Properties:
                                           DropShadow: =DropShadow.None
                                           FillPortions: =0
-                                          LayoutMinHeight: =0
+                                          Height: =24
+                                          LayoutAlignItems: =LayoutAlignItems.Center
                                           LayoutDirection: =LayoutDirection.Horizontal
                                           LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
-                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutMinHeight: =0
                                           Width: =Parent.Width - 40
-                                          Height: =24
                                         Children:
                                           - InfoLabel3:
                                               Control: ModernText
                                               Properties:
-                                                PaddingTop: =0
+                                                Color: =RGBA(107, 114, 128, 1)
+                                                Height: =20
+                                                LayoutMinHeight: =0
                                                 PaddingBottom: =0
                                                 PaddingLeft: =0
                                                 PaddingRight: =0
-                                                FillPortions: =0
-                                                LayoutMinHeight: =0
-                                                Width: =80
-                                                Height: =20
-                                                Text: ="更新日"
-                                                Color: =RGBA(107, 114, 128, 1)
+                                                PaddingTop: =0
                                                 Size: =13
+                                                Text: ="更新日"
+                                                Width: =80
                                           - InfoValue3:
                                               Control: ModernText
                                               Properties:
-                                                PaddingTop: =0
+                                                Align: =Align.Right
+                                                Color: =RGBA(17, 24, 39, 1)
+                                                Height: =20
+                                                LayoutMinHeight: =0
                                                 PaddingBottom: =0
                                                 PaddingLeft: =0
                                                 PaddingRight: =0
-                                                FillPortions: =0
-                                                LayoutMinHeight: =0
+                                                PaddingTop: =0
+                                                Size: =13
+                                                Text: ="2024/06/01 11:20"
                                                 Width: =190
                                                 Wrap: =false
-                                                Height: =20
-                                                Text: ="2024/06/01 11:20"
-                                                Color: =RGBA(17, 24, 39, 1)
-                                                Size: =13
-                                                Align: =Align.Right
                                     - grpInfoRow4:
                                         Control: GroupContainer
                                         Variant: AutoLayout
                                         Properties:
                                           DropShadow: =DropShadow.None
                                           FillPortions: =0
-                                          LayoutMinHeight: =0
+                                          Height: =26
+                                          LayoutAlignItems: =LayoutAlignItems.Center
                                           LayoutDirection: =LayoutDirection.Horizontal
                                           LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
-                                          LayoutAlignItems: =LayoutAlignItems.Center
+                                          LayoutMinHeight: =0
                                           Width: =Parent.Width - 40
-                                          Height: =26
                                         Children:
                                           - InfoLabel4:
                                               Control: ModernText
                                               Properties:
-                                                PaddingTop: =0
+                                                AlignInContainer: =AlignInContainer.Center
+                                                Color: =RGBA(107, 114, 128, 1)
+                                                Height: =20
+                                                LayoutMinHeight: =0
                                                 PaddingBottom: =0
                                                 PaddingLeft: =0
                                                 PaddingRight: =0
-                                                FillPortions: =0
-                                                LayoutMinHeight: =0
-                                                AlignInContainer: =AlignInContainer.Center
+                                                PaddingTop: =0
+                                                Size: =13
+                                                Text: ="ステータス"
                                                 Width: =120
                                                 Wrap: =false
-                                                Height: =20
-                                                Text: ="ステータス"
-                                                Color: =RGBA(107, 114, 128, 1)
-                                                Size: =13
                                           - InfoStatusBadge:
                                               Control: Badge
                                               Properties:
-                                                FillPortions: =0
-                                                LayoutMinHeight: =0
                                                 AlignInContainer: =AlignInContainer.Center
-                                                Width: =70
-                                                Height: =26
-                                                Content: ="申請中"
                                                 Appearance: ='BadgeCanvas.Appearance'.Tint
+                                                Content: ="申請中"
+                                                Height: =26
+                                                LayoutMinHeight: =0
                                                 ThemeColor: ='BadgeCanvas.ThemeColor'.Warning
+                                                Width: =70
                               - ApprovalCard:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
                                     DropShadow: =DropShadow.Semilight
+                                    Fill: =RGBA(255, 255, 255, 1)
                                     FillPortions: =0
-                                    LayoutMinHeight: =0
+                                    Height: =260
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =12
-                                    Fill: =RGBA(255, 255, 255, 1)
-                                    Height: =260
+                                    LayoutMinHeight: =0
+                                    PaddingBottom: =20
                                     PaddingLeft: =20
                                     PaddingRight: =20
                                     PaddingTop: =20
-                                    PaddingBottom: =20
                                   Children:
                                     - ApprovalTitle:
                                         Control: ModernText
                                         Properties:
-                                          PaddingTop: =0
+                                          Color: =RGBA(79, 70, 229, 1)
+                                          FontWeight: =FontWeight.Semibold
+                                          Height: =24
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width - 40
-                                          Height: =24
-                                          Text: ="承認処理(承認者のみ表示)"
-                                          Color: =RGBA(79, 70, 229, 1)
+                                          PaddingTop: =0
                                           Size: =14
-                                          FontWeight: =FontWeight.Semibold
+                                          Text: ="承認処理(承認者のみ表示)"
+                                          Width: =Parent.Width - 40
                                     - CommentLabel:
                                         Control: ModernText
                                         Properties:
-                                          PaddingTop: =0
+                                          Color: =RGBA(55, 65, 81, 1)
+                                          Height: =20
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width - 40
-                                          Height: =20
-                                          Text: ="承認コメント"
-                                          Color: =RGBA(55, 65, 81, 1)
+                                          PaddingTop: =0
                                           Size: =13
+                                          Text: ="承認コメント"
+                                          Width: =Parent.Width - 40
                                     - CommentInput:
                                         Control: ModernTextInput
                                         Properties:
-                                          PaddingTop: =0
+                                          Height: =80
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width - 40
-                                          Height: =80
-                                          Type: =TextInputType.Multiline
+                                          PaddingTop: =0
                                           Placeholder: ="コメントを入力してください"
+                                          Type: =TextInputType.Multiline
+                                          Width: =Parent.Width - 40
                                     - grpApprovalButtons:
                                         Control: GroupContainer
                                         Variant: AutoLayout
                                         Properties:
                                           DropShadow: =DropShadow.None
                                           FillPortions: =0
-                                          LayoutMinHeight: =0
+                                          Height: =44
                                           LayoutDirection: =LayoutDirection.Horizontal
                                           LayoutGap: =12
+                                          LayoutMinHeight: =0
                                           Width: =Parent.Width - 40
-                                          Height: =44
                                         Children:
                                           - ApproveButton:
                                               Control: Button
                                               Properties:
-                                                FillPortions: =1
-                                                LayoutMinHeight: =0
-                                                Height: =44
-                                                Text: ="✓ 承認する"
                                                 Appearance: ='ButtonCanvas.Appearance'.Primary
                                                 BasePaletteColor: =RGBA(34, 197, 94, 1)
-                                                FontColor: =RGBA(255, 255, 255, 1)
-                                                FontWeight: =FontWeight.Semibold
-                                                FontSize: =14
                                                 BorderThickness: =0
+                                                FillPortions: =1
+                                                FontColor: =RGBA(255, 255, 255, 1)
+                                                FontSize: =14
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =44
+                                                LayoutMinHeight: =0
+                                                Text: ="✓ 承認する"
                                           - RejectButton:
                                               Control: Button
                                               Properties:
-                                                FillPortions: =1
-                                                LayoutMinHeight: =0
-                                                Height: =44
-                                                Text: ="↺ 差戻しする"
                                                 Appearance: ='ButtonCanvas.Appearance'.Primary
                                                 BasePaletteColor: =RGBA(239, 68, 68, 1)
-                                                FontColor: =RGBA(255, 255, 255, 1)
-                                                FontWeight: =FontWeight.Semibold
-                                                FontSize: =14
                                                 BorderThickness: =0
+                                                FillPortions: =1
+                                                FontColor: =RGBA(255, 255, 255, 1)
+                                                FontSize: =14
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =44
+                                                LayoutMinHeight: =0
+                                                Text: ="↺ 差戻しする"
                   - HistorySection:
                       Control: GroupContainer
                       Variant: AutoLayout
                       Properties:
                         DropShadow: =DropShadow.Semilight
+                        Fill: =RGBA(255, 255, 255, 1)
                         FillPortions: =0
-                        LayoutMinHeight: =0
+                        Height: =270
                         LayoutDirection: =LayoutDirection.Vertical
                         LayoutGap: =16
-                        Fill: =RGBA(255, 255, 255, 1)
-                        Width: =Parent.Width
-                        Height: =270
+                        LayoutMinHeight: =0
+                        PaddingBottom: =20
                         PaddingLeft: =20
                         PaddingRight: =20
                         PaddingTop: =20
-                        PaddingBottom: =20
+                        Width: =Parent.Width
                       Children:
                         - HistoryTitle:
                             Control: ModernText
                             Properties:
-                              PaddingTop: =0
+                              Color: =RGBA(79, 70, 229, 1)
+                              FontWeight: =FontWeight.Semibold
+                              Height: =24
+                              LayoutMinHeight: =0
                               PaddingBottom: =0
                               PaddingLeft: =0
                               PaddingRight: =0
-                              FillPortions: =0
-                              LayoutMinHeight: =0
-                              Width: =Parent.Width - 40
-                              Height: =24
+                              PaddingTop: =0
                               Text: ="履歴"
-                              Color: =RGBA(79, 70, 229, 1)
-                              Size: =15
-                              FontWeight: =FontWeight.Semibold
+                              Width: =Parent.Width - 40
                         - grpHistoryRow1:
                             Control: GroupContainer
                             Variant: AutoLayout
                             Properties:
                               DropShadow: =DropShadow.None
                               FillPortions: =0
-                              LayoutMinHeight: =0
+                              Height: =46
                               LayoutDirection: =LayoutDirection.Horizontal
                               LayoutGap: =12
+                              LayoutMinHeight: =0
                               Width: =Parent.Width - 40
-                              Height: =46
                             Children:
                               - HistoryDot1:
                                   Control: Rectangle
                                   Properties:
-                                    FillPortions: =0
-                                    LayoutMinHeight: =0
                                     AlignInContainer: =AlignInContainer.Center
-                                    Width: =8
-                                    Height: =8
                                     Fill: =RGBA(245, 158, 11, 1)
+                                    Height: =8
+                                    LayoutMinHeight: =0
+                                    Width: =8
                               - grpHistoryText1:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
                                     DropShadow: =DropShadow.None
-                                    FillPortions: =1
-                                    LayoutMinHeight: =0
+                                    Height: =46
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =4
-                                    Height: =46
+                                    LayoutMinHeight: =0
                                   Children:
                                     - grpHistoryHeader1:
                                         Control: GroupContainer
@@ -944,87 +892,82 @@ Screens:
                                         Properties:
                                           DropShadow: =DropShadow.None
                                           FillPortions: =0
-                                          LayoutMinHeight: =0
+                                          Height: =20
                                           LayoutDirection: =LayoutDirection.Horizontal
                                           LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                                          LayoutMinHeight: =0
                                           Width: =Parent.Width
-                                          Height: =20
                                         Children:
                                           - HistoryAction1:
                                               Control: ModernText
                                               Properties:
-                                                PaddingTop: =0
+                                                Color: =RGBA(17, 24, 39, 1)
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =20
+                                                LayoutMinHeight: =0
                                                 PaddingBottom: =0
                                                 PaddingLeft: =0
                                                 PaddingRight: =0
-                                                FillPortions: =0
-                                                LayoutMinHeight: =0
-                                                Width: =300
-                                                Height: =20
-                                                Text: ="申請  山田 太郎"
-                                                Color: =RGBA(17, 24, 39, 1)
+                                                PaddingTop: =0
                                                 Size: =13
-                                                FontWeight: =FontWeight.Semibold
+                                                Text: ="申請  山田 太郎"
+                                                Width: =300
                                           - HistoryDate1:
                                               Control: ModernText
                                               Properties:
-                                                PaddingTop: =0
+                                                Align: =Align.Right
+                                                Color: =RGBA(107, 114, 128, 1)
+                                                Height: =20
+                                                LayoutMinHeight: =0
                                                 PaddingBottom: =0
                                                 PaddingLeft: =0
                                                 PaddingRight: =0
-                                                FillPortions: =0
-                                                LayoutMinHeight: =0
-                                                Width: =160
-                                                Height: =20
-                                                Text: ="2024/06/01 10:30"
-                                                Color: =RGBA(107, 114, 128, 1)
+                                                PaddingTop: =0
                                                 Size: =12
-                                                Align: =Align.Right
+                                                Text: ="2024/06/01 10:30"
+                                                Width: =160
                                     - HistoryDesc1:
                                         Control: ModernText
                                         Properties:
-                                          PaddingTop: =0
+                                          Color: =RGBA(107, 114, 128, 1)
+                                          Height: =18
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width
-                                          Height: =18
-                                          Text: ="申請を行いました。"
-                                          Color: =RGBA(107, 114, 128, 1)
+                                          PaddingTop: =0
                                           Size: =13
+                                          Text: ="申請を行いました。"
+                                          Width: =Parent.Width
                         - grpHistoryRow2:
                             Control: GroupContainer
                             Variant: AutoLayout
                             Properties:
                               DropShadow: =DropShadow.None
                               FillPortions: =0
-                              LayoutMinHeight: =0
+                              Height: =46
                               LayoutDirection: =LayoutDirection.Horizontal
                               LayoutGap: =12
+                              LayoutMinHeight: =0
                               Width: =Parent.Width - 40
-                              Height: =46
                             Children:
                               - HistoryDot2:
                                   Control: Rectangle
                                   Properties:
-                                    FillPortions: =0
-                                    LayoutMinHeight: =0
                                     AlignInContainer: =AlignInContainer.Center
-                                    Width: =8
-                                    Height: =8
                                     Fill: =RGBA(59, 130, 246, 1)
+                                    Height: =8
+                                    LayoutMinHeight: =0
+                                    Width: =8
                               - grpHistoryText2:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
                                     DropShadow: =DropShadow.None
-                                    FillPortions: =1
-                                    LayoutMinHeight: =0
+                                    Height: =46
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =4
-                                    Height: =46
+                                    LayoutMinHeight: =0
                                   Children:
                                     - grpHistoryHeader2:
                                         Control: GroupContainer
@@ -1032,87 +975,82 @@ Screens:
                                         Properties:
                                           DropShadow: =DropShadow.None
                                           FillPortions: =0
-                                          LayoutMinHeight: =0
+                                          Height: =20
                                           LayoutDirection: =LayoutDirection.Horizontal
                                           LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                                          LayoutMinHeight: =0
                                           Width: =Parent.Width
-                                          Height: =20
                                         Children:
                                           - HistoryAction2:
                                               Control: ModernText
                                               Properties:
-                                                PaddingTop: =0
+                                                Color: =RGBA(17, 24, 39, 1)
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =20
+                                                LayoutMinHeight: =0
                                                 PaddingBottom: =0
                                                 PaddingLeft: =0
                                                 PaddingRight: =0
-                                                FillPortions: =0
-                                                LayoutMinHeight: =0
-                                                Width: =300
-                                                Height: =20
-                                                Text: ="差戻し  佐藤 次郎(承認者)"
-                                                Color: =RGBA(17, 24, 39, 1)
+                                                PaddingTop: =0
                                                 Size: =13
-                                                FontWeight: =FontWeight.Semibold
+                                                Text: ="差戻し  佐藤 次郎(承認者)"
+                                                Width: =300
                                           - HistoryDate2:
                                               Control: ModernText
                                               Properties:
-                                                PaddingTop: =0
+                                                Align: =Align.Right
+                                                Color: =RGBA(107, 114, 128, 1)
+                                                Height: =20
+                                                LayoutMinHeight: =0
                                                 PaddingBottom: =0
                                                 PaddingLeft: =0
                                                 PaddingRight: =0
-                                                FillPortions: =0
-                                                LayoutMinHeight: =0
-                                                Width: =160
-                                                Height: =20
-                                                Text: ="2024/06/01 11:00"
-                                                Color: =RGBA(107, 114, 128, 1)
+                                                PaddingTop: =0
                                                 Size: =12
-                                                Align: =Align.Right
+                                                Text: ="2024/06/01 11:00"
+                                                Width: =160
                                     - HistoryDesc2:
                                         Control: ModernText
                                         Properties:
-                                          PaddingTop: =0
+                                          Color: =RGBA(107, 114, 128, 1)
+                                          Height: =18
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width
-                                          Height: =18
-                                          Text: ="日程を再確認してください。"
-                                          Color: =RGBA(107, 114, 128, 1)
+                                          PaddingTop: =0
                                           Size: =13
+                                          Text: ="日程を再確認してください。"
+                                          Width: =Parent.Width
                         - grpHistoryRow3:
                             Control: GroupContainer
                             Variant: AutoLayout
                             Properties:
                               DropShadow: =DropShadow.None
                               FillPortions: =0
-                              LayoutMinHeight: =0
+                              Height: =46
                               LayoutDirection: =LayoutDirection.Horizontal
                               LayoutGap: =12
+                              LayoutMinHeight: =0
                               Width: =Parent.Width - 40
-                              Height: =46
                             Children:
                               - HistoryDot3:
                                   Control: Rectangle
                                   Properties:
-                                    FillPortions: =0
-                                    LayoutMinHeight: =0
                                     AlignInContainer: =AlignInContainer.Center
-                                    Width: =8
-                                    Height: =8
                                     Fill: =RGBA(34, 197, 94, 1)
+                                    Height: =8
+                                    LayoutMinHeight: =0
+                                    Width: =8
                               - grpHistoryText3:
                                   Control: GroupContainer
                                   Variant: AutoLayout
                                   Properties:
                                     DropShadow: =DropShadow.None
-                                    FillPortions: =1
-                                    LayoutMinHeight: =0
+                                    Height: =46
                                     LayoutDirection: =LayoutDirection.Vertical
                                     LayoutGap: =4
-                                    Height: =46
+                                    LayoutMinHeight: =0
                                   Children:
                                     - grpHistoryHeader3:
                                         Control: GroupContainer
@@ -1120,81 +1058,77 @@ Screens:
                                         Properties:
                                           DropShadow: =DropShadow.None
                                           FillPortions: =0
-                                          LayoutMinHeight: =0
+                                          Height: =20
                                           LayoutDirection: =LayoutDirection.Horizontal
                                           LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
+                                          LayoutMinHeight: =0
                                           Width: =Parent.Width
-                                          Height: =20
                                         Children:
                                           - HistoryAction3:
                                               Control: ModernText
                                               Properties:
-                                                PaddingTop: =0
+                                                Color: =RGBA(17, 24, 39, 1)
+                                                FontWeight: =FontWeight.Semibold
+                                                Height: =20
+                                                LayoutMinHeight: =0
                                                 PaddingBottom: =0
                                                 PaddingLeft: =0
                                                 PaddingRight: =0
-                                                FillPortions: =0
-                                                LayoutMinHeight: =0
-                                                Width: =300
-                                                Height: =20
-                                                Text: ="再申請  山田 太郎"
-                                                Color: =RGBA(17, 24, 39, 1)
+                                                PaddingTop: =0
                                                 Size: =13
-                                                FontWeight: =FontWeight.Semibold
+                                                Text: ="再申請  山田 太郎"
+                                                Width: =300
                                           - HistoryDate3:
                                               Control: ModernText
                                               Properties:
-                                                PaddingTop: =0
+                                                Align: =Align.Right
+                                                Color: =RGBA(107, 114, 128, 1)
+                                                Height: =20
+                                                LayoutMinHeight: =0
                                                 PaddingBottom: =0
                                                 PaddingLeft: =0
                                                 PaddingRight: =0
-                                                FillPortions: =0
-                                                LayoutMinHeight: =0
-                                                Width: =160
-                                                Height: =20
-                                                Text: ="2024/06/01 11:20"
-                                                Color: =RGBA(107, 114, 128, 1)
+                                                PaddingTop: =0
                                                 Size: =12
-                                                Align: =Align.Right
+                                                Text: ="2024/06/01 11:20"
+                                                Width: =160
                                     - HistoryDesc3:
                                         Control: ModernText
                                         Properties:
-                                          PaddingTop: =0
+                                          Color: =RGBA(107, 114, 128, 1)
+                                          Height: =18
+                                          LayoutMinHeight: =0
                                           PaddingBottom: =0
                                           PaddingLeft: =0
                                           PaddingRight: =0
-                                          FillPortions: =0
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width
-                                          Height: =18
-                                          Text: ="日程を修正して再申請しました。"
-                                          Color: =RGBA(107, 114, 128, 1)
+                                          PaddingTop: =0
                                           Size: =13
+                                          Text: ="日程を修正して再申請しました。"
+                                          Width: =Parent.Width
                   - CancelButton:
                       Control: Button
                       Properties:
-                        FillPortions: =0
-                        LayoutMinHeight: =0
-                        Width: =Parent.Width
-                        Height: =48
-                        Text: ="🗑 申請を取り消す(申請中のみ)"
                         Appearance: ='ButtonCanvas.Appearance'.Outline
-                        FontColor: =RGBA(239, 68, 68, 1)
                         BorderColor: =RGBA(239, 68, 68, 1)
-                        FontWeight: =FontWeight.Semibold
+                        FontColor: =RGBA(239, 68, 68, 1)
                         FontSize: =14
+                        FontWeight: =FontWeight.Semibold
+                        Height: =48
+                        LayoutMinHeight: =0
                         OnSelect: =Navigate(RequestListScreen, ScreenTransition.Fade)
+                        Text: |-
+                          ="🗑 申請を取り消す(申請中のみ)"
+                        Width: =Parent.Width
                   - CancelNote:
                       Control: ModernText
                       Properties:
-                        PaddingTop: =0
+                        Color: =RGBA(156, 163, 175, 1)
+                        Height: =18
+                        LayoutMinHeight: =0
                         PaddingBottom: =0
                         PaddingLeft: =0
                         PaddingRight: =0
-                        FillPortions: =0
-                        LayoutMinHeight: =0
-                        Width: =Parent.Width
-                        Height: =18
-                        Text: ="※承認済みの場合は取消できません。"
-                        Color: =RGBA(156, 163, 175, 1)
+                        PaddingTop: =0
                         Size: =12
+                        Text: ="※承認済みの場合は取消できません。"
+                        Width: =Parent.Width

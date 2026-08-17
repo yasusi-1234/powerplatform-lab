@@ -37,6 +37,25 @@ Power PlatformをAI(Claude)で開発する研究用リポジトリ。詳しい�
 [kaizen-irai-kanri-app](https://github.com/yasusi-1234/kaizen-irai-kanri-app)の
 `SCREEN_RENDERING_RULES_GENERIC.md` にリンクしている。
 
+## Playwright + canvas-authoring MCPによるループエンジニアリング
+
+Studioを開いた状態のブラウザをPlaywright MCPで操作すれば、canvas-authoring MCPでの
+YAML編集と組み合わせて「編集→保存→公開→再生モードでプレビュー→スクリーンショットで
+レビュー→修正」のループを**Claudeが手動確認なしで自動的に**回せる(2026-08-16に
+TestApp2で実証済み)。
+
+- 保存ボタン: Studio内`#commandBar_save`(「上書き保存 (Ctrl+S)」)
+- 公開ボタン: テキスト「公開」。クリックすると公開ダイアログが開き、
+  `getByTestId('appDescriptionTextField')`の説明欄がバージョンメモに相当する
+  (ここに変更内容を書いて公開すれば、Power Apps側のバージョン履歴に残る)
+- 再生モード: 「アプリのプレビュー (F5)」メニュー項目
+- **このループの実行回数は1タスクにつき最大5回まで**とする(無限ループ防止のため、
+  ユーザー指示で明文化)。5回に達したら未解決の課題が残っていてもそこで打ち切り、
+  最後に変更内容のサマリをユーザーに報告する。
+- 「公開」の自動確定可否はユーザーに一度確認を取ってから進める(2026-08-16時点では
+  開発中テストアプリに対して「毎回自動で公開してよい」との回答を得ている。バージョン
+  履歴で簡単にロールバックできるため)。
+
 ## Solution unpack の既知の問題
 
 - `pac solution unpack --processCanvasApps` はドキュメント上も **プレビュー機能**。

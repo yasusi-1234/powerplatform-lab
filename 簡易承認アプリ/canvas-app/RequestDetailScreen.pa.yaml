@@ -3,6 +3,12 @@ Screens:
     Properties:
       Fill: =RGBA(243, 244, 246, 1)
       LoadingSpinnerColor: =RGBA(79, 70, 229, 1)
+      OnVisible: |-
+        =Set(varCurrentRequest, LookUp(T_Request, ID = gblSelectedRequestID));
+        Set(varHistoryList, SortByColumns(Filter(T_RequestHistory, RequestID = gblSelectedRequestID), "ActionDate", SortOrder.Descending));
+        Set(varHistRow1, If(CountRows(varHistoryList) >= 1, Index(varHistoryList, 1), Defaults(T_RequestHistory)));
+        Set(varHistRow2, If(CountRows(varHistoryList) >= 2, Index(varHistoryList, 2), Defaults(T_RequestHistory)));
+        Set(varHistRow3, If(CountRows(varHistoryList) >= 3, Index(varHistoryList, 3), Defaults(T_RequestHistory)))
     Children:
       - grpRootDtl:
           Control: GroupContainer
@@ -103,7 +109,7 @@ Screens:
                                     PaddingRight: =0
                                     PaddingTop: =0
                                     Size: =14
-                                    Text: ="山田 太郎"
+                                    Text: =User().FullName
                                     Width: =120
                               - HeaderUserRoleDtl:
                                   Control: ModernText
@@ -118,7 +124,7 @@ Screens:
                                     PaddingRight: =0
                                     PaddingTop: =0
                                     Size: =12
-                                    Text: ="一般ユーザー"
+                                    Text: =CurrentUserRoleLabel
                                     Width: =120
                         - grpAvatarWrapDtl:
                             Control: GroupContainer
@@ -257,10 +263,10 @@ Screens:
                                         Properties:
                                           AlignInContainer: =AlignInContainer.Center
                                           Appearance: ='BadgeCanvas.Appearance'.Tint
-                                          Content: ="申請中"
+                                          Content: =varCurrentRequest.Status.Value
                                           Height: =26
                                           LayoutMinHeight: =0
-                                          ThemeColor: ='BadgeCanvas.ThemeColor'.Warning
+                                          ThemeColor: =Switch(varCurrentRequest.Status.Value, "承認", 'BadgeCanvas.ThemeColor'.Success, "差戻し", 'BadgeCanvas.ThemeColor'.Danger, "申請中", 'BadgeCanvas.ThemeColor'.Warning, 'BadgeCanvas.ThemeColor'.Subtle)
                                           Width: =70
                                     - RequestIdLabel:
                                         Control: ModernText
@@ -274,7 +280,7 @@ Screens:
                                           PaddingRight: =0
                                           PaddingTop: =0
                                           Size: =13
-                                          Text: ="申請ID:25"
+                                          Text: ="申請ID:" & varCurrentRequest.ID
                                           Width: =140
                               - grpFieldTitle:
                                   Control: GroupContainer
@@ -311,7 +317,7 @@ Screens:
                                           PaddingLeft: =0
                                           PaddingRight: =0
                                           PaddingTop: =0
-                                          Text: ="出張申請(大阪営業所)"
+                                          Text: =varCurrentRequest.Title
                                           Width: =Parent.Width
                               - DividerAfterTitle:
                                   Control: Rectangle
@@ -355,7 +361,7 @@ Screens:
                                           PaddingRight: =0
                                           PaddingTop: =0
                                           Size: =14
-                                          Text: ="大阪営業所にて顧客との打ち合わせを実施するため、出張申請を行います。期間は2日間を予定しています。"
+                                          Text: =varCurrentRequest.RequestBody
                                           Width: =Parent.Width
                               - DividerAfterContent:
                                   Control: Rectangle
@@ -399,7 +405,7 @@ Screens:
                                           PaddingRight: =0
                                           PaddingTop: =0
                                           Size: =14
-                                          Text: ="交通手段:新幹線 / 宿泊先:○○ホテル"
+                                          Text: =varCurrentRequest.Remarks
                                           Width: =Parent.Width
                               - DividerAfterRemarks:
                                   Control: Rectangle
@@ -443,7 +449,7 @@ Screens:
                                           PaddingRight: =0
                                           PaddingTop: =0
                                           Size: =14
-                                          Text: ="山田 太郎"
+                                          Text: =varCurrentRequest.Applicant.DisplayName
                                           Width: =Parent.Width
                               - DividerAfterApplicant:
                                   Control: Rectangle
@@ -487,7 +493,7 @@ Screens:
                                           PaddingRight: =0
                                           PaddingTop: =0
                                           Size: =14
-                                          Text: ="2024/06/01 10:30"
+                                          Text: =If(IsBlank(varCurrentRequest.RequestDate), "-", Text(varCurrentRequest.RequestDate, "yyyy/mm/dd"))
                                           Width: =Parent.Width
                               - DividerAfterRequestDate:
                                   Control: Rectangle
@@ -531,7 +537,7 @@ Screens:
                                           PaddingRight: =0
                                           PaddingTop: =0
                                           Size: =14
-                                          Text: ="2024/06/01 11:20"
+                                          Text: =If(IsBlank(varCurrentRequest.UpdateDate), "-", Text(varCurrentRequest.UpdateDate, "yyyy/mm/dd"))
                                           Width: =Parent.Width
                         - grpRightCol:
                             Control: GroupContainer
@@ -610,7 +616,7 @@ Screens:
                                                 PaddingRight: =0
                                                 PaddingTop: =0
                                                 Size: =13
-                                                Text: ="山田 太郎"
+                                                Text: =varCurrentRequest.Applicant.DisplayName
                                                 Width: =190
                                                 Wrap: =false
                                     - grpInfoRow2:
@@ -651,7 +657,7 @@ Screens:
                                                 PaddingRight: =0
                                                 PaddingTop: =0
                                                 Size: =13
-                                                Text: ="2024/06/01 10:30"
+                                                Text: =If(IsBlank(varCurrentRequest.RequestDate), "-", Text(varCurrentRequest.RequestDate, "yyyy/mm/dd"))
                                                 Width: =190
                                                 Wrap: =false
                                     - grpInfoRow3:
@@ -692,7 +698,7 @@ Screens:
                                                 PaddingRight: =0
                                                 PaddingTop: =0
                                                 Size: =13
-                                                Text: ="2024/06/01 11:20"
+                                                Text: =If(IsBlank(varCurrentRequest.UpdateDate), "-", Text(varCurrentRequest.UpdateDate, "yyyy/mm/dd"))
                                                 Width: =190
                                                 Wrap: =false
                                     - grpInfoRow4:
@@ -728,10 +734,10 @@ Screens:
                                               Properties:
                                                 AlignInContainer: =AlignInContainer.Center
                                                 Appearance: ='BadgeCanvas.Appearance'.Tint
-                                                Content: ="申請中"
+                                                Content: =varCurrentRequest.Status.Value
                                                 Height: =26
                                                 LayoutMinHeight: =0
-                                                ThemeColor: ='BadgeCanvas.ThemeColor'.Warning
+                                                ThemeColor: =Switch(varCurrentRequest.Status.Value, "承認", 'BadgeCanvas.ThemeColor'.Success, "差戻し", 'BadgeCanvas.ThemeColor'.Danger, "申請中", 'BadgeCanvas.ThemeColor'.Warning, 'BadgeCanvas.ThemeColor'.Subtle)
                                                 Width: =70
                               - ApprovalCard:
                                   Control: GroupContainer
@@ -748,6 +754,7 @@ Screens:
                                     PaddingLeft: =20
                                     PaddingRight: =20
                                     PaddingTop: =20
+                                    Visible: =IsApprover && varCurrentRequest.Status.Value = "申請中"
                                   Children:
                                     - ApprovalTitle:
                                         Control: ModernText
@@ -812,6 +819,41 @@ Screens:
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =44
                                                 LayoutMinHeight: =0
+                                                OnSelect: |-
+                                                  =Patch(
+                                                    T_Request,
+                                                    varCurrentRequest,
+                                                    {
+                                                      Status: {Value: "承認"},
+                                                      UpdateDate: Today(),
+                                                      ApprovalComment: CommentInput.Text
+                                                    }
+                                                  );
+                                                  Patch(
+                                                    T_RequestHistory,
+                                                    Defaults(T_RequestHistory),
+                                                    {
+                                                      RequestID: varCurrentRequest.ID,
+                                                      ActionUser: {
+                                                        '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                                                        Claims: "i:0#.f|membership|" & Lower(User().Email),
+                                                        DisplayName: User().FullName,
+                                                        Email: User().Email,
+                                                        Department: "",
+                                                        JobTitle: "",
+                                                        Picture: ""
+                                                      },
+                                                      ActionType: {Value: "承認"},
+                                                      Comment: CommentInput.Text,
+                                                      ActionDate: Today()
+                                                    }
+                                                  );
+                                                  Set(varCurrentRequest, LookUp(T_Request, ID = varCurrentRequest.ID));
+                                                  Set(varHistoryList, SortByColumns(Filter(T_RequestHistory, RequestID = varCurrentRequest.ID), "ActionDate", SortOrder.Descending));
+                                                  Set(varHistRow1, If(CountRows(varHistoryList) >= 1, Index(varHistoryList, 1), Defaults(T_RequestHistory)));
+                                                  Set(varHistRow2, If(CountRows(varHistoryList) >= 2, Index(varHistoryList, 2), Defaults(T_RequestHistory)));
+                                                  Set(varHistRow3, If(CountRows(varHistoryList) >= 3, Index(varHistoryList, 3), Defaults(T_RequestHistory)));
+                                                  Reset(CommentInput)
                                                 Text: ="✓ 承認する"
                                           - RejectButton:
                                               Control: Button
@@ -825,6 +867,41 @@ Screens:
                                                 FontWeight: =FontWeight.Semibold
                                                 Height: =44
                                                 LayoutMinHeight: =0
+                                                OnSelect: |-
+                                                  =Patch(
+                                                    T_Request,
+                                                    varCurrentRequest,
+                                                    {
+                                                      Status: {Value: "差戻し"},
+                                                      UpdateDate: Today(),
+                                                      ApprovalComment: CommentInput.Text
+                                                    }
+                                                  );
+                                                  Patch(
+                                                    T_RequestHistory,
+                                                    Defaults(T_RequestHistory),
+                                                    {
+                                                      RequestID: varCurrentRequest.ID,
+                                                      ActionUser: {
+                                                        '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                                                        Claims: "i:0#.f|membership|" & Lower(User().Email),
+                                                        DisplayName: User().FullName,
+                                                        Email: User().Email,
+                                                        Department: "",
+                                                        JobTitle: "",
+                                                        Picture: ""
+                                                      },
+                                                      ActionType: {Value: "差戻し"},
+                                                      Comment: CommentInput.Text,
+                                                      ActionDate: Today()
+                                                    }
+                                                  );
+                                                  Set(varCurrentRequest, LookUp(T_Request, ID = varCurrentRequest.ID));
+                                                  Set(varHistoryList, SortByColumns(Filter(T_RequestHistory, RequestID = varCurrentRequest.ID), "ActionDate", SortOrder.Descending));
+                                                  Set(varHistRow1, If(CountRows(varHistoryList) >= 1, Index(varHistoryList, 1), Defaults(T_RequestHistory)));
+                                                  Set(varHistRow2, If(CountRows(varHistoryList) >= 2, Index(varHistoryList, 2), Defaults(T_RequestHistory)));
+                                                  Set(varHistRow3, If(CountRows(varHistoryList) >= 3, Index(varHistoryList, 3), Defaults(T_RequestHistory)));
+                                                  Reset(CommentInput)
                                                 Text: ="↺ 差戻しする"
                   - HistorySection:
                       Control: GroupContainer
@@ -837,6 +914,7 @@ Screens:
                         LayoutDirection: =LayoutDirection.Vertical
                         LayoutGap: =16
                         LayoutMinHeight: =0
+                        LayoutOverflowY: =LayoutOverflow.Scroll
                         PaddingBottom: =20
                         PaddingLeft: =20
                         PaddingRight: =20
@@ -854,257 +932,203 @@ Screens:
                               PaddingLeft: =0
                               PaddingRight: =0
                               PaddingTop: =0
-                              Text: ="履歴"
+                              Text: ="履歴(新しい順)" & If(CountRows(varHistoryList) > 3, " - 最新3件を表示、全" & CountRows(varHistoryList) & "件", "")
                               Width: =Parent.Width - 40
-                        - grpHistoryRow1:
+                        - HistoryLine1:
                             Control: GroupContainer
                             Variant: AutoLayout
                             Properties:
                               DropShadow: =DropShadow.None
                               FillPortions: =0
-                              Height: =46
+                              Height: =20
+                              LayoutAlignItems: =LayoutAlignItems.Center
                               LayoutDirection: =LayoutDirection.Horizontal
                               LayoutGap: =12
+                              LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
                               LayoutMinHeight: =0
+                              Visible: =CountRows(varHistoryList) >= 1
                               Width: =Parent.Width - 40
                             Children:
                               - HistoryDot1:
                                   Control: Rectangle
                                   Properties:
                                     AlignInContainer: =AlignInContainer.Center
-                                    Fill: =RGBA(245, 158, 11, 1)
+                                    Fill: =Switch(varHistRow1.ActionType.Value, "承認", RGBA(34, 197, 94, 1), "差戻し", RGBA(239, 68, 68, 1), RGBA(107, 114, 128, 1))
                                     Height: =8
                                     LayoutMinHeight: =0
                                     Width: =8
-                              - grpHistoryText1:
-                                  Control: GroupContainer
-                                  Variant: AutoLayout
+                              - HistoryAction1:
+                                  Control: ModernText
                                   Properties:
-                                    DropShadow: =DropShadow.None
-                                    Height: =46
-                                    LayoutDirection: =LayoutDirection.Vertical
-                                    LayoutGap: =4
+                                    Color: =RGBA(17, 24, 39, 1)
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =20
                                     LayoutMinHeight: =0
-                                  Children:
-                                    - grpHistoryHeader1:
-                                        Control: GroupContainer
-                                        Variant: AutoLayout
-                                        Properties:
-                                          DropShadow: =DropShadow.None
-                                          FillPortions: =0
-                                          Height: =20
-                                          LayoutDirection: =LayoutDirection.Horizontal
-                                          LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width
-                                        Children:
-                                          - HistoryAction1:
-                                              Control: ModernText
-                                              Properties:
-                                                Color: =RGBA(17, 24, 39, 1)
-                                                FontWeight: =FontWeight.Semibold
-                                                Height: =20
-                                                LayoutMinHeight: =0
-                                                PaddingBottom: =0
-                                                PaddingLeft: =0
-                                                PaddingRight: =0
-                                                PaddingTop: =0
-                                                Size: =13
-                                                Text: ="申請  山田 太郎"
-                                                Width: =300
-                                          - HistoryDate1:
-                                              Control: ModernText
-                                              Properties:
-                                                Align: =Align.Right
-                                                Color: =RGBA(107, 114, 128, 1)
-                                                Height: =20
-                                                LayoutMinHeight: =0
-                                                PaddingBottom: =0
-                                                PaddingLeft: =0
-                                                PaddingRight: =0
-                                                PaddingTop: =0
-                                                Size: =12
-                                                Text: ="2024/06/01 10:30"
-                                                Width: =160
-                                    - HistoryDesc1:
-                                        Control: ModernText
-                                        Properties:
-                                          Color: =RGBA(107, 114, 128, 1)
-                                          Height: =18
-                                          LayoutMinHeight: =0
-                                          PaddingBottom: =0
-                                          PaddingLeft: =0
-                                          PaddingRight: =0
-                                          PaddingTop: =0
-                                          Size: =13
-                                          Text: ="申請を行いました。"
-                                          Width: =Parent.Width
-                        - grpHistoryRow2:
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    PaddingTop: =0
+                                    Size: =13
+                                    Text: =varHistRow1.ActionType.Value & "  " & varHistRow1.ActionUser.DisplayName
+                                    Width: =260
+                              - HistoryDate1:
+                                  Control: ModernText
+                                  Properties:
+                                    Align: =Align.Right
+                                    Color: =RGBA(107, 114, 128, 1)
+                                    Height: =20
+                                    LayoutMinHeight: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    PaddingTop: =0
+                                    Size: =12
+                                    Text: =Text(varHistRow1.ActionDate, "yyyy/mm/dd")
+                                    Width: =120
+                        - HistoryDesc1:
+                            Control: ModernText
+                            Properties:
+                              Color: =RGBA(107, 114, 128, 1)
+                              Height: =18
+                              LayoutMinHeight: =0
+                              PaddingBottom: =0
+                              PaddingLeft: =20
+                              PaddingRight: =0
+                              PaddingTop: =0
+                              Size: =13
+                              Text: =varHistRow1.Comment
+                              Visible: =CountRows(varHistoryList) >= 1
+                              Width: =Parent.Width - 40
+                        - HistoryLine2:
                             Control: GroupContainer
                             Variant: AutoLayout
                             Properties:
                               DropShadow: =DropShadow.None
                               FillPortions: =0
-                              Height: =46
+                              Height: =20
+                              LayoutAlignItems: =LayoutAlignItems.Center
                               LayoutDirection: =LayoutDirection.Horizontal
                               LayoutGap: =12
+                              LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
                               LayoutMinHeight: =0
+                              Visible: =CountRows(varHistoryList) >= 2
                               Width: =Parent.Width - 40
                             Children:
                               - HistoryDot2:
                                   Control: Rectangle
                                   Properties:
                                     AlignInContainer: =AlignInContainer.Center
-                                    Fill: =RGBA(59, 130, 246, 1)
+                                    Fill: =Switch(varHistRow2.ActionType.Value, "承認", RGBA(34, 197, 94, 1), "差戻し", RGBA(239, 68, 68, 1), RGBA(107, 114, 128, 1))
                                     Height: =8
                                     LayoutMinHeight: =0
                                     Width: =8
-                              - grpHistoryText2:
-                                  Control: GroupContainer
-                                  Variant: AutoLayout
+                              - HistoryAction2:
+                                  Control: ModernText
                                   Properties:
-                                    DropShadow: =DropShadow.None
-                                    Height: =46
-                                    LayoutDirection: =LayoutDirection.Vertical
-                                    LayoutGap: =4
+                                    Color: =RGBA(17, 24, 39, 1)
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =20
                                     LayoutMinHeight: =0
-                                  Children:
-                                    - grpHistoryHeader2:
-                                        Control: GroupContainer
-                                        Variant: AutoLayout
-                                        Properties:
-                                          DropShadow: =DropShadow.None
-                                          FillPortions: =0
-                                          Height: =20
-                                          LayoutDirection: =LayoutDirection.Horizontal
-                                          LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width
-                                        Children:
-                                          - HistoryAction2:
-                                              Control: ModernText
-                                              Properties:
-                                                Color: =RGBA(17, 24, 39, 1)
-                                                FontWeight: =FontWeight.Semibold
-                                                Height: =20
-                                                LayoutMinHeight: =0
-                                                PaddingBottom: =0
-                                                PaddingLeft: =0
-                                                PaddingRight: =0
-                                                PaddingTop: =0
-                                                Size: =13
-                                                Text: ="差戻し  佐藤 次郎(承認者)"
-                                                Width: =300
-                                          - HistoryDate2:
-                                              Control: ModernText
-                                              Properties:
-                                                Align: =Align.Right
-                                                Color: =RGBA(107, 114, 128, 1)
-                                                Height: =20
-                                                LayoutMinHeight: =0
-                                                PaddingBottom: =0
-                                                PaddingLeft: =0
-                                                PaddingRight: =0
-                                                PaddingTop: =0
-                                                Size: =12
-                                                Text: ="2024/06/01 11:00"
-                                                Width: =160
-                                    - HistoryDesc2:
-                                        Control: ModernText
-                                        Properties:
-                                          Color: =RGBA(107, 114, 128, 1)
-                                          Height: =18
-                                          LayoutMinHeight: =0
-                                          PaddingBottom: =0
-                                          PaddingLeft: =0
-                                          PaddingRight: =0
-                                          PaddingTop: =0
-                                          Size: =13
-                                          Text: ="日程を再確認してください。"
-                                          Width: =Parent.Width
-                        - grpHistoryRow3:
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    PaddingTop: =0
+                                    Size: =13
+                                    Text: =varHistRow2.ActionType.Value & "  " & varHistRow2.ActionUser.DisplayName
+                                    Width: =260
+                              - HistoryDate2:
+                                  Control: ModernText
+                                  Properties:
+                                    Align: =Align.Right
+                                    Color: =RGBA(107, 114, 128, 1)
+                                    Height: =20
+                                    LayoutMinHeight: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    PaddingTop: =0
+                                    Size: =12
+                                    Text: =Text(varHistRow2.ActionDate, "yyyy/mm/dd")
+                                    Width: =120
+                        - HistoryDesc2:
+                            Control: ModernText
+                            Properties:
+                              Color: =RGBA(107, 114, 128, 1)
+                              Height: =18
+                              LayoutMinHeight: =0
+                              PaddingBottom: =0
+                              PaddingLeft: =20
+                              PaddingRight: =0
+                              PaddingTop: =0
+                              Size: =13
+                              Text: =varHistRow2.Comment
+                              Visible: =CountRows(varHistoryList) >= 2
+                              Width: =Parent.Width - 40
+                        - HistoryLine3:
                             Control: GroupContainer
                             Variant: AutoLayout
                             Properties:
                               DropShadow: =DropShadow.None
                               FillPortions: =0
-                              Height: =46
+                              Height: =20
+                              LayoutAlignItems: =LayoutAlignItems.Center
                               LayoutDirection: =LayoutDirection.Horizontal
                               LayoutGap: =12
+                              LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
                               LayoutMinHeight: =0
+                              Visible: =CountRows(varHistoryList) >= 3
                               Width: =Parent.Width - 40
                             Children:
                               - HistoryDot3:
                                   Control: Rectangle
                                   Properties:
                                     AlignInContainer: =AlignInContainer.Center
-                                    Fill: =RGBA(34, 197, 94, 1)
+                                    Fill: =Switch(varHistRow3.ActionType.Value, "承認", RGBA(34, 197, 94, 1), "差戻し", RGBA(239, 68, 68, 1), RGBA(107, 114, 128, 1))
                                     Height: =8
                                     LayoutMinHeight: =0
                                     Width: =8
-                              - grpHistoryText3:
-                                  Control: GroupContainer
-                                  Variant: AutoLayout
+                              - HistoryAction3:
+                                  Control: ModernText
                                   Properties:
-                                    DropShadow: =DropShadow.None
-                                    Height: =46
-                                    LayoutDirection: =LayoutDirection.Vertical
-                                    LayoutGap: =4
+                                    Color: =RGBA(17, 24, 39, 1)
+                                    FontWeight: =FontWeight.Semibold
+                                    Height: =20
                                     LayoutMinHeight: =0
-                                  Children:
-                                    - grpHistoryHeader3:
-                                        Control: GroupContainer
-                                        Variant: AutoLayout
-                                        Properties:
-                                          DropShadow: =DropShadow.None
-                                          FillPortions: =0
-                                          Height: =20
-                                          LayoutDirection: =LayoutDirection.Horizontal
-                                          LayoutJustifyContent: =LayoutJustifyContent.SpaceBetween
-                                          LayoutMinHeight: =0
-                                          Width: =Parent.Width
-                                        Children:
-                                          - HistoryAction3:
-                                              Control: ModernText
-                                              Properties:
-                                                Color: =RGBA(17, 24, 39, 1)
-                                                FontWeight: =FontWeight.Semibold
-                                                Height: =20
-                                                LayoutMinHeight: =0
-                                                PaddingBottom: =0
-                                                PaddingLeft: =0
-                                                PaddingRight: =0
-                                                PaddingTop: =0
-                                                Size: =13
-                                                Text: ="再申請  山田 太郎"
-                                                Width: =300
-                                          - HistoryDate3:
-                                              Control: ModernText
-                                              Properties:
-                                                Align: =Align.Right
-                                                Color: =RGBA(107, 114, 128, 1)
-                                                Height: =20
-                                                LayoutMinHeight: =0
-                                                PaddingBottom: =0
-                                                PaddingLeft: =0
-                                                PaddingRight: =0
-                                                PaddingTop: =0
-                                                Size: =12
-                                                Text: ="2024/06/01 11:20"
-                                                Width: =160
-                                    - HistoryDesc3:
-                                        Control: ModernText
-                                        Properties:
-                                          Color: =RGBA(107, 114, 128, 1)
-                                          Height: =18
-                                          LayoutMinHeight: =0
-                                          PaddingBottom: =0
-                                          PaddingLeft: =0
-                                          PaddingRight: =0
-                                          PaddingTop: =0
-                                          Size: =13
-                                          Text: ="日程を修正して再申請しました。"
-                                          Width: =Parent.Width
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    PaddingTop: =0
+                                    Size: =13
+                                    Text: =varHistRow3.ActionType.Value & "  " & varHistRow3.ActionUser.DisplayName
+                                    Width: =260
+                              - HistoryDate3:
+                                  Control: ModernText
+                                  Properties:
+                                    Align: =Align.Right
+                                    Color: =RGBA(107, 114, 128, 1)
+                                    Height: =20
+                                    LayoutMinHeight: =0
+                                    PaddingBottom: =0
+                                    PaddingLeft: =0
+                                    PaddingRight: =0
+                                    PaddingTop: =0
+                                    Size: =12
+                                    Text: =Text(varHistRow3.ActionDate, "yyyy/mm/dd")
+                                    Width: =120
+                        - HistoryDesc3:
+                            Control: ModernText
+                            Properties:
+                              Color: =RGBA(107, 114, 128, 1)
+                              Height: =18
+                              LayoutMinHeight: =0
+                              PaddingBottom: =0
+                              PaddingLeft: =20
+                              PaddingRight: =0
+                              PaddingTop: =0
+                              Size: =13
+                              Text: =varHistRow3.Comment
+                              Visible: =CountRows(varHistoryList) >= 3
+                              Width: =Parent.Width - 40
                   - CancelButton:
                       Control: Button
                       Properties:
@@ -1115,9 +1139,38 @@ Screens:
                         FontWeight: =FontWeight.Semibold
                         Height: =48
                         LayoutMinHeight: =0
-                        OnSelect: =Navigate(RequestListScreen, ScreenTransition.Fade)
+                        OnSelect: |-
+                          =Patch(
+                            T_Request,
+                            varCurrentRequest,
+                            {
+                              Status: {Value: "未申請"},
+                              UpdateDate: Today()
+                            }
+                          );
+                          Patch(
+                            T_RequestHistory,
+                            Defaults(T_RequestHistory),
+                            {
+                              RequestID: varCurrentRequest.ID,
+                              ActionUser: {
+                                '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                                Claims: "i:0#.f|membership|" & Lower(User().Email),
+                                DisplayName: User().FullName,
+                                Email: User().Email,
+                                Department: "",
+                                JobTitle: "",
+                                Picture: ""
+                              },
+                              ActionType: {Value: "取消"},
+                              Comment: "",
+                              ActionDate: Today()
+                            }
+                          );
+                          Navigate(RequestListScreen, ScreenTransition.Fade)
                         Text: |-
                           ="🗑 申請を取り消す(申請中のみ)"
+                        Visible: =!IsApprover && varCurrentRequest.Applicant.Email = User().Email && varCurrentRequest.Status.Value = "申請中"
                         Width: =Parent.Width
                   - CancelNote:
                       Control: ModernText

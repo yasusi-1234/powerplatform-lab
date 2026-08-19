@@ -3,16 +3,6 @@ Screens:
     Properties:
       Fill: =RGBA(243, 244, 246, 1)
       LoadingSpinnerColor: =RGBA(79, 70, 229, 1)
-      OnVisible: |-
-        =ClearCollect(
-          colRequests,
-          {Title: "出張申請(大阪営業所)", Applicant: "山田 太郎", RequestDate: "2024/06/01", UpdateDate: "2024/06/01", Status: "申請中"},
-          {Title: "PC購入申請", Applicant: "山田 太郎", RequestDate: "2024/05/31", UpdateDate: "2024/06/01", Status: "承認"},
-          {Title: "研修参加申請", Applicant: "鈴木 花子", RequestDate: "2024/05/30", UpdateDate: "2024/05/31", Status: "差戻し"},
-          {Title: "備品購入申請", Applicant: "田中 一郎", RequestDate: "2024/05/28", UpdateDate: "2024/05/28", Status: "承認"},
-          {Title: "ソフトウェア購入申請", Applicant: "山田 太郎", RequestDate: "2024/05/27", UpdateDate: "2024/05/27", Status: "未申請"},
-          {Title: "出張申請(名古屋)", Applicant: "鈴木 花子", RequestDate: "2024/05/25", UpdateDate: "2024/05/25", Status: "申請中"}
-        )
     Children:
       - grpRoot:
           Control: GroupContainer
@@ -113,7 +103,7 @@ Screens:
                                     PaddingRight: =0
                                     PaddingTop: =0
                                     Size: =14
-                                    Text: ="山田 太郎"
+                                    Text: =User().FullName
                                     Width: =120
                               - HeaderUserRole:
                                   Control: ModernText
@@ -128,7 +118,7 @@ Screens:
                                     PaddingRight: =0
                                     PaddingTop: =0
                                     Size: =12
-                                    Text: ="一般ユーザー"
+                                    Text: =CurrentUserRoleLabel
                                     Width: =120
                         - grpAvatarWrap:
                             Control: GroupContainer
@@ -419,7 +409,18 @@ Screens:
                             Control: Gallery
                             Variant: Vertical
                             Properties:
-                              Items: =colRequests
+                              Items: |-
+                                =Sort(
+                                  Filter(
+                                    T_Request,
+                                    (IsBlank(SearchInput.Text) || SearchInput.Text in Title) &&
+                                    (StatusDropdown.Selected.Value = "すべてのステータス" || Status.Value = StatusDropdown.Selected.Value) &&
+                                    (IsBlank(DateStartPicker.SelectedDate) || RequestDate >= DateStartPicker.SelectedDate) &&
+                                    (IsBlank(DateEndPicker.SelectedDate) || RequestDate <= DateEndPicker.SelectedDate)
+                                  ),
+                                  RequestDate,
+                                  SortOrder.Descending
+                                )
                               LayoutMinHeight: =0
                               ShowScrollbar: =false
                               TemplatePadding: =0
@@ -485,7 +486,7 @@ Screens:
                                                 PaddingRight: =0
                                                 PaddingTop: =0
                                                 Size: =13
-                                                Text: =ThisItem.Applicant
+                                                Text: =ThisItem.Applicant.DisplayName
                                                 Width: =HeaderColApplicant.Width - 22
                                                 Wrap: =false
                                     - RowRequestDate:
@@ -499,17 +500,17 @@ Screens:
                                           PaddingRight: =0
                                           PaddingTop: =0
                                           Size: =13
-                                          Text: =ThisItem.RequestDate
+                                          Text: =Text(ThisItem.RequestDate, "yyyy/mm/dd")
                                           Width: =HeaderColRequestDate.Width
                                           Wrap: =false
                                     - RowStatusBadge:
                                         Control: Badge
                                         Properties:
                                           Appearance: ='BadgeCanvas.Appearance'.Tint
-                                          Content: =ThisItem.Status
+                                          Content: =ThisItem.Status.Value
                                           Height: =26
                                           LayoutMinHeight: =0
-                                          ThemeColor: =Switch(ThisItem.Status, "承認", 'BadgeCanvas.ThemeColor'.Success, "差戻し", 'BadgeCanvas.ThemeColor'.Danger, "申請中", 'BadgeCanvas.ThemeColor'.Warning, 'BadgeCanvas.ThemeColor'.Subtle)
+                                          ThemeColor: =Switch(ThisItem.Status.Value, "承認", 'BadgeCanvas.ThemeColor'.Success, "差戻し", 'BadgeCanvas.ThemeColor'.Danger, "申請中", 'BadgeCanvas.ThemeColor'.Warning, 'BadgeCanvas.ThemeColor'.Subtle)
                                           Width: =HeaderColStatus.Width
                                     - RowUpdateDate:
                                         Control: ModernText
@@ -522,7 +523,7 @@ Screens:
                                           PaddingRight: =0
                                           PaddingTop: =0
                                           Size: =13
-                                          Text: =ThisItem.UpdateDate
+                                          Text: =Text(ThisItem.UpdateDate, "yyyy/mm/dd")
                                           Width: =HeaderColUpdateDate.Width
                                           Wrap: =false
                                     - grpRowChevronWrap:
@@ -551,7 +552,7 @@ Screens:
                                   Properties:
                                     Appearance: ='ButtonCanvas.Appearance'.Transparent
                                     Height: =Parent.TemplateHeight
-                                    OnSelect: =Navigate(RequestDetailScreen, ScreenTransition.Fade)
+                                    OnSelect: =Set(gblSelectedRequestID, ThisItem.ID); Navigate(RequestDetailScreen, ScreenTransition.Fade)
                                     Text: =""
                                     Width: =Parent.TemplateWidth
                         - grpFooterRow:
@@ -578,7 +579,7 @@ Screens:
                                     PaddingRight: =0
                                     PaddingTop: =0
                                     Size: =13
-                                    Text: ="6件中 1 - 6件を表示"
+                                    Text: =CountRows(RequestGallery.AllItems) & "件中 1 - " & CountRows(RequestGallery.AllItems) & "件を表示"
                                     Width: =260
                               - grpPagination:
                                   Control: GroupContainer

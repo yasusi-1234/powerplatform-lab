@@ -514,6 +514,56 @@ Default: |-
   ={Value: "すべてのステータス"}
 ```
 
+## 10.5 グローバル変数の「型が実行パスによって揺れる」とStudioデザイナーが
+クラッシュすることがある(`Gallery`が原因ではなかった)
+
+簡易承認アプリの詳細画面で、`Gallery`コントロール(SharePointのテーブル型データを
+`Items`にバインドし、子要素で`ThisItem.列名`を参照する構成)をStudioにpushすると、
+`compile_canvas`の検証自体は成功(警告のみ)するのに、**Studioデザイナーの
+プレビューiframeがブランクになりクラッシュする**現象が発生した。コンソールには
+
+```
+Error: An error occured while selecting the store state: Cannot read properties of undefined (reading 'get').
+    at appmagic-authoring.js ...
+```
+
+というエラーが出る。最初は「`Gallery`+`ThisItem`レコードバインドの組み合わせが
+原因」と誤診断したが、`Gallery`を完全に廃し同じ内容を静的な行(固定数のGroupContainer
++ `Index(collection, N)`)に置き換えても**同じエラーで再クラッシュ**した。
+
+**本当の原因**: グローバル変数(`Set()`で作る型)に対して、実行パスによって
+`Blank()`を返すことがあると、Studioのデザイン時プレビュー評価器がその変数の型を
+一意に確定できずクラッシュする。具体的には
+
+```powerfx
+// ❌ これが原因だった: 条件がfalseのとき Blank() を返す
+Set(varHistRow1, If(CountRows(varHistoryList) >= 1, Index(varHistoryList, 1), Blank()))
+```
+
+`Index()`が返すレコード型と`Blank()`の型が一致しないため、`App.OnStart`で
+`Defaults(T_RequestHistory)`により型を決めていても、`OnVisible`側で`Blank()`を
+代入すると型が揺れてクラッシュする。
+
+**対策**: 分岐のどちらの枝でも**同じレコード型を返す**ようにする。存在しない場合も
+`Blank()`ではなく`Defaults(テーブル名)`を返す。
+
+```powerfx
+// ✅ 型を常にレコードに固定する
+Set(varHistRow1, If(CountRows(varHistoryList) >= 1, Index(varHistoryList, 1), Defaults(T_RequestHistory)))
+```
+
+これでクラッシュは解消した。**`Set()`で作るグローバル変数の値が条件分岐する場合、
+`Blank()`ではなく型が確定した値(`Defaults(テーブル名)`など)を全分岐で返すこと。**
+`Gallery`を静的行に置き換える対策(`docs/findings.md`等の過去の誤診断)自体は
+無駄ではなかった(構造がシンプルになる利点はある)が、**根本原因はGalleryではなく
+型不一致だった**ため、Galleryを使う場合でも同じ型ルールを守れば動く可能性が高い。
+
+なお、原因特定の過程で同じ内容を1行→3行→5行と段階的に増やして試したところ、
+1行・3行では再現せず5行で確実に再現した。これは「型不一致自体は常に問題だが、
+デザイナーが実際にクラッシュに至るかは同時に評価される数式の量にも依存する」
+ことを示唆している。**型不一致を見つけたら行数に関わらず即座に修正すること。**
+「行数を減らせば安定する」という運任せの対策に頼らないこと。
+
 ## 11. 作業フロー
 
 1. 新しいコントロールを使う前に `list_controls` → `describe_control` で仕様を確認する

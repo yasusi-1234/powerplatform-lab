@@ -1,4 +1,14 @@
 App:
   Properties:
+    Formulas: |-
+      =IsApprover = !IsBlank(LookUp(M_Approvers, ApproverUser.Email = User().Email && IsActive = true));
+      CurrentUserRoleLabel = If(IsApprover, "承認者", "一般ユーザー");
+    OnStart: |-
+      =Set(gblSelectedRequestID, 0);
+      Set(varCurrentRequest, Defaults(T_Request));
+      Set(varHistoryList, Filter(T_RequestHistory, false));
+      Set(varHistRow1, Defaults(T_RequestHistory));
+      Set(varHistRow2, Defaults(T_RequestHistory));
+      Set(varHistRow3, Defaults(T_RequestHistory))
     StartScreen: =RequestListScreen
     Theme: =PowerAppsTheme

@@ -103,7 +103,7 @@ Screens:
                                     PaddingRight: =0
                                     PaddingTop: =0
                                     Size: =14
-                                    Text: ="山田 太郎"
+                                    Text: =User().FullName
                                     Width: =120
                               - HeaderUserRoleFrm:
                                   Control: ModernText
@@ -118,7 +118,7 @@ Screens:
                                     PaddingRight: =0
                                     PaddingTop: =0
                                     Size: =12
-                                    Text: ="一般ユーザー"
+                                    Text: =CurrentUserRoleLabel
                                     Width: =120
                         - grpAvatarWrapFrm:
                             Control: GroupContainer
@@ -328,7 +328,7 @@ Screens:
                                           PaddingRight: =0
                                           PaddingTop: =0
                                           Size: =11
-                                          Text: ="0/100"
+                                          Text: =Len(TitleInput.Text) & "/100"
                                           Width: =Parent.Width
                               - grpContentField:
                                   Control: GroupContainer
@@ -406,7 +406,7 @@ Screens:
                                           PaddingRight: =0
                                           PaddingTop: =0
                                           Size: =11
-                                          Text: ="0/1000"
+                                          Text: =Len(ContentInput.Text) & "/1000"
                                           Width: =Parent.Width
                               - grpRemarksField:
                                   Control: GroupContainer
@@ -458,7 +458,7 @@ Screens:
                                           PaddingRight: =0
                                           PaddingTop: =0
                                           Size: =11
-                                          Text: ="0/500"
+                                          Text: =Len(RemarksInput.Text) & "/500"
                                           Width: =Parent.Width
                         - grpInfoPanelCol:
                             Control: GroupContainer
@@ -538,7 +538,7 @@ Screens:
                                                 PaddingRight: =0
                                                 PaddingTop: =0
                                                 Size: =13
-                                                Text: ="山田 太郎"
+                                                Text: =User().FullName
                                                 Width: =190
                                                 Wrap: =false
                                     - grpAutoInfoRow2:
@@ -579,7 +579,7 @@ Screens:
                                                 PaddingRight: =0
                                                 PaddingTop: =0
                                                 Size: =13
-                                                Text: ="2024/06/01 10:30"
+                                                Text: =Text(Today(), "yyyy/mm/dd")
                                                 Width: =190
                                                 Wrap: =false
                                     - grpAutoInfoRow3:
@@ -620,7 +620,7 @@ Screens:
                                                 PaddingRight: =0
                                                 PaddingTop: =0
                                                 Size: =12
-                                                Text: ="2024/06/01 10:30(自動更新)"
+                                                Text: =Text(Today(), "yyyy/mm/dd") & "(自動更新)"
                                                 Width: =190
                                                 Wrap: =false
                                     - grpAutoInfoRow4:
@@ -764,6 +764,54 @@ Screens:
                               FontWeight: =FontWeight.Semibold
                               Height: =48
                               LayoutMinHeight: =0
+                              OnSelect: |-
+                                =If(
+                                  IsBlank(ContentInput.Text),
+                                  Notify("申請内容は必須です。", NotificationType.Error),
+                                  Set(
+                                    varSavedRequest,
+                                    Patch(
+                                      T_Request,
+                                      Defaults(T_Request),
+                                      {
+                                        Title: TitleInput.Text,
+                                        RequestBody: ContentInput.Text,
+                                        Remarks: RemarksInput.Text,
+                                        Status: {Value: "未申請"},
+                                        Applicant: {
+                                          '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                                          Claims: "i:0#.f|membership|" & Lower(User().Email),
+                                          DisplayName: User().FullName,
+                                          Email: User().Email,
+                                          Department: "",
+                                          JobTitle: "",
+                                          Picture: ""
+                                        },
+                                        UpdateDate: Today()
+                                      }
+                                    )
+                                  );
+                                  Patch(
+                                    T_RequestHistory,
+                                    Defaults(T_RequestHistory),
+                                    {
+                                      RequestID: varSavedRequest.ID,
+                                      ActionUser: {
+                                        '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                                        Claims: "i:0#.f|membership|" & Lower(User().Email),
+                                        DisplayName: User().FullName,
+                                        Email: User().Email,
+                                        Department: "",
+                                        JobTitle: "",
+                                        Picture: ""
+                                      },
+                                      ActionType: {Value: "一時保存"},
+                                      Comment: "",
+                                      ActionDate: Today()
+                                    }
+                                  );
+                                  Navigate(RequestListScreen, ScreenTransition.Fade)
+                                )
                               Text: ="一時保存"
                               Width: =120
                         - SubmitButton:
@@ -777,5 +825,54 @@ Screens:
                               FontWeight: =FontWeight.Semibold
                               Height: =48
                               LayoutMinHeight: =0
+                              OnSelect: |-
+                                =If(
+                                  IsBlank(TitleInput.Text) || IsBlank(ContentInput.Text),
+                                  Notify("タイトルと申請内容は必須です。", NotificationType.Error),
+                                  Set(
+                                    varSavedRequest,
+                                    Patch(
+                                      T_Request,
+                                      Defaults(T_Request),
+                                      {
+                                        Title: TitleInput.Text,
+                                        RequestBody: ContentInput.Text,
+                                        Remarks: RemarksInput.Text,
+                                        Status: {Value: "申請中"},
+                                        Applicant: {
+                                          '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                                          Claims: "i:0#.f|membership|" & Lower(User().Email),
+                                          DisplayName: User().FullName,
+                                          Email: User().Email,
+                                          Department: "",
+                                          JobTitle: "",
+                                          Picture: ""
+                                        },
+                                        RequestDate: Today(),
+                                        UpdateDate: Today()
+                                      }
+                                    )
+                                  );
+                                  Patch(
+                                    T_RequestHistory,
+                                    Defaults(T_RequestHistory),
+                                    {
+                                      RequestID: varSavedRequest.ID,
+                                      ActionUser: {
+                                        '@odata.type': "#Microsoft.Azure.Connectors.SharePoint.SPListExpandedUser",
+                                        Claims: "i:0#.f|membership|" & Lower(User().Email),
+                                        DisplayName: User().FullName,
+                                        Email: User().Email,
+                                        Department: "",
+                                        JobTitle: "",
+                                        Picture: ""
+                                      },
+                                      ActionType: {Value: "申請"},
+                                      Comment: "",
+                                      ActionDate: Today()
+                                    }
+                                  );
+                                  Navigate(RequestListScreen, ScreenTransition.Fade)
+                                )
                               Text: ="申請する"
                               Width: =140

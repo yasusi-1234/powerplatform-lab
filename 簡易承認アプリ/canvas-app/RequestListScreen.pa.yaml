@@ -293,7 +293,7 @@ Screens:
                               FontWeight: =FontWeight.Semibold
                               Height: =44
                               LayoutMinHeight: =0
-                              OnSelect: =Navigate(RequestFormScreen, ScreenTransition.Fade)
+                              OnSelect: =Set(gblSelectedRequestID, Blank()); Navigate(RequestFormScreen, ScreenTransition.Fade)
                               Text: ="＋ 新規申請"
                               Width: =160
                   - grpListCard:
@@ -413,7 +413,8 @@ Screens:
                                 =Sort(
                                   Filter(
                                     T_Request,
-                                    (IsBlank(SearchInput.Text) || SearchInput.Text in Title) &&
+                                    (IsApprover || Applicant.Email = User().Email) &&
+                                    (IsBlank(SearchInput.Text) || SearchInput.Text in タイトル) &&
                                     (StatusDropdown.Selected.Value = "すべてのステータス" || Status.Value = StatusDropdown.Selected.Value) &&
                                     (IsBlank(DateStartPicker.SelectedDate) || RequestDate >= DateStartPicker.SelectedDate) &&
                                     (IsBlank(DateEndPicker.SelectedDate) || RequestDate <= DateEndPicker.SelectedDate)
@@ -450,7 +451,7 @@ Screens:
                                           PaddingRight: =0
                                           PaddingTop: =0
                                           Size: =14
-                                          Text: =ThisItem.Title
+                                          Text: =ThisItem.タイトル
                                           Width: =HeaderColTitle.Width
                                           Wrap: =false
                                     - grpRowApplicant:

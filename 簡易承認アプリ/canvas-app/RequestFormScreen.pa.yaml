@@ -3,6 +3,12 @@ Screens:
     Properties:
       Fill: =RGBA(243, 244, 246, 1)
       LoadingSpinnerColor: =RGBA(79, 70, 229, 1)
+      OnVisible: |-
+        =If(
+          IsBlank(gblSelectedRequestID),
+          Set(varEditingRequest, Defaults(T_Request)),
+          Set(varEditingRequest, LookUp(T_Request, ID = gblSelectedRequestID))
+        )
     Children:
       - grpRootFrm:
           Control: GroupContainer
@@ -210,7 +216,7 @@ Screens:
                               PaddingRight: =0
                               PaddingTop: =0
                               Size: =16
-                              Text: ="新規申請"
+                              Text: =If(IsBlank(gblSelectedRequestID), "新規申請", "申請編集")
                               Width: =120
                   - grpFormBodyRow:
                       Control: GroupContainer
@@ -307,6 +313,7 @@ Screens:
                                     - TitleInput:
                                         Control: ModernTextInput
                                         Properties:
+                                          Default: =varEditingRequest.タイトル
                                           Height: =40
                                           LayoutMinHeight: =0
                                           MaxLength: =100
@@ -384,6 +391,7 @@ Screens:
                                     - ContentInput:
                                         Control: ModernTextInput
                                         Properties:
+                                          Default: =varEditingRequest.RequestBody
                                           Height: =100
                                           LayoutMinHeight: =0
                                           MaxLength: =1000
@@ -436,6 +444,7 @@ Screens:
                                     - RemarksInput:
                                         Control: ModernTextInput
                                         Properties:
+                                          Default: =varEditingRequest.Remarks
                                           Height: =100
                                           LayoutMinHeight: =0
                                           MaxLength: =500
@@ -579,7 +588,7 @@ Screens:
                                                 PaddingRight: =0
                                                 PaddingTop: =0
                                                 Size: =13
-                                                Text: =Text(Today(), "yyyy/mm/dd")
+                                                Text: =Text(If(IsBlank(gblSelectedRequestID) || IsBlank(varEditingRequest.RequestDate), Today(), varEditingRequest.RequestDate), "yyyy/mm/dd")
                                                 Width: =190
                                                 Wrap: =false
                                     - grpAutoInfoRow3:
@@ -656,7 +665,7 @@ Screens:
                                               Properties:
                                                 AlignInContainer: =AlignInContainer.Center
                                                 Appearance: ='BadgeCanvas.Appearance'.Tint
-                                                Content: ="未申請"
+                                                Content: =If(IsBlank(gblSelectedRequestID), "未申請", varEditingRequest.Status.Value)
                                                 Height: =26
                                                 LayoutMinHeight: =0
                                                 ThemeColor: ='BadgeCanvas.ThemeColor'.Subtle
@@ -772,9 +781,9 @@ Screens:
                                     varSavedRequest,
                                     Patch(
                                       T_Request,
-                                      Defaults(T_Request),
+                                      If(IsBlank(gblSelectedRequestID), Defaults(T_Request), varEditingRequest),
                                       {
-                                        Title: TitleInput.Text,
+                                        タイトル: TitleInput.Text,
                                         RequestBody: ContentInput.Text,
                                         Remarks: RemarksInput.Text,
                                         Status: {Value: "未申請"},
@@ -807,7 +816,7 @@ Screens:
                                       },
                                       ActionType: {Value: "一時保存"},
                                       Comment: "",
-                                      ActionDate: Today()
+                                      ActionDate: Now()
                                     }
                                   );
                                   Navigate(RequestListScreen, ScreenTransition.Fade)
@@ -833,9 +842,9 @@ Screens:
                                     varSavedRequest,
                                     Patch(
                                       T_Request,
-                                      Defaults(T_Request),
+                                      If(IsBlank(gblSelectedRequestID), Defaults(T_Request), varEditingRequest),
                                       {
-                                        Title: TitleInput.Text,
+                                        タイトル: TitleInput.Text,
                                         RequestBody: ContentInput.Text,
                                         Remarks: RemarksInput.Text,
                                         Status: {Value: "申請中"},
@@ -848,7 +857,7 @@ Screens:
                                           JobTitle: "",
                                           Picture: ""
                                         },
-                                        RequestDate: Today(),
+                                        RequestDate: If(IsBlank(varEditingRequest.RequestDate), Today(), varEditingRequest.RequestDate),
                                         UpdateDate: Today()
                                       }
                                     )
@@ -869,7 +878,7 @@ Screens:
                                       },
                                       ActionType: {Value: "申請"},
                                       Comment: "",
-                                      ActionDate: Today()
+                                      ActionDate: Now()
                                     }
                                   );
                                   Navigate(RequestListScreen, ScreenTransition.Fade)

@@ -5,11 +5,56 @@ Screens:
       LoadingSpinnerColor: =RGBA(79, 70, 229, 1)
       OnVisible: |-
         =Set(varCurrentRequest, LookUp(T_Request, ID = gblSelectedRequestID));
-        Set(varHistoryList, SortByColumns(Filter(T_RequestHistory, RequestID = gblSelectedRequestID), "ActionDate", SortOrder.Descending));
-        Set(varHistRow1, If(CountRows(varHistoryList) >= 1, Index(varHistoryList, 1), Defaults(T_RequestHistory)));
-        Set(varHistRow2, If(CountRows(varHistoryList) >= 2, Index(varHistoryList, 2), Defaults(T_RequestHistory)));
-        Set(varHistRow3, If(CountRows(varHistoryList) >= 3, Index(varHistoryList, 3), Defaults(T_RequestHistory)))
+        Set(varAccessDenied, !IsApprover && varCurrentRequest.Applicant.Email <> User().Email);
+        Set(varHistoryList, SortByColumns(Filter(T_RequestHistory, RequestID = gblSelectedRequestID), "ActionDate", SortOrder.Descending, "ID", SortOrder.Descending));
+        Set(varHistCount, Min(CountRows(varHistoryList), 3));
+        Set(varHistRow1, If(varHistCount >= 1, Index(varHistoryList, varHistCount), Defaults(T_RequestHistory)));
+        Set(varHistRow2, If(varHistCount >= 2, Index(varHistoryList, varHistCount - 1), Defaults(T_RequestHistory)));
+        Set(varHistRow3, If(varHistCount >= 3, Index(varHistoryList, varHistCount - 2), Defaults(T_RequestHistory)))
     Children:
+      - AccessDeniedPanel:
+          Control: GroupContainer
+          Variant: AutoLayout
+          Properties:
+            Fill: =RGBA(243, 244, 246, 1)
+            Height: =Parent.Height
+            LayoutAlignItems: =LayoutAlignItems.Center
+            LayoutDirection: =LayoutDirection.Vertical
+            LayoutGap: =16
+            LayoutJustifyContent: =LayoutJustifyContent.Center
+            Visible: =varAccessDenied
+            Width: =Parent.Width
+          Children:
+            - AccessDeniedIcon:
+                Control: ModernIcon
+                Properties:
+                  Height: =48
+                  Icon: ="Alert"
+                  IconColor: =RGBA(156, 163, 175, 1)
+                  Width: =48
+            - AccessDeniedText:
+                Control: ModernText
+                Properties:
+                  Align: =Align.Center
+                  Color: =RGBA(107, 114, 128, 1)
+                  FontWeight: =FontWeight.Semibold
+                  Height: =24
+                  Size: =16
+                  Text: ="この申請を閲覧する権限がありません。"
+                  Width: =360
+            - AccessDeniedBackButton:
+                Control: Button
+                Properties:
+                  Appearance: ='ButtonCanvas.Appearance'.Primary
+                  BasePaletteColor: =RGBA(79, 70, 229, 1)
+                  BorderThickness: =0
+                  FontColor: =RGBA(255, 255, 255, 1)
+                  FontSize: =14
+                  FontWeight: =FontWeight.Semibold
+                  Height: =44
+                  OnSelect: =Navigate(RequestListScreen, ScreenTransition.Fade)
+                  Text: ="申請一覧に戻る"
+                  Width: =160
       - grpRootDtl:
           Control: GroupContainer
           Variant: AutoLayout
@@ -17,6 +62,7 @@ Screens:
             DropShadow: =DropShadow.None
             Height: =Parent.Height
             LayoutDirection: =LayoutDirection.Vertical
+            Visible: =!varAccessDenied
             Width: =Parent.Width
           Children:
             - grpHeaderDtl:
@@ -317,7 +363,7 @@ Screens:
                                           PaddingLeft: =0
                                           PaddingRight: =0
                                           PaddingTop: =0
-                                          Text: =varCurrentRequest.Title
+                                          Text: =varCurrentRequest.タイトル
                                           Width: =Parent.Width
                               - DividerAfterTitle:
                                   Control: Rectangle
@@ -845,14 +891,15 @@ Screens:
                                                       },
                                                       ActionType: {Value: "承認"},
                                                       Comment: CommentInput.Text,
-                                                      ActionDate: Today()
+                                                      ActionDate: Now()
                                                     }
                                                   );
                                                   Set(varCurrentRequest, LookUp(T_Request, ID = varCurrentRequest.ID));
-                                                  Set(varHistoryList, SortByColumns(Filter(T_RequestHistory, RequestID = varCurrentRequest.ID), "ActionDate", SortOrder.Descending));
-                                                  Set(varHistRow1, If(CountRows(varHistoryList) >= 1, Index(varHistoryList, 1), Defaults(T_RequestHistory)));
-                                                  Set(varHistRow2, If(CountRows(varHistoryList) >= 2, Index(varHistoryList, 2), Defaults(T_RequestHistory)));
-                                                  Set(varHistRow3, If(CountRows(varHistoryList) >= 3, Index(varHistoryList, 3), Defaults(T_RequestHistory)));
+                                                  Set(varHistoryList, SortByColumns(Filter(T_RequestHistory, RequestID = varCurrentRequest.ID), "ActionDate", SortOrder.Descending, "ID", SortOrder.Descending));
+                                                  Set(varHistCount, Min(CountRows(varHistoryList), 3));
+                                                  Set(varHistRow1, If(varHistCount >= 1, Index(varHistoryList, varHistCount), Defaults(T_RequestHistory)));
+                                                  Set(varHistRow2, If(varHistCount >= 2, Index(varHistoryList, varHistCount - 1), Defaults(T_RequestHistory)));
+                                                  Set(varHistRow3, If(varHistCount >= 3, Index(varHistoryList, varHistCount - 2), Defaults(T_RequestHistory)));
                                                   Reset(CommentInput)
                                                 Text: ="✓ 承認する"
                                           - RejectButton:
@@ -893,14 +940,15 @@ Screens:
                                                       },
                                                       ActionType: {Value: "差戻し"},
                                                       Comment: CommentInput.Text,
-                                                      ActionDate: Today()
+                                                      ActionDate: Now()
                                                     }
                                                   );
                                                   Set(varCurrentRequest, LookUp(T_Request, ID = varCurrentRequest.ID));
-                                                  Set(varHistoryList, SortByColumns(Filter(T_RequestHistory, RequestID = varCurrentRequest.ID), "ActionDate", SortOrder.Descending));
-                                                  Set(varHistRow1, If(CountRows(varHistoryList) >= 1, Index(varHistoryList, 1), Defaults(T_RequestHistory)));
-                                                  Set(varHistRow2, If(CountRows(varHistoryList) >= 2, Index(varHistoryList, 2), Defaults(T_RequestHistory)));
-                                                  Set(varHistRow3, If(CountRows(varHistoryList) >= 3, Index(varHistoryList, 3), Defaults(T_RequestHistory)));
+                                                  Set(varHistoryList, SortByColumns(Filter(T_RequestHistory, RequestID = varCurrentRequest.ID), "ActionDate", SortOrder.Descending, "ID", SortOrder.Descending));
+                                                  Set(varHistCount, Min(CountRows(varHistoryList), 3));
+                                                  Set(varHistRow1, If(varHistCount >= 1, Index(varHistoryList, varHistCount), Defaults(T_RequestHistory)));
+                                                  Set(varHistRow2, If(varHistCount >= 2, Index(varHistoryList, varHistCount - 1), Defaults(T_RequestHistory)));
+                                                  Set(varHistRow3, If(varHistCount >= 3, Index(varHistoryList, varHistCount - 2), Defaults(T_RequestHistory)));
                                                   Reset(CommentInput)
                                                 Text: ="↺ 差戻しする"
                   - HistorySection:
@@ -932,7 +980,7 @@ Screens:
                               PaddingLeft: =0
                               PaddingRight: =0
                               PaddingTop: =0
-                              Text: ="履歴(新しい順)" & If(CountRows(varHistoryList) > 3, " - 最新3件を表示、全" & CountRows(varHistoryList) & "件", "")
+                              Text: ="履歴(古い順)" & If(CountRows(varHistoryList) > 3, " - 最新3件を表示、全" & CountRows(varHistoryList) & "件", "")
                               Width: =Parent.Width - 40
                         - HistoryLine1:
                             Control: GroupContainer
@@ -1129,6 +1177,20 @@ Screens:
                               Text: =varHistRow3.Comment
                               Visible: =CountRows(varHistoryList) >= 3
                               Width: =Parent.Width - 40
+                  - EditButton:
+                      Control: Button
+                      Properties:
+                        Appearance: ='ButtonCanvas.Appearance'.Outline
+                        BorderColor: =RGBA(79, 70, 229, 1)
+                        FontColor: =RGBA(79, 70, 229, 1)
+                        FontSize: =14
+                        FontWeight: =FontWeight.Semibold
+                        Height: =48
+                        LayoutMinHeight: =0
+                        OnSelect: =Navigate(RequestFormScreen, ScreenTransition.Fade)
+                        Text: ="✎ 編集して再申請する"
+                        Visible: =!IsApprover && varCurrentRequest.Applicant.Email = User().Email && (varCurrentRequest.Status.Value = "未申請" || varCurrentRequest.Status.Value = "差戻し")
+                        Width: =Parent.Width
                   - CancelButton:
                       Control: Button
                       Properties:
@@ -1164,7 +1226,7 @@ Screens:
                               },
                               ActionType: {Value: "取消"},
                               Comment: "",
-                              ActionDate: Today()
+                              ActionDate: Now()
                             }
                           );
                           Navigate(RequestListScreen, ScreenTransition.Fade)

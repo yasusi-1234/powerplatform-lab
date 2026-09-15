@@ -3,8 +3,22 @@ App:
     Formulas: |-
       =IsApprover = !IsBlank(LookUp(M_Approvers, ApproverUser.Email = User().Email && IsActive = true));
       CurrentUserRoleLabel = If(IsApprover, "承認者", "一般ユーザー");
+      ReloadRequestHistory(requestID: Number): Void = {
+          Refresh(T_RequestHistory);
+          Set(varHistoryList, SortByColumns(Filter(T_RequestHistory, RequestID = requestID), "ActionDate", SortOrder.Descending, "ID", SortOrder.Descending));
+          Set(varHistCount, Min(CountRows(varHistoryList), 3));
+          Set(varHistRow1, If(varHistCount >= 1, Index(varHistoryList, varHistCount), Defaults(T_RequestHistory)));
+          Set(varHistRow2, If(varHistCount >= 2, Index(varHistoryList, varHistCount - 1), Defaults(T_RequestHistory)));
+          Set(varHistRow3, If(varHistCount >= 3, Index(varHistoryList, varHistCount - 2), Defaults(T_RequestHistory)));
+      };
+      ReloadRequestDetail(requestID: Number): Void = {
+          Refresh(T_Request);
+          Set(varCurrentRequest, LookUp(T_Request, ID = requestID));
+          Set(varAccessDenied, !IsApprover && varCurrentRequest.Applicant.Email <> User().Email);
+          ReloadRequestHistory(requestID);
+      };
     OnStart: |-
-      =Set(gblSelectedRequestID, 0);
+      =Set(gblSelectedRequestID, Blank());
       Set(varCurrentRequest, Defaults(T_Request));
       Set(varHistoryList, Filter(T_RequestHistory, false));
       Set(varHistRow1, Defaults(T_RequestHistory));

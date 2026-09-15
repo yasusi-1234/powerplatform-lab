@@ -8,7 +8,10 @@ Screens:
           IsBlank(gblSelectedRequestID),
           Set(varEditingRequest, Defaults(T_Request)),
           Set(varEditingRequest, LookUp(T_Request, ID = gblSelectedRequestID))
-        )
+        );
+        Reset(TitleInput);
+        Reset(ContentInput);
+        Reset(RemarksInput)
     Children:
       - grpRootFrm:
           Control: GroupContainer

@@ -3,6 +3,7 @@ Screens:
     Properties:
       Fill: =RGBA(243, 244, 246, 1)
       LoadingSpinnerColor: =RGBA(79, 70, 229, 1)
+      OnVisible: =Refresh(T_Request)
     Children:
       - grpRoot:
           Control: GroupContainer
@@ -282,6 +283,15 @@ Screens:
                                     PaddingTop: =0
                                     Placeholder: ="申請日(終了)"
                                     Width: =204
+                        - ReloadListButton:
+                            Control: ModernIcon
+                            Properties:
+                              Height: =20
+                              Icon: ="ArrowClockwise"
+                              IconColor: =RGBA(107, 114, 128, 1)
+                              OnSelect: =Refresh(T_Request)
+                              Tooltip: ="最新の情報に更新"
+                              Width: =20
                         - NewRequestButton:
                             Control: Button
                             Properties:
